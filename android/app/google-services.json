@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "514805253185",
+    "project_id": "eventeaze-7c320",
+    "storage_bucket": "eventeaze-7c320.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:514805253185:android:3522d5b30dc537efb272c0",
+        "android_client_info": {
+          "package_name": "com.example.eventeaze"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdC3zFfynvJqsYuHY8h93BsDNoBdZAEWc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
