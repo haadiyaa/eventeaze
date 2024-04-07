@@ -28,3 +28,19 @@ class LogOutEvent extends AuthEvent{
   @override
   List<Object?> get props => [];
 }
+
+class ForgotPassEvent extends AuthEvent{
+  final String email;
+
+  ForgotPassEvent({required this.email});
+
+  @override
+  List<Object?> get props => [email];
+  
+}
+class ResetConfirmEvent extends AuthEvent {
+
+  @override
+  List<Object?> get props => [];
+  
+}

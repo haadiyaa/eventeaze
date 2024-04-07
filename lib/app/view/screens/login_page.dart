@@ -1,4 +1,5 @@
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
+import 'package:eventeaze/app/view/screens/forgotpass_page.dart';
 import 'package:eventeaze/app/view/screens/homepage.dart';
 import 'package:eventeaze/app/view/screens/signuppage.dart';
 import 'package:eventeaze/app/view/screens/splashscreen.dart';
@@ -127,7 +128,9 @@ class LoginPage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.push(context, MaterialPageRoute(builder: (_)=>const ForgotPassWrapper()));
+                                  },
                                   child: const Text(
                                     'Forgot Password?',
                                     style: TextStyle(

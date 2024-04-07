@@ -15,6 +15,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<LoginEvent>(_logIn);
     on<SignUpEvent>(_signUp);
     on<LogOutEvent>(_logOut);
+    on<ForgotPassEvent>(_forgotPass);
+    on<ResetConfirmEvent>(_resetConfirm);
   }
 
   Future<void> _logIn(LoginEvent event, Emitter<AuthState> emit) async {
@@ -68,10 +70,28 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _logOut(LogOutEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoadingState());
     try {
-      await _auth.signOut();
-      emit(UnAuthenticatedState());
+      await _auth.signOut().then((value) {
+        emit(UnAuthenticatedState());
+      });
     } catch (e) {
       emit(AuthenticatedErrorState(message: e.toString()));
     }
   }
+
+  Future<void> _forgotPass(
+      ForgotPassEvent event, Emitter<AuthState> emit) async {
+        emit(AuthLoadingState());
+    try {
+      await _auth
+          .sendPasswordResetEmail(email: event.email)
+          .then((value) => emit(ForgotPassState()));
+    } catch (e) {
+      emit(PasswordResetErrorState(message: e.toString()));
+    }
+  }
+
+  void _resetConfirm(ResetConfirmEvent event, Emitter<AuthState> emit){
+    emit(ResetConfirmState());
+  }
+
 }

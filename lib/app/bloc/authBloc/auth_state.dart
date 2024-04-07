@@ -22,12 +22,12 @@ class AuthenticatedState extends AuthState{
   List<Object?> get props => [user];
 }
 
-class LoggedInState extends AuthState{
+//class LoggedInState extends AuthState{
   
-  @override
-  List<Object?> get props =>[];
+//   @override
+//   List<Object?> get props =>[];
   
-}
+// }
 
 
 class AuthenticatedErrorState extends AuthState{
@@ -43,4 +43,23 @@ class UnAuthenticatedState extends AuthState{
   List<Object?> get props => [];
 }
 
+class ForgotPassState extends AuthState{
+  @override
+  List<Object?> get props => [];
 
+}
+class PasswordResetErrorState extends AuthState {
+  final String message;
+
+  PasswordResetErrorState({required this.message});
+  @override
+  List<Object?> get props =>[message];
+  
+}
+class ResetConfirmState extends AuthState {
+  
+  @override
+  List<Object?> get props =>[];
+  
+}
+ 
