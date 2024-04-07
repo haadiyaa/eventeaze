@@ -2,6 +2,7 @@ import 'package:eventeaze/app/view/screens/homepage.dart';
 import 'package:eventeaze/app/view/screens/login_page.dart';
 import 'package:eventeaze/app/view/screens/onbording_screen.dart';
 import 'package:eventeaze/app/view/screens/splashscreen.dart';
+import 'package:eventeaze/app/view/screens/tabs_screen.dart';
 import 'package:eventeaze/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/onboarding':(context) => const OnBoardingWrapper(),
         '/login':(context) => const LoginPageWrapper(),
-        '/home':(context) => const HomePageWrapper()
+        '/home':(context) => const HomePageWrapper(),
+        '/tabs':(context) =>  TabsScreenWrapper(),
       },
     );
   }

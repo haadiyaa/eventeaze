@@ -40,19 +40,13 @@ class HomePage extends StatelessWidget {
             ),
           );
         }
-        return Scaffold(
+        return const Scaffold(
           body: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text('home'),
-                ElevatedButton(
-                    onPressed: () async {
-                      var sharedPref = await SharedPreferences.getInstance();
-                      sharedPref.setBool(SplashScreenState.KEYLOGIN, false);
-                      authBloc.add(LogOutEvent());
-                    },
-                    child: Text('logout'))
+                
               ],
             ),
           ),

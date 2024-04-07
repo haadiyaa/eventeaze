@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
-  const CustomButton({super.key, required this.text, required this.onPressed,this.color});
+  const CustomButton({super.key, required this.text, required this.onPressed,this.color,this.foreground});
   final String text;
   final Color? color;
+  final Color? foreground;
   final void Function()? onPressed;
   
   @override
@@ -19,7 +20,7 @@ class CustomButton extends StatelessWidget {
           elevation: 8,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          foregroundColor: Colors.white,
+          foregroundColor:foreground??Colors.white,
           backgroundColor: color,
         ),
         child: Text(

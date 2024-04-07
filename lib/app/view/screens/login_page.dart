@@ -3,6 +3,7 @@ import 'package:eventeaze/app/view/screens/forgotpass_page.dart';
 import 'package:eventeaze/app/view/screens/homepage.dart';
 import 'package:eventeaze/app/view/screens/signuppage.dart';
 import 'package:eventeaze/app/view/screens/splashscreen.dart';
+import 'package:eventeaze/app/view/screens/tabs_screen.dart';
 import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
 import 'package:eventeaze/app/view/widgets/customtextfield.dart';
 import 'package:eventeaze/app/view/widgets/design/mycircle.dart';
@@ -43,7 +44,7 @@ class LoginPage extends StatelessWidget {
           );
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => HomePageWrapper()));
+                context, MaterialPageRoute(builder: (_) => TabsScreenWrapper()));
           });
         }
         if (state is AuthenticatedErrorState) {}

@@ -37,7 +37,7 @@ class SplashScreenState extends State<SplashScreen> {
     Timer(const Duration(seconds: 3), () {
       if(isLoggedIn!=null){
         if (isLoggedIn==true) {
-          Navigator.pushReplacementNamed(context, '/home');
+          Navigator.pushReplacementNamed(context, '/tabs');
         }
         else{
           Navigator.pushReplacementNamed(context, '/login');
