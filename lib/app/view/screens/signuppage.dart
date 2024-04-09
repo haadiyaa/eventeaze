@@ -2,7 +2,7 @@ import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:eventeaze/app/model/usermodel.dart';
 import 'package:eventeaze/app/view/screens/login_page.dart';
 import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
-import 'package:eventeaze/app/view/widgets/customtextfield.dart';
+import 'package:eventeaze/app/view/widgets/textfields/customtextfield.dart';
 import 'package:eventeaze/app/view/widgets/design/mycircle2.dart';
 import 'package:eventeaze/app/view/widgets/googlewidget.dart';
 import 'package:flutter/material.dart';
@@ -40,13 +40,15 @@ class SignUpPage extends StatelessWidget {
       if (state is AuthenticatedState) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
+            behavior: SnackBarBehavior.floating,
+              margin: EdgeInsets.all(10),
             content: Text('Successfully Signed Up!'),
             backgroundColor: Color.fromARGB(255, 89, 121, 90),
           ),
         );
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (_) => LoginPageWrapper()));
+              context, MaterialPageRoute(builder: (_) => const LoginPageWrapper()));
         });
       }
       if (state is UnAuthenticatedState) {}
@@ -54,6 +56,8 @@ class SignUpPage extends StatelessWidget {
         if (state.message == 'account-exists-with-different-credential') {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
+              behavior: SnackBarBehavior.floating,
+              margin: EdgeInsets.all(10),
               content: Text(
                   'The account already exists with a different credential'),
             ),
@@ -227,7 +231,7 @@ class SignUpPage extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (_) => LoginPageWrapper()));
+                        MaterialPageRoute(builder: (_) =>const  LoginPageWrapper()));
                   },
                   child: const Text(
                     'Login',

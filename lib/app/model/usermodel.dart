@@ -1,5 +1,7 @@
+
 import 'package:equatable/equatable.dart';
 
+// ignore: must_be_immutable
 class UserModel extends Equatable {
   String? uid;
   String? username;
@@ -26,4 +28,17 @@ class UserModel extends Equatable {
         phone,
         image
       ];
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'uid': uid,
+      'username': username,
+      'password': password,
+      'email': email,
+      'phone': phone,
+      // 'image': image,
+    };
+  }
+
+
 }

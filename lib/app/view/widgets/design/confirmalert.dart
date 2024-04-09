@@ -31,7 +31,7 @@ class ConfirmAlert extends StatelessWidget {
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: Color.fromARGB(255, 50, 51, 51).withOpacity(0.2),
+                  color:const  Color.fromARGB(255, 50, 51, 51).withOpacity(0.2),
                   blurRadius: 7,
                   offset: const Offset(0, 5),
                 ),

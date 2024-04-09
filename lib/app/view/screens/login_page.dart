@@ -5,7 +5,7 @@ import 'package:eventeaze/app/view/screens/signuppage.dart';
 import 'package:eventeaze/app/view/screens/splashscreen.dart';
 import 'package:eventeaze/app/view/screens/tabs_screen.dart';
 import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
-import 'package:eventeaze/app/view/widgets/customtextfield.dart';
+import 'package:eventeaze/app/view/widgets/textfields/customtextfield.dart';
 import 'package:eventeaze/app/view/widgets/design/mycircle.dart';
 import 'package:eventeaze/app/view/widgets/googlewidget.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +37,8 @@ class LoginPage extends StatelessWidget {
         if (state is AuthenticatedState) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
+              behavior: SnackBarBehavior.floating,
+              margin: EdgeInsets.all(10),
               content: Text('Successfully Logged In!'),
               backgroundColor: Color.fromARGB(255, 89, 121, 90),
             ),
@@ -48,6 +50,8 @@ class LoginPage extends StatelessWidget {
         } else if (state is AuthenticatedErrorState) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
+              behavior: SnackBarBehavior.floating,
+              margin: EdgeInsets.all(10),
               content: Text(
                   'No User Found with this email or password did not match'),
             ),
@@ -55,6 +59,8 @@ class LoginPage extends StatelessWidget {
         } else if (state is UnAuthenticatedState) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
+              behavior: SnackBarBehavior.floating,
+              margin: EdgeInsets.all(10),
               content: Text('No User Found '),
             ),
           );

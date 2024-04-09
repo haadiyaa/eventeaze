@@ -11,12 +11,12 @@ class DotIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       height: 5,
       width: isActive ? 25 : 5,
       decoration: BoxDecoration(
-          color:isActive? Color.fromARGB(255, 139, 134, 136):Color.fromARGB(255, 206, 203, 204),
-          borderRadius: BorderRadius.all(Radius.circular(50))),
+          color:isActive?const  Color.fromARGB(255, 139, 134, 136):const Color.fromARGB(255, 206, 203, 204),
+          borderRadius: const BorderRadius.all(Radius.circular(50))),
     );
   }
 }

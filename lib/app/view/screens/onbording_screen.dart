@@ -24,7 +24,7 @@ class OnBoardingWrapper extends StatelessWidget {
           create: (context) => AuthBloc(),
         )
       ],
-      child: OnBoardingScreen(),
+      child: const OnBoardingScreen(),
     );
   }
 }
@@ -85,7 +85,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                               duration: const Duration(milliseconds: 500),
                               curve: Curves.ease);
                         },
-                        color: Color.fromARGB(255, 93, 100, 73),
+                        color:const Color.fromARGB(255, 93, 100, 73),
                       )
                     : CustomButton(
                         text: 'Get Started',
@@ -98,7 +98,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (_) => LoginPageWrapper()));
+                                  builder: (_) => const LoginPageWrapper()));
                         },
                         color: const Color.fromARGB(255, 93, 100, 73),
                       ),
@@ -121,13 +121,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   children: [
                     Padding(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                          const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                       child: TextButton(
                           onPressed: () {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (_) => LoginPageWrapper()));
+                                    builder: (_) =>const LoginPageWrapper()));
                           },
                           child: const Text('Skip')),
                     ),

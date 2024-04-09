@@ -43,10 +43,15 @@ class LogOutEvent extends AuthEvent{
 }
 
 class LogoutConfirmEvent extends AuthEvent {
-  
+
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
   
+}
+
+class LogoutRejectEvent extends AuthEvent {
+  @override
+  List<Object?> get props => [];
 }
 
 class ForgotPassEvent extends AuthEvent{
@@ -65,18 +70,11 @@ class ResetConfirmEvent extends AuthEvent {
   
 }
 
-class DeleteAccountEvent extends AuthEvent{
-  final String email;
-  final String password;
+class UpadateUserEvent extends AuthEvent {
+  final UserModel user;
 
-  DeleteAccountEvent( {required this.password, required this.email});
-
-  @override
-  List<Object?> get props =>[email,password];
+  UpadateUserEvent({required this.user});
   
-}
-class DeleteConfirmEvent extends AuthEvent {
   @override
-  List<Object?> get props => throw UnimplementedError();
-  
+  List<Object?> get props => [user];
 }

@@ -1,12 +1,12 @@
-import 'dart:async';
 
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 
 class SplashScreen extends StatelessWidget{
+  const SplashScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

@@ -14,12 +14,12 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
         color: Colors.transparent,
         boxShadow: [
           BoxShadow(
-            color: Color.fromARGB(255, 93, 99, 99).withOpacity(0.2),
+            color:const  Color.fromARGB(255, 93, 99, 99).withOpacity(0.2),
             blurRadius: 7,
             offset: const Offset(0, 5),
           ),

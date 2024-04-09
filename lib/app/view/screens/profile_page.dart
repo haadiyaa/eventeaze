@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
-import 'package:eventeaze/app/view/screens/deleteaccount.dart';
+import 'package:eventeaze/app/model/usermodel.dart';
 import 'package:eventeaze/app/view/screens/login_page.dart';
-import 'package:eventeaze/app/view/screens/splashscreen.dart';
+import 'package:eventeaze/app/view/screens/userdetails_page.dart';
 import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
 import 'package:eventeaze/app/view/widgets/design/confirmalert.dart';
+import 'package:eventeaze/app/view/widgets/design/profileavatar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePageWrapper extends StatelessWidget {
   const ProfilePageWrapper({super.key});
@@ -17,7 +17,7 @@ class ProfilePageWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AuthBloc(),
-      child: ProfilePage(),
+      child: const ProfilePage(),
     );
   }
 }
@@ -48,7 +48,7 @@ class _ProfilePageState extends State<ProfilePage> {
         if (state is UnAuthenticatedState) {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => LoginPageWrapper()));
+                context, MaterialPageRoute(builder: (_) => const  LoginPageWrapper()));
           });
         }
         if (state is LogoutConfirmState) {
@@ -63,9 +63,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       authBloc.add(LogOutEvent());
                     },
                     onReject: () {
-                      Navigator.pop(context);
+                      authBloc.add(LogoutRejectEvent());
                     },
                   ));
+        }
+        if (state is LogoutRejectState) {
+          Navigator.pop(context);
         }
       },
       builder: (context, state) {
@@ -136,25 +139,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 child: Row(
                                   children: [
                                     Expanded(
-                                      child: Container(
-                                        height: 70,
-                                        width: 70,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: const Color.fromARGB(
-                                              255, 184, 197, 146),
-                                          border: Border.all(
-                                              color: const Color.fromARGB(
-                                                  255, 68, 73, 53)),
-                                          boxShadow: const [
-                                            BoxShadow(
-                                                blurRadius: 7,
-                                                offset: Offset(0, 7),
-                                                color: Colors.grey),
-                                          ],
-                                        ),
-                                        // child: Icon(Icons.perso),
-                                      ),
+                                      child: ProfileAvatar(),
                                     ),
                                     Expanded(
                                       flex: 2,
@@ -183,7 +168,21 @@ class _ProfilePageState extends State<ProfilePage> {
                                 child: IconButton(
                                   onPressed: () {},
                                   icon: IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      final user = UserModel(
+                                        uid: userData['uid'],
+                                        email: userData['email'],
+                                        phone: userData['phone'],
+                                        username: userData['username'],
+                                        // image: userData['image'],
+                                      );
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) => UserDetailsPageWrapper(
+                                                    user: user,
+                                                  )));
+                                    },
                                     icon: const Icon(
                                       Icons.arrow_circle_right_rounded,
                                       color: Color.fromARGB(255, 68, 73, 53),
@@ -217,17 +216,6 @@ class _ProfilePageState extends State<ProfilePage> {
                             authBloc.add(LogoutConfirmEvent());
                           },
                           color: const Color.fromARGB(255, 138, 148, 108),
-                        ),
-                        CustomButton(
-                          foreground: const Color.fromARGB(255, 138, 148, 108),
-                          text: 'Delete Account',
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => DeleteWrapper()));
-                          },
-                          color: const Color.fromARGB(255, 233, 237, 201),
                         ),
                       ],
                     ),

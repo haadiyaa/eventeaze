@@ -23,32 +23,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignUpEvent>(_signUp);
     on<LogOutEvent>(_logOut);
     on<LogoutConfirmEvent>(_logOutConfirm);
+    on<LogoutRejectEvent>(_logOutReject);
     on<ForgotPassEvent>(_forgotPass);
     on<ResetConfirmEvent>(_resetConfirm);
-    on<DeleteAccountEvent>(_deleteAccount);
-    on<DeleteConfirmEvent>(_deleteConfim);
-  }
-
-  Future<void> _deleteAccount(
-      DeleteAccountEvent event, Emitter<AuthState> emit) async {
-    User? user = _auth.currentUser;
-    try {
-      AuthCredential credential = EmailAuthProvider.credential(
-          email: event.email, password: event.password);
-      await user!.reauthenticateWithCredential(credential).then((value) async {
-        await value.user!.delete().then((value) async {
-          await FirebaseFirestore.instance
-              .collection('users')
-              .doc(user.uid)
-              .delete()
-              .then((value) {
-            emit(DeleteAccountState());
-          });
-        });
-      });
-    } catch (e) {
-      emit(DeleteAccountErrorState(message: e.toString()));
-    }
+    on<UpadateUserEvent>(_updateUser);
   }
 
   Future<void> _onBoard(OnboardEvent event, Emitter<AuthState> emit) async {
@@ -160,12 +138,38 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(ResetConfirmState());
   }
 
-  FutureOr<void> _deleteConfim(
-      DeleteConfirmEvent event, Emitter<AuthState> emit) {
-        emit(DeleteAccountConfirmState());
-      }
+ 
 
-  FutureOr<void> _logOutConfirm(LogoutConfirmEvent event, Emitter<AuthState> emit) {
+  FutureOr<void> _logOutConfirm(
+      LogoutConfirmEvent event, Emitter<AuthState> emit) {
     emit(LogoutConfirmState());
   }
+
+
+
+  Future<FutureOr<void>> _updateUser(
+      UpadateUserEvent event, Emitter<AuthState> emit) async {
+    emit(AuthLoadingState());
+    final newUser = UserModel(
+      uid: event.user.uid,
+      username: event.user.username,
+      email: event.user.email,
+      phone: event.user.phone,
+      // image: event.user.image,
+    ).toMap();
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(event.user.uid)
+          .update(newUser)
+          .then((value) => emit(UpdateUserState()));
+    } catch (e) {
+      emit(UpdationErrorState(message: e.toString()));
+    }
+  }
+
+  FutureOr<void> _logOutReject(LogoutRejectEvent event, Emitter<AuthState> emit) {
+    emit(LogoutRejectState());
+  }
+
 }

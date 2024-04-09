@@ -10,7 +10,7 @@ class HomePageWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AuthBloc(),
-      child: HomePage(),
+      child: const HomePage(),
     );
   }
 }
@@ -26,7 +26,7 @@ class HomePage extends StatelessWidget {
         if (state is UnAuthenticatedState) {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => LoginPageWrapper()));
+                context, MaterialPageRoute(builder: (_) => const LoginPageWrapper()));
           });
         }
       },
@@ -43,7 +43,7 @@ class HomePage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('home'),
+                 Text('home'),
                 
               ],
             ),

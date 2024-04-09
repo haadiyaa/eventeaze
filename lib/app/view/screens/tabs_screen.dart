@@ -62,12 +62,12 @@ class TabsScreen extends StatelessWidget {
               child: GNav(
                 gap: 8,
                 tabs: bottomNavItems,
-                backgroundColor: Color.fromARGB(255, 138, 148, 108),
+                backgroundColor: const Color.fromARGB(255, 138, 148, 108),
                 color: const Color.fromARGB(255, 68, 73, 53),
                 activeColor: Colors.white,
-                tabBackgroundColor: Color.fromARGB(255, 162, 173, 127),
-                padding: EdgeInsets.all(10),
-                duration: Duration(microseconds: 500),
+                tabBackgroundColor: const Color.fromARGB(255, 162, 173, 127),
+                padding: const EdgeInsets.all(10),
+                duration: const Duration(microseconds: 500),
                 selectedIndex: state.tabIndex,
                 onTabChange: (index) {
                   BlocProvider.of<BottomnavBloc>(context)

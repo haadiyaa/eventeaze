@@ -1,6 +1,6 @@
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
-import 'package:eventeaze/app/view/widgets/customtextfield.dart';
+import 'package:eventeaze/app/view/widgets/textfields/customtextfield.dart';
 import 'package:eventeaze/app/view/widgets/design/customalert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,6 +34,14 @@ class ForgotPassPage extends StatelessWidget {
             },
           );
         }
+        if (state is PasswordResetErrorState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                  'No User Found with this email'),
+            ),
+          );
+        }
       },
       child: Scaffold(
         appBar: AppBar(),
@@ -42,7 +50,7 @@ class ForgotPassPage extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   width: MediaQuery.of(context).size.width * 0.9,
                   decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 233, 237, 201),
