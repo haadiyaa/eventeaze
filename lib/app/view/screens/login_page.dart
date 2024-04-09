@@ -32,7 +32,6 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthenticatedState) {
@@ -43,12 +42,23 @@ class LoginPage extends StatelessWidget {
             ),
           );
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => TabsScreenWrapper()));
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (_) => const TabsScreenWrapper()));
           });
+        } else if (state is AuthenticatedErrorState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                  'No User Found with this email or password did not match'),
+            ),
+          );
+        } else if (state is UnAuthenticatedState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('No User Found '),
+            ),
+          );
         }
-        if (state is AuthenticatedErrorState) {}
-        if (state is UnAuthenticatedState) {}
       },
       builder: (context, state) {
         if (state is AuthLoadingState) {
@@ -105,7 +115,7 @@ class LoginPage extends StatelessWidget {
                                   return "Email is required";
                                 }
                                 final emailReg = RegExp(
-                                    r"^[a-zA-Z0-9_\-\.\S]{4,}[@][a-z]+[\.][a-z]{2,3}$");
+                                    r"^[a-zA-Z0-9_\-\.\S]{4,}[@][a-z]+[\.][a-z]{2,3}[\s]*$");
                                 if (!emailReg.hasMatch(value)) {
                                   return 'Invalid email address!';
                                 }
@@ -130,7 +140,11 @@ class LoginPage extends StatelessWidget {
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (_)=>const ForgotPassWrapper()));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                const ForgotPassWrapper()));
                                   },
                                   child: const Text(
                                     'Forgot Password?',
@@ -144,13 +158,13 @@ class LoginPage extends StatelessWidget {
                             CustomButton(
                               text: 'Login',
                               onPressed: () async {
-                                final authBloc=BlocProvider.of<AuthBloc>(context);
+                                final authBloc =
+                                    BlocProvider.of<AuthBloc>(context);
                                 if (_formKey.currentState!.validate()) {
-                                  var sharedPref =
-                                      await SharedPreferences.getInstance();
-                                  sharedPref.setBool(
-                                      SplashScreenState.KEYLOGIN, true);
-                                  authBloc.add(LoginEvent(email: _emailController.text, password: _passwordController.text));
+                                  
+                                  authBloc.add(LoginEvent(
+                                      email: _emailController.text.trim(),
+                                      password: _passwordController.text.trim()));
                                 }
                               },
                               color: const Color.fromARGB(255, 170, 181, 135),

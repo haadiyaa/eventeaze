@@ -113,7 +113,7 @@ class SignUpPage extends StatelessWidget {
                           controller: _nameController,
                           hintText: 'User Name',
                           validator: (value) {
-                            final name = RegExp(r'^[A-Za-z\s]{3,}$');
+                            final name = RegExp(r'^[A-Za-z\s]{3,}[\s]*$');
                             if (value!.isEmpty) {
                               return 'User name can\'t be empty';
                             } else if (!name.hasMatch(value)) {
@@ -125,10 +125,10 @@ class SignUpPage extends StatelessWidget {
                           controller: _phoneController,
                           hintText: 'Phone Number',
                           validator: (value) {
-                            final reg2 = RegExp(r"^[6789]\d{9}$");
+                            final reg2 = RegExp(r"^[6789]\d{9}[\s]*$");
                             if (value!.isEmpty) {
                               return 'Number can\'t be empty';
-                            } else if (value.length > 10) {
+                            } else if (value.trim().length > 10) {
                               return "number exact 10";
                             } else if (!reg2.hasMatch(value)) {
                               return 'Enter a valid phone number';
@@ -143,7 +143,7 @@ class SignUpPage extends StatelessWidget {
                               return "Email is required";
                             }
                             final emailReg = RegExp(
-                                r"^[a-zA-Z0-9_\-\.\S]{4,}[@][a-z]+[\.][a-z]{2,3}$");
+                                r"^[a-zA-Z0-9_\-\.\S]{4,}[@][a-z]+[\.][a-z]{2,3}[\s]*$");
                             if (!emailReg.hasMatch(value)) {
                               return 'Invalid email address!';
                             }
@@ -168,9 +168,9 @@ class SignUpPage extends StatelessWidget {
                             if (_formKey.currentState!.validate()) {
                               UserModel user = UserModel(
                                 username: _nameController.text.trim(),
-                                password: _passwordController.text,
-                                email: _emailController.text,
-                                phone: _phoneController.text,
+                                password: _passwordController.text.trim(),
+                                email: _emailController.text.trim(),
+                                phone: _phoneController.text.trim(),
                               );
                               authBloc.add(SignUpEvent(user: user));
                             }

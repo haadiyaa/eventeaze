@@ -1,3 +1,4 @@
+import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:eventeaze/app/bloc/dotBloc/dotindicator_bloc.dart';
 import 'package:eventeaze/app/view/screens/login_page.dart';
 import 'package:eventeaze/app/view/screens/splashscreen.dart';
@@ -14,9 +15,16 @@ class OnBoardingWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => DotindicatorBloc(),
-      child: const OnBoardingScreen(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => DotindicatorBloc(),
+        ),
+        BlocProvider(
+          create: (context) => AuthBloc(),
+        )
+      ],
+      child: OnBoardingScreen(),
     );
   }
 }
@@ -85,10 +93,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                           pageController.nextPage(
                               duration: const Duration(milliseconds: 500),
                               curve: Curves.ease);
-                          Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (_) => LoginPageWrapper()));
-                              var sharedPref=await SharedPreferences.getInstance();
-                              sharedPref.setBool(SplashScreenState.KEYLOGIN, false);
+                          BlocProvider.of<AuthBloc>(context)
+                              .add(OnboardEvent());
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => LoginPageWrapper()));
                         },
                         color: const Color.fromARGB(255, 93, 100, 73),
                       ),
@@ -114,8 +124,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                           EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                       child: TextButton(
                           onPressed: () {
-                            Navigator.pushReplacement(context,
-                                MaterialPageRoute(builder: (_) => LoginPageWrapper()));
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => LoginPageWrapper()));
                           },
                           child: const Text('Skip')),
                     ),

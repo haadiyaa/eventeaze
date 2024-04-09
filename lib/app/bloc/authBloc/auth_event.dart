@@ -3,6 +3,19 @@ part of 'auth_bloc.dart';
 @immutable
 abstract class AuthEvent  extends Equatable{}
 
+class CheckLoginStatusEvent extends AuthEvent{
+  @override
+  List<Object?> get props => throw UnimplementedError();
+  
+}
+
+class OnboardEvent extends AuthEvent{
+  @override
+  // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
+  
+}
+
 class LoginEvent extends AuthEvent{
   final String email;
   final String password;
@@ -29,6 +42,13 @@ class LogOutEvent extends AuthEvent{
   List<Object?> get props => [];
 }
 
+class LogoutConfirmEvent extends AuthEvent {
+  
+  @override
+  List<Object?> get props => throw UnimplementedError();
+  
+}
+
 class ForgotPassEvent extends AuthEvent{
   final String email;
 
@@ -42,5 +62,21 @@ class ResetConfirmEvent extends AuthEvent {
 
   @override
   List<Object?> get props => [];
+  
+}
+
+class DeleteAccountEvent extends AuthEvent{
+  final String email;
+  final String password;
+
+  DeleteAccountEvent( {required this.password, required this.email});
+
+  @override
+  List<Object?> get props =>[email,password];
+  
+}
+class DeleteConfirmEvent extends AuthEvent {
+  @override
+  List<Object?> get props => throw UnimplementedError();
   
 }

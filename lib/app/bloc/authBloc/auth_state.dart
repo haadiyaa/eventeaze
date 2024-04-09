@@ -37,10 +37,21 @@ class AuthenticatedErrorState extends AuthState{
   List<Object?> get props => [message];
 }
 
+class GetStartedState extends AuthState{
+  @override
+  List<Object?> get props => [];
+  
+}
 
 class UnAuthenticatedState extends AuthState{
   @override
   List<Object?> get props => [];
+}
+
+class LogoutConfirmState extends AuthState {
+  @override
+  List<Object?> get props => throw UnimplementedError();
+  
 }
 
 class ForgotPassState extends AuthState{
@@ -62,4 +73,28 @@ class ResetConfirmState extends AuthState {
   List<Object?> get props =>[];
   
 }
- 
+
+class DeleteAccountState extends AuthState{
+
+  @override
+  List<Object?> get props => [];
+  
+}
+
+class DeleteAccountErrorState extends AuthState{
+  final String message;
+
+  DeleteAccountErrorState({required this.message});
+  @override
+  List<Object?> get props => [message];
+  
+}
+
+
+class DeleteAccountConfirmState extends AuthState{
+
+  @override
+  List<Object?> get props => [];
+  
+}
+

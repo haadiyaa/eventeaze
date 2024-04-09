@@ -6,6 +6,7 @@ class UserModel extends Equatable {
   String? password;
   String? email;
   String? phone;
+  String? image;
 
   UserModel({
     this.uid,
@@ -13,6 +14,7 @@ class UserModel extends Equatable {
     this.username,
     this.password,
     this.email,
+    this.image,
   });
 
   @override
@@ -22,5 +24,6 @@ class UserModel extends Equatable {
         password,
         email,
         phone,
+        image
       ];
 }

@@ -1,51 +1,37 @@
 import 'dart:async';
 
+import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
 
-  @override
-  State<SplashScreen> createState() => SplashScreenState();
-}
-
-class SplashScreenState extends State<SplashScreen> {
-  static const KEYLOGIN='login';
-
-  @override
-  void initState() {
-    super.initState();
-    whereToGo();
-  }
-
+class SplashScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: Image(image: AssetImage('assets/ez.jpg')),
+    return BlocProvider(
+      create: (context) => AuthBloc()..add(CheckLoginStatusEvent()),
+      child: BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is AuthenticatedState) {
+            Navigator.pushReplacementNamed(context, '/tabs');
+          }
+          else if(state is UnAuthenticatedState){
+            Navigator.pushReplacementNamed(context, '/login');
+          }
+          else if(state is GetStartedState){
+            Navigator.pushReplacementNamed(context, '/onboarding');
+          }
+        },
+        child: const Scaffold(
+          body: SafeArea(
+            child: Center(
+              child: Image(image: AssetImage('assets/ez.jpg')),
+            ),
+          ),
         ),
       ),
     );
   }
-  
-  void whereToGo()async{
-    var sharedPref= await SharedPreferences.getInstance();
-    var isLoggedIn=sharedPref.getBool(KEYLOGIN);
 
-    Timer(const Duration(seconds: 3), () {
-      if(isLoggedIn!=null){
-        if (isLoggedIn==true) {
-          Navigator.pushReplacementNamed(context, '/tabs');
-        }
-        else{
-          Navigator.pushReplacementNamed(context, '/login');
-        }
-      }
-      else{
-        Navigator.pushReplacementNamed(context,'/onboarding');
-      }
-    });
-  }
 }

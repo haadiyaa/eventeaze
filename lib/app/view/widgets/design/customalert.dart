@@ -6,39 +6,43 @@ class CustomAlert extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      icon: Container(
-        height: 100,
-        width: 100,
-        decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 98, 219, 125),
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: Color.fromARGB(255, 50, 51, 51).withOpacity(0.2),
-              blurRadius: 7,
-              offset: const Offset(0, 5),
+    return Center(
+      child: SingleChildScrollView(
+        child: AlertDialog(
+          icon: Container(
+            height: 100,
+            width: 100,
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 98, 219, 125),
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color:const Color.fromARGB(255, 50, 51, 51).withOpacity(0.2),
+                  blurRadius: 7,
+                  offset: const Offset(0, 5),
+                ),
+              ],
+            ),
+            child: const Icon(Icons.done,color: Colors.white,size:60,),
+          ),
+          title: const Text(
+            'We’ve send you a\nlink to your mail.\nPlease check and complete the process.',
+            style: TextStyle(
+              color: Color.fromARGB(255, 68, 73, 53),
+            ),
+            textAlign: TextAlign.center,
+          ),
+          actions: [
+            CustomButton(
+              text: 'OK',
+              onPressed: () {
+                Navigator.popUntil(context, ModalRoute.withName('/login'));
+              },
+              color: const Color.fromARGB(255, 170, 181, 135),
             ),
           ],
         ),
-        child: const Icon(Icons.done,color: Colors.white,size:60,),
       ),
-      title: const Text(
-        'We’ve send you a\nlink to your mail.\nPlease check and complete the process.',
-        style: TextStyle(
-          color: Color.fromARGB(255, 68, 73, 53),
-        ),
-        textAlign: TextAlign.center,
-      ),
-      actions: [
-        CustomButton(
-          text: 'OK',
-          onPressed: () {
-            Navigator.popUntil(context, ModalRoute.withName('/login'));
-          },
-          color: const Color.fromARGB(255, 170, 181, 135),
-        ),
-      ],
     );
   }
 }

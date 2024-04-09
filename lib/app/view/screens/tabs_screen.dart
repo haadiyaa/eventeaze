@@ -1,4 +1,3 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:eventeaze/app/bloc/bottonNavbloc/bottomnav_bloc.dart';
 import 'package:eventeaze/app/view/screens/categoriespage.dart';
 import 'package:eventeaze/app/view/screens/homepage.dart';
@@ -68,7 +67,7 @@ class TabsScreen extends StatelessWidget {
                 activeColor: Colors.white,
                 tabBackgroundColor: Color.fromARGB(255, 162, 173, 127),
                 padding: EdgeInsets.all(10),
-                duration: Duration(microseconds: 600),
+                duration: Duration(microseconds: 500),
                 selectedIndex: state.tabIndex,
                 onTabChange: (index) {
                   BlocProvider.of<BottomnavBloc>(context)

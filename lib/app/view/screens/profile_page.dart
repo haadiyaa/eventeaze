@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
+import 'package:eventeaze/app/view/screens/deleteaccount.dart';
 import 'package:eventeaze/app/view/screens/login_page.dart';
 import 'package:eventeaze/app/view/screens/splashscreen.dart';
 import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
+import 'package:eventeaze/app/view/widgets/design/confirmalert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,7 +32,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  dynamic _currentUser;
+  User? _currentUser;
 
   @override
   void initState() {
@@ -47,6 +50,13 @@ class _ProfilePageState extends State<ProfilePage> {
             Navigator.pushReplacement(
                 context, MaterialPageRoute(builder: (_) => LoginPageWrapper()));
           });
+        }
+        if (state is LogoutConfirmState) {
+          showDialog(context: context, builder:(context)=> ConfirmAlert(icon: Icons.logout,iconColor: Colors.white,iconBgColor: Colors.amber,msg: 'Are you sure you want to logout?',onConfirm: (){
+            authBloc.add(LogOutEvent());
+          } ,onReject: (){
+            Navigator.pop(context);
+          },));
         }
       },
       builder: (context, state) {
@@ -84,88 +94,134 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ],
           ),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 233, 237, 201),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          body: StreamBuilder<DocumentSnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(_currentUser!.uid)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                // if (snapshot.connectionState==ConnectionState.waiting) {
+                //   return const Center(child: CircularProgressIndicator(),);
+                // }
+                // if(snapshot.hasData){
+
+                // }
+                return Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: Column(
                     children: [
-                      const Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 50,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Name',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 22,
-                                  color: Color.fromARGB(255, 68, 73, 53),
+                      Container(
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 233, 237, 201),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              flex: 4,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      height: 70,
+                                      width: 70,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: const Color.fromARGB(
+                                            255, 184, 197, 146),
+                                        border: Border.all(
+                                            color: const Color.fromARGB(
+                                                255, 68, 73, 53)),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                              blurRadius: 7,
+                                              offset: Offset(0, 7),
+                                              color: Colors.grey),
+                                        ],
+                                      ),
+                                      // child: Icon(Icons.perso),
+                                    ),
+                                  ),
+                                  const Expanded(
+                                    flex: 2,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Name',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 22,
+                                            color:
+                                                Color.fromARGB(255, 68, 73, 53),
+                                          ),
+                                        ),
+                                        Text('email'),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: IconButton(
+                                onPressed: () {},
+                                icon: IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(
+                                    Icons.arrow_circle_right_rounded,
+                                    color: Color.fromARGB(255, 68, 73, 53),
+                                  ),
                                 ),
                               ),
-                              Text('email'),
-                            ],
-                          ),
-                        ],
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.arrow_circle_right_rounded,
-                            color: Color.fromARGB(255, 68, 73, 53),
-                          ),
+                            ),
+                          ],
                         ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      // Expanded(
+                      //   child: ListView.separated(
+                      //     itemCount: 5,
+                      //     separatorBuilder: (BuildContext context, int index) {
+                      //       return const Divider();
+                      //     },
+                      //     itemBuilder: (BuildContext context, int index) {
+                      //       return ListTile();
+                      //     },
+                      //   ),
+                      // ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      CustomButton(
+                        text: 'Logout',
+                        onPressed: () async {
+                          authBloc.add(LogoutConfirmEvent());
+                        },
+                        color: const Color.fromARGB(255, 138, 148, 108),
+                      ),
+                      CustomButton(
+                        foreground: const Color.fromARGB(255, 138, 148, 108),
+                        text: 'Delete Account',
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => DeleteWrapper()));
+                        },
+                        color: const Color.fromARGB(255, 233, 237, 201),
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                // Expanded(
-                //   child: ListView.separated(
-                //     itemCount: 5,
-                //     separatorBuilder: (BuildContext context, int index) {
-                //       return const Divider();
-                //     },
-                //     itemBuilder: (BuildContext context, int index) {
-                //       return ListTile();
-                //     },
-                //   ),
-                // ),
-                const SizedBox(
-                  height: 10,
-                ),
-                CustomButton(
-                  text: 'Logout',
-                  onPressed: () async {
-                    var sharedPref = await SharedPreferences.getInstance();
-                    sharedPref.setBool(SplashScreenState.KEYLOGIN, false);
-                    authBloc.add(LogOutEvent());
-                  },
-                  color: const Color.fromARGB(255, 138, 148, 108),
-                ),
-                CustomButton(
-                  foreground: const Color.fromARGB(255, 138, 148, 108),
-                  text: 'Delete Account',
-                  onPressed: () {},
-                  color: const Color.fromARGB(255, 233, 237, 201),
-                ),
-              ],
-            ),
-          ),
+                );
+              }),
         );
       },
     );

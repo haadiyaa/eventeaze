@@ -1,38 +1,60 @@
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
 import 'package:eventeaze/app/view/widgets/customtextfield.dart';
+import 'package:eventeaze/app/view/widgets/design/confirmalert.dart';
 import 'package:eventeaze/app/view/widgets/design/customalert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ForgotPassWrapper extends StatelessWidget {
-  const ForgotPassWrapper({super.key});
+class DeleteWrapper extends StatelessWidget {
+  const DeleteWrapper({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AuthBloc(),
-      child: ForgotPassPage(),
+      child: DeleteAccountPage(),
     );
   }
 }
 
-class ForgotPassPage extends StatelessWidget {
-  ForgotPassPage({super.key});
+class DeleteAccountPage extends StatelessWidget {
+  DeleteAccountPage({super.key});
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final authBloc = BlocProvider.of<AuthBloc>(context);
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state is ForgotPassState) {
+        if (state is DeleteAccountConfirmState) {
           showDialog(
             context: context,
             builder: (context) {
-              return const CustomAlert();
+              return ConfirmAlert(
+                msg: 'Are you sure you want to delete this account?',
+                icon: Icons.warning_rounded,
+                iconColor: Colors.red,
+                iconBgColor:const Color.fromARGB(255, 255, 221, 221),
+                onConfirm: () {
+                  authBloc.add(DeleteAccountEvent(
+                      password: _passwordController.text.trim(),
+                      email: _emailController.text.trim()));
+                },
+                onReject: () {
+                  Navigator.pop(context);
+                },
+              );
             },
           );
+        }
+        if (state is DeleteAccountState) {
+          Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+        } else if (state is DeleteAccountErrorState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+             const SnackBar(content: Text('Could\'nt delete this account')));
         }
       },
       child: Scaffold(
@@ -42,7 +64,7 @@ class ForgotPassPage extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  padding: EdgeInsets.all(20),
+                  padding:const EdgeInsets.all(20),
                   width: MediaQuery.of(context).size.width * 0.9,
                   decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 233, 237, 201),
@@ -52,7 +74,7 @@ class ForgotPassPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'Forgot your Password?',
+                        'Delete Account',
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -63,7 +85,7 @@ class ForgotPassPage extends StatelessWidget {
                         height: 4,
                       ),
                       const Text(
-                        'No worries! Enter your email address below and we\'ll send you a link to reset your password.',
+                        'This action is irreversible and will permanently delete all your account information.',
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w300,
@@ -91,14 +113,26 @@ class ForgotPassPage extends StatelessWidget {
                                 }
                               },
                             ),
+                            CustomTextField(
+                              controller: _passwordController,
+                              hintText: 'Password',
+                              validator: (value) {
+                                final paswd = RegExp(
+                                    r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+                                if (value!.isEmpty) {
+                                  return 'please enter the password';
+                                } else if (!paswd.hasMatch(value)) {
+                                  return 'Password should contain at least one upper case, \none lower case, one digit, one special character and \nmust be 8 characters in length';
+                                }
+                              },
+                            ),
                             CustomButton(
-                              text: 'Send link',
+                              text: 'Delete',
                               onPressed: () {
                                 final authBloc =
                                     BlocProvider.of<AuthBloc>(context);
                                 if (_formKey.currentState!.validate()) {
-                                  authBloc.add(ForgotPassEvent(
-                                      email: _emailController.text.trim()));
+                                  authBloc.add(DeleteConfirmEvent());
                                 }
                               },
                               color: const Color.fromARGB(255, 170, 181, 135),

@@ -1,9 +1,7 @@
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:eventeaze/app/view/screens/login_page.dart';
-import 'package:eventeaze/app/view/screens/splashscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePageWrapper extends StatelessWidget {
   const HomePageWrapper({super.key});

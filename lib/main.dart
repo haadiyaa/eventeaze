@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(fontFamily: 'Poppins'),
       debugShowCheckedModeBanner: false,
       title: 'EventEaze',
-      home: const SplashScreen(),
+      home:  SplashScreen(),
       routes: {
         '/onboarding':(context) => const OnBoardingWrapper(),
         '/login':(context) => const LoginPageWrapper(),
