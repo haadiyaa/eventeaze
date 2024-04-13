@@ -9,7 +9,8 @@ abstract class BottomnavEvent extends Equatable {
 class TabChangeEvent extends BottomnavEvent {
   final int tabIndex;
 
-  TabChangeEvent({required this.tabIndex});
+  const TabChangeEvent({required this.tabIndex});
+  
   @override
   List<Object> get props => [tabIndex];
 }

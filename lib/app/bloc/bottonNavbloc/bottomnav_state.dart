@@ -9,7 +9,7 @@ abstract class BottomnavState extends Equatable {
 }
 
 class BottomnavInitial extends BottomnavState {
-  BottomnavInitial({required super.tabIndex});
+  const BottomnavInitial({required super.tabIndex});
 
   @override
   List<Object> get props => [tabIndex];

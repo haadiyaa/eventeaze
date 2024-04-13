@@ -115,7 +115,7 @@ class LoginPage extends StatelessWidget {
                           children: [
                             CustomTextField(
                               controller: _emailController,
-                              hintText: 'Email Address',
+                              labelText: 'Email Address',
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return "Email is required";
@@ -129,8 +129,9 @@ class LoginPage extends StatelessWidget {
                             ),
                             // const SizedBox(height: 10,),
                             CustomTextField(
+                              obscuretext: true,
                               controller: _passwordController,
-                              hintText: 'Enter Password',
+                              labelText: 'Enter Password',
                               validator: (value) {
                                 final paswd = RegExp(
                                     r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');

@@ -115,7 +115,7 @@ class SignUpPage extends StatelessWidget {
                       children: [
                         CustomTextField(
                           controller: _nameController,
-                          hintText: 'User Name',
+                          labelText: 'User Name',
                           validator: (value) {
                             final name = RegExp(r'^[A-Za-z\s]{3,}[\s]*$');
                             if (value!.isEmpty) {
@@ -127,7 +127,7 @@ class SignUpPage extends StatelessWidget {
                         ),
                         CustomTextField(
                           controller: _phoneController,
-                          hintText: 'Phone Number',
+                          labelText: 'Phone Number',
                           validator: (value) {
                             final reg2 = RegExp(r"^[6789]\d{9}[\s]*$");
                             if (value!.isEmpty) {
@@ -141,7 +141,7 @@ class SignUpPage extends StatelessWidget {
                         ),
                         CustomTextField(
                           controller: _emailController,
-                          hintText: 'Email Address',
+                          labelText: 'Email Address',
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return "Email is required";
@@ -154,8 +154,9 @@ class SignUpPage extends StatelessWidget {
                           },
                         ),
                         CustomTextField(
+                          obscuretext: true,
                           controller: _passwordController,
-                          hintText: 'Enter Password',
+                          labelText: 'Enter Password',
                           validator: (value) {
                             final paswd = RegExp(
                                 r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');

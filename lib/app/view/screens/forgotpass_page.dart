@@ -87,7 +87,7 @@ class ForgotPassPage extends StatelessWidget {
                           children: [
                             CustomTextField(
                               controller: _emailController,
-                              hintText: 'Email address',
+                              labelText: 'Email address',
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return "Email is required";
