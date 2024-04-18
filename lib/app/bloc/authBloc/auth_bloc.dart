@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eventeaze/app/model/usermodel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -111,6 +110,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<void> _logOut(LogOutEvent event, Emitter<AuthState> emit) async {
+    emit(AuthLoadingState());
     try {
       await _auth.signOut().then((value) {
         emit(UnAuthenticatedState());
@@ -134,18 +134,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  void _resetConfirm(ResetConfirmEvent event, Emitter<AuthState> emit) {
+  Future<void> _resetConfirm(ResetConfirmEvent event, Emitter<AuthState> emit) async{
     emit(ResetConfirmState());
   }
-
- 
 
   FutureOr<void> _logOutConfirm(
       LogoutConfirmEvent event, Emitter<AuthState> emit) {
     emit(LogoutConfirmState());
   }
-
-
 
   Future<FutureOr<void>> _updateUser(
       UpadateUserEvent event, Emitter<AuthState> emit) async {

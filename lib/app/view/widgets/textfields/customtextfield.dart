@@ -41,7 +41,7 @@ class CustomTextField extends StatelessWidget {
             child: BlocBuilder<PasswordCubit, bool>(
               builder: (context, isPasswordVisible) {
                 return TextFormField(
-                  obscureText: obscuretext&& !isPasswordVisible,
+                  obscureText: obscuretext && !isPasswordVisible,
                   keyboardType: keyboardType ?? TextInputType.name,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   controller: controller,
@@ -66,7 +66,8 @@ class CustomTextField extends StatelessWidget {
                     ),
                     labelText: labelText,
                     labelStyle: const TextStyle(
-                        color: Color.fromARGB(255, 170, 181, 135)),
+                      color: Color.fromARGB(255, 170, 181, 135),
+                    ),
                     // hintStyle:
                     filled: true,
                     fillColor: Colors.white,

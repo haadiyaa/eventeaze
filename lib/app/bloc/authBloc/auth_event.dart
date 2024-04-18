@@ -78,3 +78,4 @@ class UpadateUserEvent extends AuthEvent {
   @override
   List<Object?> get props => [user];
 }
+

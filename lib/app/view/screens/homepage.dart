@@ -1,7 +1,13 @@
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:eventeaze/app/view/screens/login_page.dart';
+import 'package:eventeaze/app/view/widgets/buttons/sectionheading.dart';
+import 'package:eventeaze/app/view/widgets/buttons/verticalimagetext.dart';
+import 'package:eventeaze/app/view/widgets/design/eventcategorieslist.dart';
+import 'package:eventeaze/app/view/widgets/textfields/customsearchbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/svg.dart';
 
 class HomePageWrapper extends StatelessWidget {
   const HomePageWrapper({super.key});
@@ -24,29 +30,71 @@ class HomePage extends StatelessWidget {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is UnAuthenticatedState) {
+          Navigator.pop(context);
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => const LoginPageWrapper()));
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (_) => const LoginPageWrapper()));
           });
+        } else if (state is AuthLoadingState) {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return const Center(
+                child: SpinKitFadingCircle(
+                  duration: Duration(seconds: 2),
+                  color: Colors.white,
+                ),
+              );
+            },
+          );
         }
       },
       builder: (context, state) {
-        if (state is AuthLoadingState) {
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
+        return Scaffold(
+          appBar: AppBar(
+            title: CustomSearchBar(
+              onTap: () {},
             ),
-          );
-        }
-        return const Scaffold(
-          body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                 Text('home'),
-                
-              ],
-            ),
+            actions: [
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.notifications,
+                  color: Color.fromARGB(255, 68, 73, 53),
+                ),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.add_to_photos_rounded,
+                  color: Color.fromARGB(255, 68, 73, 53),
+                ),
+              ),
+            ],
+          ),
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 20,
+                  top: 15,
+                ),
+                child: Column(
+                  children: [
+                    SectionHeading(
+                      title: 'Categories',
+                      onPressed: () {},
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    //categories
+                    const EventCategories(),
+                  ],
+                ),
+              ),
+            ],
           ),
         );
       },

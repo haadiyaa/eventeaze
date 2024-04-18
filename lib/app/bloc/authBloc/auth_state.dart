@@ -45,7 +45,6 @@ class LogoutConfirmState extends AuthState {
 class LogoutRejectState extends AuthState {
   @override
   List<Object?> get props => [];
-  
 }
 
 class ForgotPassState extends AuthState {
@@ -66,7 +65,6 @@ class ResetConfirmState extends AuthState {
   List<Object?> get props => [];
 }
 
-
 class UpdateUserState extends AuthState {
   @override
   List<Object?> get props => [];
@@ -79,3 +77,5 @@ class UpdationErrorState extends AuthState {
   @override
   List<Object?> get props => [message];
 }
+
+

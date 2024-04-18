@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:eventeaze/app/model/usermodel.dart';
+import 'package:eventeaze/app/view/screens/createeventpage.dart';
 import 'package:eventeaze/app/view/screens/login_page.dart';
 import 'package:eventeaze/app/view/screens/userdetails_page.dart';
 import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
@@ -9,6 +10,7 @@ import 'package:eventeaze/app/view/widgets/design/profileavatar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class ProfilePageWrapper extends StatelessWidget {
   const ProfilePageWrapper({super.key});
@@ -47,11 +49,22 @@ class _ProfilePageState extends State<ProfilePage> {
       listener: (context, state) {
         if (state is UnAuthenticatedState) {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => const  LoginPageWrapper()));
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (_) => const LoginPageWrapper()));
           });
-        }
-        if (state is LogoutConfirmState) {
+        } else if (state is AuthLoadingState) {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return const Center(
+                child: SpinKitFadingCircle(
+                  duration: Duration(seconds: 2),
+                  color: Colors.white,
+                ),
+              );
+            },
+          );
+        } else if (state is LogoutConfirmState) {
           showDialog(
               context: context,
               builder: (context) => ConfirmAlert(
@@ -65,29 +78,25 @@ class _ProfilePageState extends State<ProfilePage> {
                     onReject: () {
                       authBloc.add(LogoutRejectEvent());
                     },
-                  ));
-        }
-        if (state is LogoutRejectState) {
-          Navigator.pop(context);
+                  ),);
+        } else if (state is LogoutRejectState) {print("ggggggggggggggggggggg");
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+            Navigator.pop(context);
+          });
+          
         }
       },
       builder: (context, state) {
-        if (state is AuthLoadingState) {
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
         return Scaffold(
           appBar: AppBar(
             titleSpacing: 25,
             title: const Text(
               'Profile',
               style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 68, 73, 53),
-                  fontSize: 24),
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 68, 73, 53),
+                fontSize: 24,
+              ),
             ),
             actions: [
               IconButton(
@@ -98,7 +107,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  // authBloc.add(OnCreateButtonClickedEvent());
+                  Navigator.push(context, MaterialPageRoute(builder: (_)=>const CreateEventWrapper()));
+                },
                 icon: const Icon(
                   Icons.add_to_photos_rounded,
                   color: Color.fromARGB(255, 68, 73, 53),
@@ -114,7 +126,10 @@ class _ProfilePageState extends State<ProfilePage> {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
-                  child: CircularProgressIndicator(),
+                  child: SpinKitFadingCircle(
+                    duration: Duration(seconds: 2),
+                    color: Color.fromARGB(255, 68, 73, 53),
+                  ),
                 );
               }
               if (snapshot.hasData) {
@@ -179,7 +194,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (_) => UserDetailsPageWrapper(
+                                              builder: (_) =>
+                                                  UserDetailsPageWrapper(
                                                     user: user,
                                                   )));
                                     },
