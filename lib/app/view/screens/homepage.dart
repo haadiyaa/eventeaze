@@ -3,6 +3,10 @@ import 'package:eventeaze/app/view/screens/login_page.dart';
 import 'package:eventeaze/app/view/widgets/buttons/sectionheading.dart';
 import 'package:eventeaze/app/view/widgets/buttons/verticalimagetext.dart';
 import 'package:eventeaze/app/view/widgets/design/eventcategorieslist.dart';
+import 'package:eventeaze/app/view/widgets/design/eventhorizontalcard.dart';
+import 'package:eventeaze/app/view/widgets/design/eventverticalcard.dart';
+import 'package:eventeaze/app/view/widgets/design/recommendedlist.dart';
+import 'package:eventeaze/app/view/widgets/design/upcominglist.dart';
 import 'package:eventeaze/app/view/widgets/textfields/customsearchbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -72,29 +76,44 @@ class HomePage extends StatelessWidget {
               ),
             ],
           ),
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 20,
-                  top: 15,
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 20,
+                    top: 15,
+                  ),
+                  child: Column(
+                    children: [
+                      SectionHeading(
+                        title: 'Categories',
+                        onPressed: () {},
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      //categories
+                      const EventCategories(),
+            
+                      //recommended
+                      SectionHeading(
+                        title: 'Recommended for you',
+                        onPressed: () {},
+                      ),
+                      const RecommendedList(),
+                      SizedBox(height: 10,),
+                      SectionHeading(
+                        title: 'Upcoming Events',
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
                 ),
-                child: Column(
-                  children: [
-                    SectionHeading(
-                      title: 'Categories',
-                      onPressed: () {},
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    //categories
-                    const EventCategories(),
-                  ],
-                ),
-              ),
-            ],
+                const UpcomingList(),
+              ],
+            ),
           ),
         );
       },
