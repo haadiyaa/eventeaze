@@ -6,9 +6,12 @@ import 'package:eventeaze/app/view/screens/login_page.dart';
 import 'package:eventeaze/app/view/screens/userdetails_page.dart';
 import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
 import 'package:eventeaze/app/view/widgets/design/confirmalert.dart';
-import 'package:eventeaze/app/view/widgets/design/profileavatar.dart';
+import 'package:eventeaze/app/view/widgets/design/profile/profileavatar.dart';
+import 'package:eventeaze/app/view/widgets/design/profile/profilelist.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -66,24 +69,25 @@ class _ProfilePageState extends State<ProfilePage> {
           );
         } else if (state is LogoutConfirmState) {
           showDialog(
-              context: context,
-              builder: (context) => ConfirmAlert(
-                    icon: Icons.logout,
-                    iconColor: Colors.white,
-                    iconBgColor: Colors.amber,
-                    msg: 'Are you sure you want to logout?',
-                    onConfirm: () {
-                      authBloc.add(LogOutEvent());
-                    },
-                    onReject: () {
-                      authBloc.add(LogoutRejectEvent());
-                    },
-                  ),);
-        } else if (state is LogoutRejectState) {print("ggggggggggggggggggggg");
+            context: context,
+            builder: (context) => ConfirmAlert(
+              icon: Icons.logout,
+              iconColor: Colors.white,
+              iconBgColor: Colors.amber,
+              msg: 'Are you sure you want to logout?',
+              onConfirm: () {
+                authBloc.add(LogOutEvent());
+              },
+              onReject: () {
+                authBloc.add(LogoutRejectEvent());
+              },
+            ),
+          );
+        } else if (state is LogoutRejectState) {
+          print("ggggggggggggggggggggg");
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             Navigator.pop(context);
           });
-          
         }
       },
       builder: (context, state) {
@@ -109,7 +113,10 @@ class _ProfilePageState extends State<ProfilePage> {
               IconButton(
                 onPressed: () {
                   // authBloc.add(OnCreateButtonClickedEvent());
-                  Navigator.push(context, MaterialPageRoute(builder: (_)=>const CreateEventWrapper()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const CreateEventWrapper()));
                 },
                 icon: const Icon(
                   Icons.add_to_photos_rounded,
@@ -212,17 +219,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         const SizedBox(
                           height: 10,
                         ),
-                        // Expanded(
-                        //   child: ListView.separated(
-                        //     itemCount: 5,
-                        //     separatorBuilder: (BuildContext context, int index) {
-                        //       return const Divider();
-                        //     },
-                        //     itemBuilder: (BuildContext context, int index) {
-                        //       return ListTile();
-                        //     },
-                        //   ),
-                        // ),
+                        const ProfileList(),
                         const SizedBox(
                           height: 10,
                         ),

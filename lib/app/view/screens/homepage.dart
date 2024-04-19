@@ -1,17 +1,14 @@
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
+import 'package:eventeaze/app/view/screens/categoriespage.dart';
 import 'package:eventeaze/app/view/screens/login_page.dart';
 import 'package:eventeaze/app/view/widgets/buttons/sectionheading.dart';
-import 'package:eventeaze/app/view/widgets/buttons/verticalimagetext.dart';
 import 'package:eventeaze/app/view/widgets/design/eventcategorieslist.dart';
-import 'package:eventeaze/app/view/widgets/design/eventhorizontalcard.dart';
-import 'package:eventeaze/app/view/widgets/design/eventverticalcard.dart';
 import 'package:eventeaze/app/view/widgets/design/recommendedlist.dart';
 import 'package:eventeaze/app/view/widgets/design/upcominglist.dart';
 import 'package:eventeaze/app/view/widgets/textfields/customsearchbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_svg/svg.dart';
 
 class HomePageWrapper extends StatelessWidget {
   const HomePageWrapper({super.key});
@@ -89,21 +86,28 @@ class HomePage extends StatelessWidget {
                     children: [
                       SectionHeading(
                         title: 'Categories',
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => const CategoriesPage()));
+                        },
                       ),
                       const SizedBox(
                         height: 10,
                       ),
                       //categories
                       const EventCategories(),
-            
+
                       //recommended
                       SectionHeading(
                         title: 'Recommended for you',
                         onPressed: () {},
                       ),
                       const RecommendedList(),
-                      SizedBox(height: 10,),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       SectionHeading(
                         title: 'Upcoming Events',
                         onPressed: () {},

@@ -5,39 +5,59 @@ class CreateText extends StatelessWidget {
     super.key,
     required this.text,
     required this.controller,
+    this.validator,
+    // this.expands = false,
+    this.maxLines, this.keyboardType, this.onTap, this.hintText ,
   });
   final String text;
+  final String? hintText;
   final TextEditingController controller;
+  final String? Function(String?)? validator;
+  // final bool expands;
+  final int? maxLines;
+  final TextInputType? keyboardType;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin:const EdgeInsets.symmetric(horizontal: 15,vertical: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
       child: TextFormField(
+        
+        onTap: onTap,
+        keyboardType: keyboardType,
+        maxLines: maxLines,
+        // expands: expands,
+        validator: validator,
         controller: controller,
         decoration: InputDecoration(
-          hintText: text,
-          hintStyle:const  TextStyle(
+          hintText: hintText,
+          label: Text(text),
+          labelStyle: const TextStyle(
             fontWeight: FontWeight.w400,
             color: Color.fromARGB(255, 170, 181, 135),
           ),
           filled: true,
           fillColor: const Color.fromARGB(99, 219, 219, 219),
           border: OutlineInputBorder(
-            borderSide: BorderSide.none,
+            borderSide:
+                const BorderSide(color: Color.fromARGB(255, 170, 181, 135)),
             borderRadius: BorderRadius.circular(15),
           ),
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide.none,
+            borderSide: const BorderSide(
+                color: Color.fromARGB(255, 170, 181, 135), width: 0.2),
             borderRadius: BorderRadius.circular(15),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide.none,
+            borderSide:
+                const BorderSide(color: Color.fromARGB(255, 170, 181, 135)),
             borderRadius: BorderRadius.circular(15),
           ),
           errorStyle: const TextStyle(fontSize: 10),
           errorBorder: OutlineInputBorder(
-            borderSide: BorderSide.none,
+            borderSide:
+                const BorderSide(color: Color.fromARGB(255, 170, 181, 135)),
             borderRadius: BorderRadius.circular(15),
           ),
         ),

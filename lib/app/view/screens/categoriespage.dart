@@ -1,4 +1,4 @@
-import 'package:eventeaze/app/view/widgets/buttons/verticalimagetext.dart';
+import 'package:eventeaze/app/view/widgets/design/categorycard.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesPage extends StatelessWidget {
@@ -18,28 +18,25 @@ class CategoriesPage extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.symmetric(horizontal: 20),
         child: SingleChildScrollView(
           child: Column(
             children: [
               GridView.builder(
-                physics:const NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  mainAxisExtent: 150,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
+                  mainAxisExtent: 195,
+                  mainAxisSpacing: 15,
+                  crossAxisSpacing: 15,
                 ),
                 itemCount: 8,
                 itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      width: 10,
-                      height: 10,
-                      color: Colors.amber,
-                    ),
+                  return CategoryCard(
+                    image: 'assets/categories/music.jpg',
+                    text: 'Music',
+                    onTap: () {},
                   );
                 },
               ),

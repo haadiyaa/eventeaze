@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ProfileAvatar extends StatelessWidget {
-  ProfileAvatar({
-    super.key,
-    this.child
-  });
+  ProfileAvatar({super.key, this.child});
 
   Widget? child;
 
@@ -21,7 +18,7 @@ class ProfileAvatar extends StatelessWidget {
           BoxShadow(blurRadius: 7, offset: Offset(0, 4), color: Colors.grey),
         ],
       ),
-      child:child?? const Icon(Icons.person),
+      child: child ?? const Icon(Icons.person),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:eventeaze/app/view/screens/eventdetailspage.dart';
 import 'package:eventeaze/app/view/widgets/design/eventhorizontalcard.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,9 @@ class UpcomingList extends StatelessWidget {
             shrinkWrap: true,
             itemCount: 6,
             itemBuilder: (BuildContext context, int index) {
-              return EventHorizontalCard();
+              return EventHorizontalCard(onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (_)=>EventDetailsPage()));
+              },);
             },
           ),
         ],
