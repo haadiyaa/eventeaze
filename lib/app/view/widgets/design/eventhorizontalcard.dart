@@ -2,13 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class EventHorizontalCard extends StatelessWidget {
-  const EventHorizontalCard({super.key, this.onTap});
+  const EventHorizontalCard({
+    super.key,
+    this.onTap,
+    required this.image,
+    required this.title,
+    required this.date,
+    required this.location, required this.time,
+  });
   final void Function()? onTap;
+  final String image;
+  final String title;
+  final String date;
+  final String time;
+  final String location;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap:onTap ,
+      onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.only(bottom: 10),
         child: Stack(
@@ -20,12 +32,12 @@ class EventHorizontalCard extends StatelessWidget {
                 color: Colors.amber,
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: const ClipRRect(
-                borderRadius: BorderRadius.all(
+              child:  ClipRRect(
+                borderRadius: const BorderRadius.all(
                   Radius.circular(20),
                 ),
                 child: Image(
-                  image: AssetImage('assets/events/arts.jpg'),
+                  image: AssetImage(image),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -33,7 +45,7 @@ class EventHorizontalCard extends StatelessWidget {
             Positioned(
               bottom: 0,
               child: Container(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   horizontal: 20,
                   vertical: 8,
                 ),
@@ -52,9 +64,9 @@ class EventHorizontalCard extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Arts & Culture',
-                            style: TextStyle(
+                           Text(
+                            title,
+                            style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w500,
                               fontSize: 18,
@@ -62,9 +74,9 @@ class EventHorizontalCard extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              const Text(
-                                '01, March 2024',
-                                style: TextStyle(
+                               Text(
+                                date,
+                                style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 10,
                                 ),
@@ -75,22 +87,22 @@ class EventHorizontalCard extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const Row(
+                     Row(
                       children: [
                         Text(
-                          '2 PM -5 PM',
-                          style: TextStyle(
+                          time,
+                          style:const TextStyle(
                             color: Colors.white,
                             fontSize: 10,
                           ),
                         )
                       ],
                     ),
-                    const Row(
+                     Row(
                       children: [
                         Text(
-                          'Mumbai',
-                          style: TextStyle(
+                          location,
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 10,
                           ),

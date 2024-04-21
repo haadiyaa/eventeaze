@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class VerticalImageText extends StatelessWidget {
@@ -29,9 +28,7 @@ class VerticalImageText extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Image(
-                  image: AssetImage(
-                    image,
-                  ),
+                  image: NetworkImage(image),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -45,7 +42,7 @@ class VerticalImageText extends StatelessWidget {
               width: 100,
               child: Text(
                 text,
-                style:const TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Color.fromARGB(255, 68, 73, 53),
                 ),

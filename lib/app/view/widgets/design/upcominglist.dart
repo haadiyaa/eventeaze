@@ -10,7 +10,7 @@ class UpcomingList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       child: Column(
         children: [
           ListView.builder(
@@ -18,9 +18,19 @@ class UpcomingList extends StatelessWidget {
             shrinkWrap: true,
             itemCount: 6,
             itemBuilder: (BuildContext context, int index) {
-              return EventHorizontalCard(onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_)=>EventDetailsPage()));
-              },);
+              return EventHorizontalCard(
+                image:'assets/events/arts.jpg',
+                title: 'Arts & Culture',
+                date: '01, March 2024',
+                time: '2 PM -5 PM',
+                location: 'Mumbai',
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const EventDetailsPage()),
+                  );
+                },
+              );
             },
           ),
         ],

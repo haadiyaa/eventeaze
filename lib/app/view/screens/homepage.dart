@@ -1,5 +1,8 @@
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
+import 'package:eventeaze/app/bloc/functionBloc/functions_bloc.dart';
+import 'package:eventeaze/app/model/categorymodel.dart';
 import 'package:eventeaze/app/view/screens/categoriespage.dart';
+import 'package:eventeaze/app/view/screens/eventlist.dart';
 import 'package:eventeaze/app/view/screens/login_page.dart';
 import 'package:eventeaze/app/view/widgets/buttons/sectionheading.dart';
 import 'package:eventeaze/app/view/widgets/design/eventcategorieslist.dart';
@@ -15,15 +18,35 @@ class HomePageWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => AuthBloc(),
+        ),
+        BlocProvider(
+          create: (context) => FunctionsBloc()..add(FetchCategoryEvent()),
+        ),
+      ],
       child: const HomePage(),
     );
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  List<CategoryModel>? allCategory;
+  @override
+  void initState() {
+    super.initState();
+    
+  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -74,49 +97,61 @@ class HomePage extends StatelessWidget {
             ],
           ),
           body: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 20,
-                    top: 15,
-                  ),
-                  child: Column(
-                    children: [
-                      SectionHeading(
-                        title: 'Categories',
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => const CategoriesPage()));
-                        },
+            child: BlocBuilder<FunctionsBloc, FunctionsState>(
+              
+              builder: (context, state) {
+                if (state is FetchCategoryState) {
+                  allCategory=state.list;
+                }
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 20,
+                        top: 15,
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      //categories
-                      const EventCategories(),
+                      child: Column(
+                        children: [
+                          SectionHeading(
+                            title: 'Categories',
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => CategoriesPage()));
+                            },
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          //categories
+                          EventCategories(list: allCategory,),
 
-                      //recommended
-                      SectionHeading(
-                        title: 'Recommended for you',
-                        onPressed: () {},
+                          //recommended
+                          SectionHeading(
+                            title: 'Recommended for you',
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (_)=>const EventList(title: 'Recommended')));
+                            },
+                          ),
+                          const RecommendedList(),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          SectionHeading(
+                            title: 'Upcoming Events',
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (_)=>const EventList(title: 'Upcoming Events')));
+                            },
+                          ),
+                        ],
                       ),
-                      const RecommendedList(),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      SectionHeading(
-                        title: 'Upcoming Events',
-                        onPressed: () {},
-                      ),
-                    ],
-                  ),
-                ),
-                const UpcomingList(),
-              ],
+                    ),
+                    const UpcomingList(),
+                  ],
+                );
+              },
             ),
           ),
         );

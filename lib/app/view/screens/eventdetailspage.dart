@@ -13,7 +13,7 @@ class EventDetailsPage extends StatelessWidget {
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-            backgroundColor:Color.fromARGB(255, 105, 114, 77),
+            backgroundColor:const Color.fromARGB(255, 105, 114, 77),
             leading: const BackButton(
               color: Colors.white,
             ),

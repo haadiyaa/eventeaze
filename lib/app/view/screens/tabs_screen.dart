@@ -21,7 +21,7 @@ class TabsScreenWrapper extends StatelessWidget {
 class TabsScreen extends StatelessWidget {
   TabsScreen({super.key});
 
-  List<Widget> pages = const[
+  List<Widget> pages = [
     HomePageWrapper(),
     CategoriesPage(),
     ProfilePageWrapper(),

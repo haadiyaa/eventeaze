@@ -24,4 +24,28 @@ class DatePickedState extends FunctionsState {
   @override
   List<Object> get props => [pickedDate.toString()];
 }
+class FetchCategoryState extends FunctionsState {
 
+  final List<CategoryModel> list;
+
+  const FetchCategoryState({required this.list});
+  @override
+  List<Object?> get props => [list];
+  
+}
+
+class ErrorState extends FunctionsState{
+  final String message;
+
+  const ErrorState({required this.message});
+
+  @override
+  List<Object?> get props => [message];
+  
+}
+class UploadedDummyState extends FunctionsState {
+
+  @override
+  List<Object?> get props => [];
+  
+}

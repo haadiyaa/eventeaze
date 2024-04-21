@@ -1,7 +1,9 @@
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:eventeaze/app/bloc/functionBloc/functions_bloc.dart';
 import 'package:eventeaze/app/view/widgets/textfields/creattext.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CreateEventWrapper extends StatelessWidget {
@@ -121,9 +123,31 @@ class CreateEventPage extends StatelessWidget {
                         validator: (p0) {},
                       ),
                       CreateText(
+                        maxLines: 1,
                         text: 'Contact Number',
                         controller: contacttController,
                         validator: (p0) {},
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          children: [
+                            Text(
+                              "Add Keywords",
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 68, 73, 53),
+                              ),
+                            ),
+                            Expanded(
+                              child: Divider(
+                                indent: 10,
+                                color: Color.fromARGB(255, 68, 73, 53),
+                              ),
+                            ),
+                            SizedBox(height: 10,),
+                            
+                          ],
+                        ),
                       )
                     ],
                   ),
