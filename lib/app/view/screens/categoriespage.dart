@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/bloc/functionBloc/functions_bloc.dart';
 import 'package:eventeaze/app/model/categorymodel.dart';
 import 'package:eventeaze/app/view/screens/eventlist.dart';
@@ -28,42 +29,84 @@ class CategoriesPage extends StatelessWidget {
         ),
         body: BlocBuilder<FunctionsBloc, FunctionsState>(
           builder: (context, state) {
-            if (state is FetchCategoryState) {
-              allCategory = state.list;
-            }
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    GridView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisExtent: 195,
-                        mainAxisSpacing: 15,
-                        crossAxisSpacing: 15,
+            return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                stream: FirebaseFirestore.instance
+                    .collection('categories')
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            GridView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisExtent: 195,
+                                mainAxisSpacing: 15,
+                                crossAxisSpacing: 15,
+                              ),
+                              itemCount: snapshot.data!.docs.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                final category =
+                                    snapshot.data!.docs[index].data();
+
+                                return CategoryCard(
+                                  image: category['image'],
+                                  text: category['name'],
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => EventList(
+                                                title: category['name'])));
+                                  },
+                                );
+                              },
+                            ),
+                          ],
+                        ),
                       ),
-                      itemCount: len,
-                      itemBuilder: (BuildContext context, int index) {
-                        if (allCategory != null) {
-                          final catLis = allCategory!;
-                          return CategoryCard(
-                            image: catLis[index].image,
-                            text: catLis[index].name,
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (_)=>EventList(title: catLis[index].name)));
+                    );
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          GridView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisExtent: 195,
+                              mainAxisSpacing: 15,
+                              crossAxisSpacing: 15,
+                            ),
+                            itemCount: 6,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Container(
+                                width: 170,
+                                height: 170,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              );
                             },
-                          );
-                        }
-                      },
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
-              ),
-            );
+                  );
+                });
           },
         ),
       ),

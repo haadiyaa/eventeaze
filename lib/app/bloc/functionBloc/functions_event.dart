@@ -27,3 +27,26 @@ class UploadDummyEvent extends FunctionsEvent {
   List<Object?> get props => [];
   
 }
+
+class FetchEventEvent extends FunctionsEvent{
+
+  @override
+  List<Object?> get props => [];
+  
+}
+class DropdownEvent extends FunctionsEvent {
+  final String? value;
+
+  const DropdownEvent({required this.value});
+  @override
+  List<Object?> get props => [value];
+  
+}
+class CreateEventEvent extends FunctionsEvent{
+  final EventModel event;
+
+  const CreateEventEvent({required this.event});
+  @override
+  List<Object?> get props => [];
+  
+}

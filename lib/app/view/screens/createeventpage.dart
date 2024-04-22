@@ -1,6 +1,8 @@
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:eventeaze/app/bloc/functionBloc/functions_bloc.dart';
+import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
 import 'package:eventeaze/app/view/widgets/textfields/creattext.dart';
+import 'package:eventeaze/app/view/widgets/textfields/customdropdown.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -27,6 +29,19 @@ class CreateEventWrapper extends StatelessWidget {
 
 class CreateEventPage extends StatelessWidget {
   CreateEventPage({super.key});
+
+  final List<String> _items = [
+    'Sports',
+    'Art',
+    'Cultural',
+    'Family',
+    'Business',
+    'Birthday',
+    'Health',
+    'Food',
+    'Education'
+  ];
+  String? selectedItem;
 
   final TextEditingController titleController = TextEditingController();
   final TextEditingController ticketController = TextEditingController();
@@ -78,6 +93,7 @@ class CreateEventPage extends StatelessWidget {
                         controller: titleController,
                         validator: (p0) {},
                       ),
+                      CustomDropdown(selectedItem: selectedItem, items: _items),
                       CreateText(
                         keyboardType: TextInputType.number,
                         maxLines: 1,
@@ -128,27 +144,48 @@ class CreateEventPage extends StatelessWidget {
                         controller: contacttController,
                         validator: (p0) {},
                       ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: Row(
                           children: [
-                            Text(
-                              "Add Keywords",
+                            GestureDetector(
+                              onTap: () {},
+                              child: const CircleAvatar(
+                                radius: 40,
+                                backgroundColor:
+                                    Color.fromARGB(255, 170, 181, 135),
+                                child: Icon(
+                                  Icons.add_a_photo_outlined,
+                                  color: Colors.white,
+                                  size: 35,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            const Text(
+                              'Upload Image',
                               style: TextStyle(
-                                color: Color.fromARGB(255, 68, 73, 53),
+                                fontWeight: FontWeight.normal,
+                                color: Color.fromARGB(255, 123, 131, 98),
                               ),
                             ),
-                            Expanded(
-                              child: Divider(
-                                indent: 10,
-                                color: Color.fromARGB(255, 68, 73, 53),
-                              ),
-                            ),
-                            SizedBox(height: 10,),
-                            
                           ],
                         ),
-                      )
+                      ),
+                      CustomButton(
+                        text: 'Save & Publish',
+                        color: const Color.fromARGB(255, 138, 148, 108),
+                        onPressed: () {
+                          
+                        },
+                      ),
+                      CustomButton(
+                        text: 'Cancel',
+                        onPressed: () {},
+                        foreground: const Color.fromARGB(255, 138, 148, 108),
+                      ),
                     ],
                   ),
                 ),

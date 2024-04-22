@@ -5,7 +5,9 @@ import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eventeaze/app/model/categorymodel.dart';
+import 'package:eventeaze/app/model/evenmodel.dart';
 import 'package:eventeaze/app/utils/dummydata.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 
@@ -14,13 +16,17 @@ part 'functions_state.dart';
 
 class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
   final DummyData dummyData=DummyData();
-  final list=DummyData.categories;
+  final catlist=DummyData.categories;
+  final list=DummyData.events;
+  User? user = FirebaseAuth.instance.currentUser;
   FunctionsBloc() : super(FunctionsInitial()) {
     on<FunctionsEvent>((event, emit) {
     });
     on<DatePickEvent>(_datePick);
     on<FetchCategoryEvent>(_getCategory);
     on<UploadDummyEvent>(_uploadDummyCategory);
+    on<DropdownEvent>(_dropdown);
+    on<CreateEventEvent>(_createEvent);
   }
 
 
@@ -30,7 +36,7 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
 
   Future<FutureOr<void>> _getCategory(FetchCategoryEvent event, Emitter<FunctionsState> emit) async {
     try {
-      final snapshot=await FirebaseFirestore.instance.collection('categories').get();
+      final snapshot=await FirebaseFirestore.instance.collection('category').get();
       final list=snapshot.docs.map((document) => CategoryModel.fromSnapshot(document)).toList();
       emit(FetchCategoryState(list: list));
     } catch (e) {
@@ -61,16 +67,46 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
 
   Future<FutureOr<void>> _uploadDummyCategory(UploadDummyEvent event, Emitter<FunctionsState> emit) async {
     try {
-      for( var category in list){
-        final file = await getImageFromAssets(category.image);
-        final url=await uploadImageData('categories', file, category.name);
-        category.image=url;
-        await FirebaseFirestore.instance.collection('categories').doc(category.id).set(category.toMap());
+      for( var events in list){
+        final file = await getImageFromAssets(events.image);
+        final url=await uploadImageData('events', file, events.eventName);
+        events.image=url;
+        await FirebaseFirestore.instance.collection('events').doc(events.id).set(events.toMap());
         emit(UploadedDummyState());
       }
     } catch (e) {
       emit(ErrorState(message: e.toString()));
     }
 
+  }
+
+  FutureOr<void> _dropdown(DropdownEvent event, Emitter<FunctionsState> emit) {
+    if (event.value!=null) {
+      emit(DropdownState(value: event.value!));
+    }
+    
+  }
+
+  FutureOr<void> _createEvent(CreateEventEvent event, Emitter<FunctionsState> emit) {
+    try {
+      if (user!=null) {
+        String id=user!.uid;
+        FirebaseFirestore.instance.collection('events').doc(id).set({
+          'id':id,
+          'eventName':event.event.eventName,
+          'eventDate':event.event.eventDate,
+          'eventDesc':event.event.eventDesc,
+          'eventTime':event.event.eventTime,
+          'location':event.event.location,
+          'venue':event.event.venue,
+          'seats':event.event.seats,
+          'contact':event.event.contact,
+          'image':event.event.image,
+          'category':event.event.category,
+        }).then((value) => emit(CreateEventState()));
+      }
+    } catch (e) {
+      emit(ErrorState(message: e.toString()));
+    }
   }
 }

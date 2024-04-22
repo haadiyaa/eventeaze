@@ -1,7 +1,6 @@
 
 import 'package:equatable/equatable.dart';
 
-// ignore: must_be_immutable
 class UserModel extends Equatable {
   String? uid;
   String? username;

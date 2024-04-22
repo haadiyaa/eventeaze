@@ -29,7 +29,6 @@ class EventHorizontalCard extends StatelessWidget {
               height: 155,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.amber,
                 borderRadius: BorderRadius.circular(20),
               ),
               child:  ClipRRect(
@@ -37,7 +36,7 @@ class EventHorizontalCard extends StatelessWidget {
                   Radius.circular(20),
                 ),
                 child: Image(
-                  image: AssetImage(image),
+                  image: NetworkImage(image),
                   fit: BoxFit.cover,
                 ),
               ),

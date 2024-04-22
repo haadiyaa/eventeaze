@@ -2,8 +2,6 @@ part of 'functions_bloc.dart';
 
 abstract class FunctionsState extends Equatable {
   const FunctionsState();
-  
-  
 }
 
 class FunctionsInitial extends FunctionsState {
@@ -13,8 +11,7 @@ class FunctionsInitial extends FunctionsState {
 
 class DatePickingState extends FunctionsState {
   @override
-  List<Object> get props => [];
-  
+  List<Object> get props => [];  
 }
 
 class DatePickedState extends FunctionsState {
@@ -30,8 +27,15 @@ class FetchCategoryState extends FunctionsState {
 
   const FetchCategoryState({required this.list});
   @override
-  List<Object?> get props => [list];
+  List<Object?> get props => [list]; 
+}
+class DropdownState extends FunctionsState {
+  final String value;
+
+  const DropdownState({required this.value});
   
+  @override
+  List<Object?> get props => [value];
 }
 
 class ErrorState extends FunctionsState{
@@ -41,10 +45,15 @@ class ErrorState extends FunctionsState{
 
   @override
   List<Object?> get props => [message];
-  
 }
+
 class UploadedDummyState extends FunctionsState {
 
+  @override
+  List<Object?> get props => [];
+}
+
+class CreateEventState extends FunctionsState {
   @override
   List<Object?> get props => [];
   

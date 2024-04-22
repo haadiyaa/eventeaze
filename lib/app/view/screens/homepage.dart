@@ -24,7 +24,7 @@ class HomePageWrapper extends StatelessWidget {
           create: (context) => AuthBloc(),
         ),
         BlocProvider(
-          create: (context) => FunctionsBloc()..add(FetchCategoryEvent()),
+          create: (context) => FunctionsBloc(),
         ),
       ],
       child: const HomePage(),
@@ -41,12 +41,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<CategoryModel>? allCategory;
-  @override
-  void initState() {
-    super.initState();
-    
-  }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -98,11 +92,7 @@ class _HomePageState extends State<HomePage> {
           ),
           body: SingleChildScrollView(
             child: BlocBuilder<FunctionsBloc, FunctionsState>(
-              
               builder: (context, state) {
-                if (state is FetchCategoryState) {
-                  allCategory=state.list;
-                }
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -126,13 +116,17 @@ class _HomePageState extends State<HomePage> {
                             height: 10,
                           ),
                           //categories
-                          EventCategories(list: allCategory,),
+                          EventCategories(),
 
                           //recommended
                           SectionHeading(
                             title: 'Recommended for you',
                             onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (_)=>const EventList(title: 'Recommended')));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => const EventList(
+                                          title: 'Recommended')));
                             },
                           ),
                           const RecommendedList(),
@@ -142,7 +136,11 @@ class _HomePageState extends State<HomePage> {
                           SectionHeading(
                             title: 'Upcoming Events',
                             onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (_)=>const EventList(title: 'Upcoming Events')));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => const EventList(
+                                          title: 'Upcoming Events')));
                             },
                           ),
                         ],
