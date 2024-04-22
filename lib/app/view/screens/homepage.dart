@@ -146,7 +146,7 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
-                    const UpcomingList(),
+                     UpcomingList(),
                   ],
                 );
               },

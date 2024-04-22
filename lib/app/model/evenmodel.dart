@@ -2,29 +2,31 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class EventModel extends Equatable {
-  String id;
-  String eventName;
-  String eventDate;
-  String eventDesc;
-  String eventTime;
-  String location;
-  String venue;
-  String seats;
-  String contact;
-  String image;
-  String category;
+  String? eventId;
+  String? id;
+  String? eventName;
+  String? eventDate;
+  String? eventDesc;
+  String? eventTime;
+  String? location;
+  String? venue;
+  String? seats;
+  String? contact;
+  String? image;
+  String? category;
   EventModel({
-    required this.id,
-    required this.eventName,
-    required this.eventDate,
-    required this.eventDesc,
-    required this.eventTime,
-    required this.location,
-    required this.venue,
-    required this.seats,
-    required this.contact,
-    required this.image,
-    required this.category,
+    this.id,
+    this.eventName,
+    this.eventDate,
+    this.eventDesc,
+    this.eventTime,
+    this.location,
+    this.venue,
+    this.seats,
+    this.contact,
+    this.image,
+    this.category,
+    this.eventId,
   });
 
   @override
@@ -43,6 +45,7 @@ class EventModel extends Equatable {
       'contact': contact,
       'image': image,
       'category': category,
+      'eventId':eventId,
     };
   }
 
@@ -54,19 +57,21 @@ class EventModel extends Equatable {
         eventName: data['eventName'] ?? '',
         eventDate: data['eventDate'] ?? '',
         eventDesc: data['eventDesc'] ?? '',
-        eventTime: data['eventTime'] ?? '',
+        eventTime: data['eventTime'] ?? DateTime.now(),
         location: data['location'] ?? '',
         venue: data['venue'] ?? '',
         seats: data['seats'] ?? '',
         contact: data['contact'] ?? '',
         image: data['image'] ?? '',
         category: data['category'] ?? '',
+        eventId: data['eventId']?? '',
       );
     }else{
       return EventModel(
+        eventId: '',
       id:  '',
       eventName: '',
-      eventDate:  '',
+      eventDate: '',
       eventDesc:  '',
       eventTime:  '',
       location:  '',

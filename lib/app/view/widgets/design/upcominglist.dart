@@ -5,19 +5,23 @@ import 'package:eventeaze/app/view/widgets/design/loadinghorizontal.dart';
 import 'package:flutter/material.dart';
 
 class UpcomingList extends StatelessWidget {
-  const UpcomingList({
+   UpcomingList({
     super.key,
   });
+  Timestamp queryTimestamp=Timestamp.fromDate(DateTime.now());
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: FirebaseFirestore.instance
             .collection('events')
+            //.where('eventDate',isGreaterThan: queryTimestamp)
             .orderBy('eventDate')
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            print('Data: ${snapshot.data!.docs}');
+
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
               child: Column(

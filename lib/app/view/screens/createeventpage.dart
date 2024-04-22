@@ -1,8 +1,10 @@
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:eventeaze/app/bloc/functionBloc/functions_bloc.dart';
+import 'package:eventeaze/app/model/evenmodel.dart';
 import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
 import 'package:eventeaze/app/view/widgets/textfields/creattext.dart';
 import 'package:eventeaze/app/view/widgets/textfields/customdropdown.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -27,9 +29,14 @@ class CreateEventWrapper extends StatelessWidget {
   }
 }
 
-class CreateEventPage extends StatelessWidget {
+class CreateEventPage extends StatefulWidget {
   CreateEventPage({super.key});
 
+  @override
+  State<CreateEventPage> createState() => _CreateEventPageState();
+}
+
+class _CreateEventPageState extends State<CreateEventPage> {
   final List<String> _items = [
     'Sports',
     'Art',
@@ -41,16 +48,32 @@ class CreateEventPage extends StatelessWidget {
     'Food',
     'Education'
   ];
+
   String? selectedItem;
 
+  User? current;
+
   final TextEditingController titleController = TextEditingController();
+
   final TextEditingController ticketController = TextEditingController();
+
   final TextEditingController locationController = TextEditingController();
+
   final TextEditingController cityController = TextEditingController();
+
   final TextEditingController dateController = TextEditingController();
+
   final TextEditingController timeController = TextEditingController();
+
   final TextEditingController descController = TextEditingController();
+
   final TextEditingController contacttController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    current=FirebaseAuth.instance.currentUser!;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +172,9 @@ class CreateEventPage extends StatelessWidget {
                         child: Row(
                           children: [
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                BlocProvider.of<FunctionsBloc>(context).add(UploadEventImageEvent(current!.uid));
+                              },
                               child: const CircleAvatar(
                                 radius: 40,
                                 backgroundColor:
@@ -177,13 +202,26 @@ class CreateEventPage extends StatelessWidget {
                       CustomButton(
                         text: 'Save & Publish',
                         color: const Color.fromARGB(255, 138, 148, 108),
-                        onPressed: () {
-                          
-                        },
+                        onPressed: () {},
                       ),
                       CustomButton(
                         text: 'Cancel',
-                        onPressed: () {},
+                        onPressed: () {
+                          // final EventModel event = EventModel(
+                          //   eventName: titleController.text.trim(),
+                          //   eventDate: dateController.text.trim(),
+                          //   eventDesc: descController.text.trim(),
+                          //   eventTime: timeController.text.trim(),
+                          //   location: cityController.text.trim(),
+                          //   venue: locationController.text.trim(),
+                          //   seats: ticketController.text.trim(),
+                          //   contact: contacttController.text.trim(),
+                          //   image: '',
+                          //   category: selectedItem,
+                          // );
+                          // BlocProvider.of<FunctionsBloc>(context)
+                          //     .add(CreateEventEvent(event: event));
+                        },
                         foreground: const Color.fromARGB(255, 138, 148, 108),
                       ),
                     ],
@@ -196,14 +234,4 @@ class CreateEventPage extends StatelessWidget {
       ),
     );
   }
-
-  // Future<void> _selectDate(BuildContext context) async {
-  //   DateTime? _picked = await showDatePicker(
-  //     context: context,
-  //     initialDate: DateTime.now(),
-  //     firstDate: DateTime(2000),
-  //     lastDate: DateTime(2100),
-  //   );
-  //   if (_picked != null) {}
-  // }
 }

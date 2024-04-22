@@ -58,3 +58,11 @@ class CreateEventState extends FunctionsState {
   List<Object?> get props => [];
   
 }
+
+class UploadEventImageSuccessState extends FunctionsState {
+  final String image;
+
+  UploadEventImageSuccessState({required this.image});
+  @override
+  List<Object?> get props => [image];
+}

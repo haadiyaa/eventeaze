@@ -112,7 +112,6 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               IconButton(
                 onPressed: () {
-                  // authBloc.add(OnCreateButtonClickedEvent());
                   Navigator.push(
                       context,
                       MaterialPageRoute(

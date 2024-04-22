@@ -47,6 +47,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   sliver_app_bar_builder: ^1.1.0
   firebase_storage: ^11.7.2
+  image_picker: ^1.1.0
 
 dev_dependencies:
   flutter_test:
