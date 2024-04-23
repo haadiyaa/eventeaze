@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eventeaze/app/view/screens/eventdetailspage.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/eventverticalcard.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,10 @@ class RecommendedList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-      stream: FirebaseFirestore.instance.collection('events').snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection('events')
+          .orderBy('seats')
+          .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return Padding(
@@ -26,7 +30,13 @@ class RecommendedList extends StatelessWidget {
                   return EventVerticalCard(
                     image: event['image'],
                     title: event['eventName'],
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) =>
+                                  EventDetailsPage(id: event['id'])));
+                    },
                   );
                 },
               ),

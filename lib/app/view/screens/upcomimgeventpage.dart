@@ -5,8 +5,8 @@ import 'package:eventeaze/app/view/widgets/design/eventdetails/loadinghorizontal
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class CategoryList extends StatelessWidget {
-  const CategoryList({super.key, required this.title});
+class UpcomingEventPage extends StatelessWidget {
+  const UpcomingEventPage({super.key, required this.title});
   final String title;
 
   @override
@@ -25,24 +25,10 @@ class CategoryList extends StatelessWidget {
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
           stream: FirebaseFirestore.instance
               .collection('events')
-              .where('category', isEqualTo: title)
+              .where('eventDate',isGreaterThan: DateTime.now())
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              if (snapshot.data!.docs.isEmpty) {
-                return const Center(
-                  child: Text(
-                    'Oops!\nThis Category is Empty!',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                  ),
-                );
-              }
               return Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -56,7 +42,6 @@ class CategoryList extends StatelessWidget {
                         itemBuilder: (BuildContext context, int index) {
                           final eventdata = snapshot.data!.docs[index].data();
                           return EventHorizontalCard(
-                            
                             image: eventdata['image'],
                             title: eventdata['eventName'],
                             date: DateFormat('yyyy-MM-dd').format(eventdata['eventDate'].toDate()).split('-').reversed.join('-'),

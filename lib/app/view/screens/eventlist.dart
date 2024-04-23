@@ -3,6 +3,7 @@ import 'package:eventeaze/app/view/screens/eventdetailspage.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/eventhorizontalcard.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/loadinghorizontal.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class EventList extends StatelessWidget {
   const EventList({super.key, required this.title});
@@ -43,7 +44,7 @@ class EventList extends StatelessWidget {
                           return EventHorizontalCard(
                             image: eventdata['image'],
                             title: eventdata['eventName'],
-                            date: eventdata['eventDate'],
+                            date: DateFormat('yyyy-MM-dd').format(eventdata['eventDate'].toDate()).split('-').reversed.join('-'),
                             time: eventdata['eventTime'],
                             location: eventdata['location'],
                             onTap: () {

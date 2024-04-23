@@ -5,6 +5,7 @@ import 'package:eventeaze/app/view/screens/categoriespage.dart';
 import 'package:eventeaze/app/view/screens/createeventpage.dart';
 import 'package:eventeaze/app/view/screens/eventlist.dart';
 import 'package:eventeaze/app/view/screens/login_page.dart';
+import 'package:eventeaze/app/view/screens/upcomimgeventpage.dart';
 import 'package:eventeaze/app/view/widgets/buttons/sectionheading.dart';
 import 'package:eventeaze/app/view/widgets/design/eventcategorieslist.dart';
 import 'package:eventeaze/app/view/widgets/design/recommendedlist.dart';
@@ -45,7 +46,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final authBloc = BlocProvider.of<AuthBloc>(context);
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is UnAuthenticatedState) {
@@ -142,7 +142,7 @@ class _HomePageState extends State<HomePage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (_) => const EventList(
+                                      builder: (_) => const UpcomingEventPage(
                                           title: 'Upcoming Events')));
                             },
                           ),

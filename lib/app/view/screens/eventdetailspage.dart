@@ -4,6 +4,7 @@ import 'package:eventeaze/app/view/widgets/design/eventdetails/aboutevent.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/detailslisttile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:intl/intl.dart';
 
 class EventDetailsPage extends StatelessWidget {
   const EventDetailsPage({super.key, required this.id});
@@ -59,7 +60,7 @@ class EventDetailsPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             DetailsListTile(
-                              title: event['eventDate'],
+                              title: DateFormat('yyyy-MM-dd').format(event['eventDate'].toDate()).split('-').reversed.join('-'),
                               subtitle: event['eventTime'],
                               icon: Icons.calendar_month_outlined,
                             ),

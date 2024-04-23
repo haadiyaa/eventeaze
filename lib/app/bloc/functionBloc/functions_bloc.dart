@@ -20,14 +20,14 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
   FirebaseStorage storage = FirebaseStorage.instance;
   final DummyData dummyData = DummyData();
   final catlist = DummyData.categories;
-  final list = DummyData.events;
+  // final list = DummyData.events;
   User? user = FirebaseAuth.instance.currentUser;
 
   FunctionsBloc() : super(FunctionsInitial()) {
     on<FunctionsEvent>((event, emit) {});
     on<DatePickEvent>(_datePick);
     on<FetchCategoryEvent>(_getCategory);
-    on<UploadDummyEvent>(_uploadDummyCategory);
+    // on<UploadDummyEvent>(_uploadDummyCategory);
     on<DropdownEvent>(_dropdown);
     on<CreateEventEvent>(_createEvent);
     on<UploadEventImageEvent>(_uploadImage);
@@ -74,20 +74,20 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
     }
   }
 
-  Future<FutureOr<void>> _uploadDummyCategory(UploadDummyEvent event, Emitter<FunctionsState> emit) async {
-    try {
-      for( var events in list){
-        final file = await getImageFromAssets(events.image!);
-        final url=await uploadImageData('events', file, events.eventName!);
-        events.image=url;
-        await FirebaseFirestore.instance.collection('events').doc(events.id).set(events.toMap());
-        emit(UploadedDummyState());
-      }
-    } catch (e) {
-      emit(ErrorState(message: e.toString()));
-    }
+  // Future<FutureOr<void>> _uploadDummyCategory(UploadDummyEvent event, Emitter<FunctionsState> emit) async {
+  //   try {
+  //     for( var events in list){
+  //       final file = await getImageFromAssets(events.image!);
+  //       final url=await uploadImageData('events', file, events.eventName!);
+  //       events.image=url;
+  //       await FirebaseFirestore.instance.collection('events').doc(events.id).set(events.toMap());
+  //       emit(UploadedDummyState());
+  //     }
+  //   } catch (e) {
+  //     emit(ErrorState(message: e.toString()));
+  //   }
 
-  }
+  // }
 
   FutureOr<void> _dropdown(DropdownEvent event, Emitter<FunctionsState> emit) {
     if (event.value != null) {
@@ -97,8 +97,10 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
 
   FutureOr<void> _createEvent(
       CreateEventEvent event, Emitter<FunctionsState> emit) {
+        print('creatint event ');
     try {
       if (user != null) {
+        print('user !=null');
         String id = user!.uid;
         FirebaseFirestore.instance.collection('events').doc(id).set({
           'eventId': event.event.eventId,
@@ -114,6 +116,7 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
           'image': event.event.image,
           'category': event.event.category,
         }).then((value) => emit(CreateEventState()));
+        print('createdddd');
       }
     } catch (e) {
       emit(ErrorState(message: e.toString()));

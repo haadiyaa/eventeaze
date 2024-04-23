@@ -115,7 +115,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (_) => const CreateEventWrapper()));
+                          builder: (_) => const CreateEventWrapper(),),);
                 },
                 icon: const Icon(
                   Icons.add_to_photos_rounded,

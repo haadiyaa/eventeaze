@@ -3,19 +3,19 @@ import 'package:eventeaze/app/view/screens/eventdetailspage.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/eventhorizontalcard.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/loadinghorizontal.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class UpcomingList extends StatelessWidget {
   UpcomingList({
     super.key,
   });
-  Timestamp queryTimestamp = Timestamp.fromDate(DateTime.now());
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: FirebaseFirestore.instance
             .collection('events')
-            //.where('eventDate',isGreaterThan: queryTimestamp)
+            .where('eventDate',isGreaterThan: DateTime.now())
             .orderBy('eventDate')
             .snapshots(),
         builder: (context, snapshot) {
@@ -35,7 +35,7 @@ class UpcomingList extends StatelessWidget {
                       return EventHorizontalCard(
                         image: eventdata['image'],
                         title: eventdata['eventName'],
-                        date: eventdata['eventDate'],
+                        date: DateFormat('yyyy-MM-dd').format(eventdata['eventDate'].toDate()).split('-').reversed.join('-'),
                         time: eventdata['eventTime'],
                         location: eventdata['location'],
                         onTap: () {

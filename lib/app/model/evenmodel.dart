@@ -5,7 +5,7 @@ class EventModel extends Equatable {
   String? eventId;
   String? id;
   String? eventName;
-  String? eventDate;
+  Timestamp? eventDate;
   String? eventDesc;
   String? eventTime;
   String? location;
@@ -58,9 +58,9 @@ class EventModel extends Equatable {
       return EventModel(
         id: map.id,
         eventName: data['eventName'] ?? '',
-        eventDate: data['eventDate'] ?? '',
+        eventDate: data['eventDate'] ,
         eventDesc: data['eventDesc'] ?? '',
-        eventTime: data['eventTime'] ?? DateTime.now(),
+        eventTime: data['eventTime'] ?? '',
         location: data['location'] ?? '',
         venue: data['venue'] ?? '',
         seats: data['seats'] ?? '',
@@ -75,7 +75,7 @@ class EventModel extends Equatable {
         eventId: '',
         id: '',
         eventName: '',
-        eventDate: '',
+        eventDate: null,
         eventDesc: '',
         eventTime: '',
         location: '',
