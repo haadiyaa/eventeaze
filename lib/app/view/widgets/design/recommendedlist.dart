@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eventeaze/app/view/widgets/design/eventverticalcard.dart';
+import 'package:eventeaze/app/view/widgets/design/eventdetails/eventverticalcard.dart';
 import 'package:flutter/material.dart';
 
 class RecommendedList extends StatelessWidget {

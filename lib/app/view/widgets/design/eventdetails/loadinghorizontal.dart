@@ -24,8 +24,8 @@ class LoadinHorizontalcard extends StatelessWidget {
                   color: Colors.grey,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.all(
+                child:const ClipRRect(
+                  borderRadius:  BorderRadius.all(
                     Radius.circular(20),
                   ),
                 ),

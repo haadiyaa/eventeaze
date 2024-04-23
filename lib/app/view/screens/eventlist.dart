@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/view/screens/eventdetailspage.dart';
-import 'package:eventeaze/app/view/widgets/design/eventhorizontalcard.dart';
-import 'package:eventeaze/app/view/widgets/design/loadinghorizontal.dart';
+import 'package:eventeaze/app/view/widgets/design/eventdetails/eventhorizontalcard.dart';
+import 'package:eventeaze/app/view/widgets/design/eventdetails/loadinghorizontal.dart';
 import 'package:flutter/material.dart';
 
 class EventList extends StatelessWidget {
