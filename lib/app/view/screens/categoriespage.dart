@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/bloc/functionBloc/functions_bloc.dart';
 import 'package:eventeaze/app/model/categorymodel.dart';
+import 'package:eventeaze/app/view/screens/categorylist.dart';
 import 'package:eventeaze/app/view/screens/eventlist.dart';
 import 'package:eventeaze/app/view/widgets/design/categorycard.dart';
 import 'package:flutter/material.dart';
@@ -62,7 +63,7 @@ class CategoriesPage extends StatelessWidget {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (_) => EventList(
+                                            builder: (_) => CategoryList(
                                                 title: category['name'])));
                                   },
                                 );

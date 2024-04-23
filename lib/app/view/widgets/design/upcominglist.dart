@@ -5,10 +5,10 @@ import 'package:eventeaze/app/view/widgets/design/loadinghorizontal.dart';
 import 'package:flutter/material.dart';
 
 class UpcomingList extends StatelessWidget {
-   UpcomingList({
+  UpcomingList({
     super.key,
   });
-  Timestamp queryTimestamp=Timestamp.fromDate(DateTime.now());
+  Timestamp queryTimestamp = Timestamp.fromDate(DateTime.now());
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,10 @@ class UpcomingList extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (_) => const EventDetailsPage()),
+                              builder: (_) => EventDetailsPage(
+                                id: eventdata['id'],
+                              ),
+                            ),
                           );
                         },
                       );
@@ -53,20 +56,20 @@ class UpcomingList extends StatelessWidget {
             );
           }
           return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-              child: Column(
-                children: [
-                  ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: 4,
-                    itemBuilder: (BuildContext context, int index) {
-                      return LoadinHorizontalcard();
-                    },
-                  ),
-                ],
-              ),
-            );
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+            child: Column(
+              children: [
+                ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: 4,
+                  itemBuilder: (BuildContext context, int index) {
+                    return LoadinHorizontalcard();
+                  },
+                ),
+              ],
+            ),
+          );
         });
   }
 }

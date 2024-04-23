@@ -44,22 +44,22 @@ class ProfileList extends StatelessWidget {
             ),
           ),
           const Divider(),
-          GestureDetector(
-            onTap: () {},
-            child: const ListTile(
-              title: Text(
-                'MY TICKETS',
-                style: TextStyle(
-                  color: Color.fromARGB(255, 68, 73, 53),
-                ),
-              ),
-              trailing: Icon(
-                Icons.arrow_circle_right_outlined,
-                color: Color.fromARGB(255, 68, 73, 53),
-              ),
-            ),
-          ),
-          const Divider(),
+          // GestureDetector(
+          //   onTap: () {},
+          //   child: const ListTile(
+          //     title: Text(
+          //       'MY TICKETS',
+          //       style: TextStyle(
+          //         color: Color.fromARGB(255, 68, 73, 53),
+          //       ),
+          //     ),
+          //     trailing: Icon(
+          //       Icons.arrow_circle_right_outlined,
+          //       color: Color.fromARGB(255, 68, 73, 53),
+          //     ),
+          //   ),
+          // ),
+          // const Divider(),
           GestureDetector(
             onTap: () {},
             child: const ListTile(

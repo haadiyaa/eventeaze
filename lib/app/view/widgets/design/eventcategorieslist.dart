@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/bloc/functionBloc/functions_bloc.dart';
 import 'package:eventeaze/app/model/categorymodel.dart';
+import 'package:eventeaze/app/view/screens/categorylist.dart';
 import 'package:eventeaze/app/view/widgets/buttons/verticalimagetext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,7 +30,13 @@ class EventCategories extends StatelessWidget {
                       final category = snapshot.data!.docs[index].data();
 
                       return VerticalImageText(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) =>
+                                      CategoryList(title: category['name'])));
+                        },
                         text: category['name'],
                         image: category['image'],
                       );
@@ -58,17 +65,6 @@ class EventCategories extends StatelessWidget {
                   },
                 ),
               );
-              // return Container(
-              //   width: 120,
-              //   height: 120,
-              //   decoration: BoxDecoration(
-              //     color: Colors.grey,
-              //     borderRadius: BorderRadius.circular(20),
-              //   ),
-              //   child: ClipRRect(
-              //     borderRadius: BorderRadius.circular(20),
-              //   ),
-              // );
             });
       },
     );

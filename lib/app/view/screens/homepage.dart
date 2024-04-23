@@ -2,6 +2,7 @@ import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:eventeaze/app/bloc/functionBloc/functions_bloc.dart';
 import 'package:eventeaze/app/model/categorymodel.dart';
 import 'package:eventeaze/app/view/screens/categoriespage.dart';
+import 'package:eventeaze/app/view/screens/createeventpage.dart';
 import 'package:eventeaze/app/view/screens/eventlist.dart';
 import 'package:eventeaze/app/view/screens/login_page.dart';
 import 'package:eventeaze/app/view/widgets/buttons/sectionheading.dart';
@@ -82,7 +83,9 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (_)=>const CreateEventWrapper()));
+                },
                 icon: const Icon(
                   Icons.add_to_photos_rounded,
                   color: Color.fromARGB(255, 68, 73, 53),

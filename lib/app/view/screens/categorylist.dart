@@ -4,8 +4,8 @@ import 'package:eventeaze/app/view/widgets/design/eventhorizontalcard.dart';
 import 'package:eventeaze/app/view/widgets/design/loadinghorizontal.dart';
 import 'package:flutter/material.dart';
 
-class EventList extends StatelessWidget {
-  const EventList({super.key, required this.title});
+class CategoryList extends StatelessWidget {
+  const CategoryList({super.key, required this.title});
   final String title;
 
   @override
@@ -24,10 +24,24 @@ class EventList extends StatelessWidget {
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
           stream: FirebaseFirestore.instance
               .collection('events')
-              .orderBy('eventDate')
+              .where('category', isEqualTo: title)
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              if (snapshot.data!.docs.isEmpty) {
+                return const Center(
+                  child: Text(
+                    'Oops!\nThis Category is Empty!',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                  ),
+                );
+              }
               return Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -41,6 +55,7 @@ class EventList extends StatelessWidget {
                         itemBuilder: (BuildContext context, int index) {
                           final eventdata = snapshot.data!.docs[index].data();
                           return EventHorizontalCard(
+                            
                             image: eventdata['image'],
                             title: eventdata['eventName'],
                             date: eventdata['eventDate'],
