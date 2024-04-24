@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eventeaze/app/view/screens/createeventpage.dart';
 import 'package:eventeaze/app/view/screens/eventdetailspage.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/eventhorizontalcard.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/loadinghorizontal.dart';
@@ -28,7 +29,7 @@ class _UserEventsPageState extends State<UserEventsPage> {
       appBar: AppBar(
         title: const Text(
           'My Events',
-          style: const TextStyle(
+          style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Color.fromARGB(255, 68, 73, 53),
             fontSize: 24,
@@ -45,8 +46,39 @@ class _UserEventsPageState extends State<UserEventsPage> {
               return const Center(
                 child: Text('Sorry! Something went Wrong!'),
               );
-            }
-            else if (snapshot.hasData) {
+            } else if (snapshot.hasData && snapshot.data!.docs.isEmpty) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'You Have not Created any Events yet!\n Create your First Event!',
+                      textAlign: TextAlign.center,
+                    ),
+                    ElevatedButton.icon(
+                      icon: const Icon(Icons.add),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const CreateEventWrapper(),
+                          ),
+                        );
+                      },
+                      label: const Text('Create'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            const Color.fromARGB(255, 233, 237, 201),
+                        foregroundColor: const Color.fromARGB(255, 68, 73, 53),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            } else if (snapshot.hasData) {
               return Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 8),

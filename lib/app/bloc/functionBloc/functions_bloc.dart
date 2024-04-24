@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:equatable/equatable.dart';
 import 'package:eventeaze/app/model/categorymodel.dart';
 import 'package:eventeaze/app/model/evenmodel.dart';
 import 'package:eventeaze/app/utils/dummydata.dart';
@@ -27,6 +25,7 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
   FunctionsBloc() : super(FunctionsInitial()) {
     on<FunctionsEvent>((event, emit) {});
     on<DatePickEvent>(_datePick);
+    on<TimePickEvent>(_timePick);
     on<FetchCategoryEvent>(_getCategory);
     // on<UploadDummyEvent>(_uploadDummyCategory);
     on<DropdownEvent>(_dropdown);
@@ -167,5 +166,9 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
       emit(ErrorState(message: e.toString()));
       print(e);
     }
+  }
+
+  FutureOr<void> _timePick(TimePickEvent event, Emitter<FunctionsState> emit) {
+    emit(TimePickState());
   }
 }

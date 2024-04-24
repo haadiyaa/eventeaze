@@ -6,11 +6,8 @@ import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
 import 'package:eventeaze/app/view/widgets/textfields/creattext.dart';
 import 'package:eventeaze/app/view/widgets/textfields/customdropdown.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:uuid/uuid.dart';
@@ -77,6 +74,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
   final TextEditingController contacttController = TextEditingController();
   final String eventId = Uuid().v4();
   String? imageurl;
+  String? date;
 
   @override
   void initState() {
@@ -104,7 +102,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
             listener: (context, state) async {
               if (state is UploadEventImageSuccessState) {
                 imageurl = state.image;
-              } 
+              }
               // else if (state is CreateLoadingState) {
               //   showDialog(
               //     context: context,
@@ -122,6 +120,16 @@ class _CreateEventPageState extends State<CreateEventPage> {
                 selectedItem = state.value;
                 print('state emittteed ${state.value} and $selectedItem');
               }
+              if (state is TimePickState) {
+                TimeOfDay? time=await showTimePicker(
+                  context: context,
+                  initialTime: TimeOfDay.now(),
+                );
+                if (time!=null) {
+                  TimeOfDay pickedTime=time;
+                }
+              }
+
               if (state is DatePickingState) {
                 DateTime? _picked = await showDatePicker(
                   context: context,
@@ -202,9 +210,10 @@ class _CreateEventPageState extends State<CreateEventPage> {
                         hintText: 'YYYY-MM-DD',
                         onTap: () {
                           print('daaatttteeee');
-                          context.read<FunctionsBloc>().add(DatePickEvent());
+                          BlocProvider.of<FunctionsBloc>(context)
+                              .add(DatePickEvent());
                         },
-                        keyboardType: TextInputType.datetime,
+                        keyboardType: TextInputType.none,
                         maxLines: 1,
                         text: "Date",
                         controller: dateController,
@@ -215,9 +224,14 @@ class _CreateEventPageState extends State<CreateEventPage> {
                         },
                       ),
                       CreateText(
+                        onTap: () {
+                          BlocProvider.of<FunctionsBloc>(context)
+                              .add(TimePickEvent());
+                        },
                         maxLines: 1,
                         text: 'Time',
                         controller: timeController,
+                        keyboardType: TextInputType.none,
                         validator: (p0) {
                           if (p0!.isEmpty) {
                             return 'Enter Something';
@@ -287,7 +301,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                                             : const CircleAvatar(
                                                 radius: 40,
                                                 backgroundColor: Color.fromARGB(
-                                                    255, 170, 181, 135),
+                                                    255, 103, 110, 81),
                                                 child: Icon(
                                                   Icons.add_a_photo_outlined,
                                                   color: Colors.white,
@@ -307,7 +321,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                                     'Upload Image',
                                     style: TextStyle(
                                       fontWeight: FontWeight.normal,
-                                      color: Color.fromARGB(255, 123, 131, 98),
+                                      color: Color.fromARGB(255, 81, 87, 64),
                                     ),
                                   ),
                                 ],
@@ -316,7 +330,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                       ),
                       CustomButton(
                         text: 'Save & Publish',
-                        color: const Color.fromARGB(255, 138, 148, 108),
+                        color: Color.fromARGB(255, 81, 87, 64),
                         onPressed: () {
                           print('$selectedItem dfghjmnbvcvbn');
                           print('button clickedd');
@@ -355,8 +369,11 @@ class _CreateEventPageState extends State<CreateEventPage> {
                       ),
                       CustomButton(
                         text: 'Cancel',
-                        onPressed: () {},
-                        foreground: const Color.fromARGB(255, 138, 148, 108),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        foreground: Color.fromARGB(255, 81, 87, 64),
+                        color: Color.fromARGB(255, 241, 255, 196),
                       ),
                     ],
                   ),

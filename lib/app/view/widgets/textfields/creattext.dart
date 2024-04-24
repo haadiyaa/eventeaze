@@ -35,10 +35,10 @@ class CreateText extends StatelessWidget {
           label: Text(text),
           labelStyle: const TextStyle(
             fontWeight: FontWeight.w400,
-            color: Color.fromARGB(255, 170, 181, 135),
+            color: Color.fromARGB(255, 81, 87, 64),
           ),
           filled: true,
-          fillColor: const Color.fromARGB(99, 219, 219, 219),
+          fillColor:const Color.fromARGB(170, 235, 235, 235),
           border: OutlineInputBorder(
             borderSide:
                 const BorderSide(color: Color.fromARGB(255, 170, 181, 135)),
