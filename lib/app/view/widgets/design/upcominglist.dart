@@ -43,7 +43,7 @@ class UpcomingList extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (_) => EventDetailsPage(
-                                id: eventdata['id'],
+                                id: eventdata['eventId'],
                               ),
                             ),
                           );

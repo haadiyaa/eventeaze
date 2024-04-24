@@ -35,7 +35,7 @@ class RecommendedList extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (_) =>
-                                  EventDetailsPage(id: event['id'])));
+                                  EventDetailsPage(id: event['eventId'])));
                     },
                   );
                 },

@@ -12,6 +12,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 
 part 'functions_event.dart';
 part 'functions_state.dart';
@@ -21,7 +22,7 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
   final DummyData dummyData = DummyData();
   final catlist = DummyData.categories;
   // final list = DummyData.events;
-  User? user = FirebaseAuth.instance.currentUser;
+  
 
   FunctionsBloc() : super(FunctionsInitial()) {
     on<FunctionsEvent>((event, emit) {});
@@ -91,20 +92,25 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
 
   FutureOr<void> _dropdown(DropdownEvent event, Emitter<FunctionsState> emit) {
     if (event.value != null) {
+      print('event value not null');
       emit(DropdownState(value: event.value!));
     }
+    else{print('event value null');}
   }
 
   FutureOr<void> _createEvent(
       CreateEventEvent event, Emitter<FunctionsState> emit) {
-        print('creatint event ');
+        emit(CreateLoadingState());
+    print('creatint event ');
+    User? user = FirebaseAuth.instance.currentUser;
     try {
       if (user != null) {
         print('user !=null');
-        String id = user!.uid;
-        FirebaseFirestore.instance.collection('events').doc(id).set({
-          'eventId': event.event.eventId,
-          'id': id,
+        String id = user.uid;
+        String eventId=const Uuid().v4();
+        FirebaseFirestore.instance.collection('events').doc(eventId).set({
+          'eventId':eventId,
+          'id':  id,
           'eventName': event.event.eventName,
           'eventDate': event.event.eventDate,
           'eventDesc': event.event.eventDesc,
@@ -115,16 +121,20 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
           'contact': event.event.contact,
           'image': event.event.image,
           'category': event.event.category,
-        }).then((value) => emit(CreateEventState()));
+        });
+        emit(CreateEventState());
         print('createdddd');
+      } else {
+        print('user nullll');
       }
     } catch (e) {
-      emit(ErrorState(message: e.toString()));
+      emit(ErrorState(message: 'errrrroorrr: ${e.toString()}'));
     }
   }
 
   Future<FutureOr<void>> _uploadImage(
       UploadEventImageEvent event, Emitter<FunctionsState> emit) async {
+        emit(LoadingState());
     final ImagePicker imagePicker = ImagePicker();
     try {
       String fileName = DateTime.now().millisecondsSinceEpoch.toString();
@@ -139,17 +149,18 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
 
         await refImageToUpload.putFile(File(pickedFile.path));
         String imageUrl = await refImageToUpload.getDownloadURL();
-        await FirebaseFirestore.instance
-          .collection('events')
-              .where('eventId', isEqualTo: event.eventId)
-              .get()
-              .then((value) async {
-            value.docs.forEach((element) {
-              element.reference.update({'image': imageUrl});
-            });
-          });
-          emit(UploadEventImageSuccessState(image: imageUrl));
-      }else{
+        print('gooottt urlll');
+        // await FirebaseFirestore.instance
+        //   .collection('events')
+        //       .where('id', isEqualTo: event.eventId)
+        //       .get()
+        //       .then((value) async {
+        //     value.docs.forEach((element) {
+        //       element.reference.update({'image': imageUrl});
+        //     });
+        //   });
+        emit(UploadEventImageSuccessState(image: imageUrl));
+      } else {
         emit(const ErrorState(message: 'not selected'));
       }
     } catch (e) {

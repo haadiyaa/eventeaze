@@ -52,7 +52,7 @@ class EventList extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (_) =>
-                                          EventDetailsPage(id: eventdata['id'],)));
+                                          EventDetailsPage(id: eventdata['eventId'],)));
                             },
                           );
                         },

@@ -56,10 +56,10 @@ class SignUpPage extends StatelessWidget {
               backgroundColor: Color.fromARGB(255, 89, 121, 90),
             ),
           );
-          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (_) => const LoginPageWrapper()));
-          });
+          // });
         }
         if (state is UnAuthenticatedState) {
           Navigator.pop(context);
@@ -120,6 +120,7 @@ class SignUpPage extends StatelessWidget {
                       child: Column(
                         children: [
                           CustomTextField(
+                            autovalidateMode: AutovalidateMode.disabled,
                             controller: _nameController,
                             labelText: 'User Name',
                             validator: (value) {
@@ -132,6 +133,7 @@ class SignUpPage extends StatelessWidget {
                             },
                           ),
                           CustomTextField(
+                            autovalidateMode: AutovalidateMode.disabled,
                             controller: _phoneController,
                             labelText: 'Phone Number',
                             validator: (value) {
@@ -146,6 +148,7 @@ class SignUpPage extends StatelessWidget {
                             },
                           ),
                           CustomTextField(
+                            autovalidateMode: AutovalidateMode.disabled,
                             controller: _emailController,
                             labelText: 'Email Address',
                             validator: (value) {
@@ -160,6 +163,7 @@ class SignUpPage extends StatelessWidget {
                             },
                           ),
                           CustomTextField(
+                            autovalidateMode: AutovalidateMode.disabled,
                             obscuretext: true,
                             controller: _passwordController,
                             labelText: 'Enter Password',

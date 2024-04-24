@@ -9,9 +9,7 @@ import 'package:eventeaze/app/view/widgets/design/confirmalert.dart';
 import 'package:eventeaze/app/view/widgets/design/profile/profileavatar.dart';
 import 'package:eventeaze/app/view/widgets/design/profile/profilelist.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -51,10 +49,11 @@ class _ProfilePageState extends State<ProfilePage> {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is UnAuthenticatedState) {
-          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (_) => const LoginPageWrapper()));
-          });
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (_) => const LoginPageWrapper()),
+            (route) => false,
+          );
         } else if (state is AuthLoadingState) {
           showDialog(
             context: context,
@@ -85,9 +84,9 @@ class _ProfilePageState extends State<ProfilePage> {
           );
         } else if (state is LogoutRejectState) {
           print("ggggggggggggggggggggg");
-          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-            Navigator.pop(context);
-          });
+          // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          Navigator.pop(context);
+          // });
         }
       },
       builder: (context, state) {
@@ -113,9 +112,11 @@ class _ProfilePageState extends State<ProfilePage> {
               IconButton(
                 onPressed: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const CreateEventWrapper(),),);
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const CreateEventWrapper(),
+                    ),
+                  );
                 },
                 icon: const Icon(
                   Icons.add_to_photos_rounded,

@@ -5,14 +5,13 @@ abstract class AuthEvent  extends Equatable{}
 
 class CheckLoginStatusEvent extends AuthEvent{
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
   
 }
 
 class OnboardEvent extends AuthEvent{
   @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
   
 }
 

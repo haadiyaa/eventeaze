@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 
 class EventHorizontalCard extends StatelessWidget {
@@ -27,7 +28,7 @@ class EventHorizontalCard extends StatelessWidget {
           children: [
             Container(
               height: 155,
-              width: double.infinity,
+              width: MediaQuery.of(context).size.width*0.9,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
               ),
@@ -49,7 +50,7 @@ class EventHorizontalCard extends StatelessWidget {
                   vertical: 8,
                 ),
                 height: 70,
-                width: 350,
+                width: MediaQuery.of(context).size.width*0.9,
                 decoration: const BoxDecoration(
                   color: Color.fromARGB(159, 138, 137, 137),
                   borderRadius: BorderRadius.only(

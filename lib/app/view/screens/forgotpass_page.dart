@@ -87,6 +87,7 @@ class ForgotPassPage extends StatelessWidget {
                         child: Column(
                           children: [
                             CustomTextField(
+                              autovalidateMode: AutovalidateMode.disabled,
                               controller: _emailController,
                               labelText: 'Email address',
                               validator: (value) {

@@ -1,3 +1,4 @@
+import 'package:eventeaze/app/view/screens/usereventspage.dart';
 import 'package:flutter/material.dart';
 
 
@@ -13,10 +14,12 @@ class ProfileList extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         children: [
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (_)=>UserEventsPage()));
+            },
             child: const ListTile(
               title: Text(
-                'YOUR EVENTS',
+                'MY EVENTS',
                 style: TextStyle(
                   color: Color.fromARGB(255, 68, 73, 53),
                 ),

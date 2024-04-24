@@ -30,6 +30,7 @@ class LoginPage extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  AutovalidateMode autovalidateMode=AutovalidateMode.disabled;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,7 @@ class LoginPage extends StatelessWidget {
                 child: SpinKitFadingCircle(
                   duration: Duration(seconds: 2),
                   color: Colors.white,
-                ) ,
+                ),
               );
             },
           );
@@ -57,10 +58,10 @@ class LoginPage extends StatelessWidget {
               backgroundColor: Color.fromARGB(255, 89, 121, 90),
             ),
           );
-          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (_) => const TabsScreenWrapper()));
-          });
+          // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (_) => const TabsScreenWrapper()));
+          // });
         } else if (state is AuthenticatedErrorState) {
           Navigator.pop(context);
 
@@ -125,6 +126,7 @@ class LoginPage extends StatelessWidget {
                       child: Column(
                         children: [
                           CustomTextField(
+                            autovalidateMode: autovalidateMode,
                             controller: _emailController,
                             labelText: 'Email Address',
                             validator: (value) {
@@ -140,6 +142,7 @@ class LoginPage extends StatelessWidget {
                           ),
                           // const SizedBox(height: 10,),
                           CustomTextField(
+                            autovalidateMode: autovalidateMode,
                             obscuretext: true,
                             controller: _passwordController,
                             labelText: 'Enter Password',
@@ -176,6 +179,9 @@ class LoginPage extends StatelessWidget {
                           CustomButton(
                             text: 'Login',
                             onPressed: () async {
+
+                              autovalidateMode=AutovalidateMode.onUserInteraction;
+
                               final authBloc =
                                   BlocProvider.of<AuthBloc>(context);
                               if (_formKey.currentState!.validate()) {

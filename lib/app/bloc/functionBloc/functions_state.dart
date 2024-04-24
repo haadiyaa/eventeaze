@@ -8,6 +8,16 @@ class FunctionsInitial extends FunctionsState {
   @override
   List<Object> get props => [];
 }
+class LoadingState extends FunctionsState {
+  @override
+  List<Object?> get props => [];
+  
+}
+class CreateLoadingState extends FunctionsState {
+  @override
+  List<Object?> get props => [];
+  
+}
 
 class DatePickingState extends FunctionsState {
   @override

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField({
+   CustomTextField({
     super.key,
     required this.controller,
     // required this.hintText,
@@ -11,13 +11,16 @@ class CustomTextField extends StatelessWidget {
     required this.labelText,
     this.keyboardType,
     this.obscuretext = false,
+    required this.autovalidateMode ,
   });
   final TextEditingController controller;
   // final String hintText;
   final String labelText;
   final String? Function(String?)? validator;
+AutovalidateMode autovalidateMode;
   final TextInputType? keyboardType;
   final bool obscuretext;
+   
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +46,7 @@ class CustomTextField extends StatelessWidget {
                 return TextFormField(
                   obscureText: obscuretext && !isPasswordVisible,
                   keyboardType: keyboardType ?? TextInputType.name,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  autovalidateMode: autovalidateMode,
                   controller: controller,
                   validator: validator,
                   decoration: InputDecoration(
@@ -54,8 +57,8 @@ class CustomTextField extends StatelessWidget {
                             },
                             icon: Icon(
                               isPasswordVisible
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
                             ),
                           )
                         : null,

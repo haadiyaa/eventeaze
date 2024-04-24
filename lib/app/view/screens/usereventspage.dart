@@ -2,19 +2,32 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/view/screens/eventdetailspage.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/eventhorizontalcard.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/loadinghorizontal.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class CategoryList extends StatelessWidget {
-  const CategoryList({super.key, required this.title});
-  final String title;
+class UserEventsPage extends StatefulWidget {
+  UserEventsPage({super.key});
+
+  @override
+  State<UserEventsPage> createState() => _UserEventsPageState();
+}
+
+class _UserEventsPageState extends State<UserEventsPage> {
+  User? user;
+
+  @override
+  void initState() {
+    super.initState();
+    user = FirebaseAuth.instance.currentUser;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          title,
+        title: const Text(
+          'My Events',
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: Color.fromARGB(255, 68, 73, 53),
@@ -25,24 +38,15 @@ class CategoryList extends StatelessWidget {
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
           stream: FirebaseFirestore.instance
               .collection('events')
-              .where('category', isEqualTo: title)
+              .where('id', isEqualTo: user!.uid)
               .snapshots(),
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              if (snapshot.data!.docs.isEmpty) {
-                return const Center(
-                  child: Text(
-                    'Oops!\nThis Category is Empty!',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                  ),
-                );
-              }
+            if (!snapshot.hasData) {
+              return const Center(
+                child: Text('Sorry! Something went Wrong!'),
+              );
+            }
+            else if (snapshot.hasData) {
               return Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -56,18 +60,22 @@ class CategoryList extends StatelessWidget {
                         itemBuilder: (BuildContext context, int index) {
                           final eventdata = snapshot.data!.docs[index].data();
                           return EventHorizontalCard(
-                            
                             image: eventdata['image'],
                             title: eventdata['eventName'],
-                            date: DateFormat('yyyy-MM-dd').format(eventdata['eventDate'].toDate()).split('-').reversed.join('-'),
+                            date: DateFormat('yyyy-MM-dd')
+                                .format(eventdata['eventDate'].toDate())
+                                .split('-')
+                                .reversed
+                                .join('-'),
                             time: eventdata['eventTime'],
                             location: eventdata['location'],
                             onTap: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (_) =>
-                                          EventDetailsPage(id: eventdata['eventId'],)));
+                                      builder: (_) => EventDetailsPage(
+                                            id: eventdata['eventId'],
+                                          )));
                             },
                           );
                         },

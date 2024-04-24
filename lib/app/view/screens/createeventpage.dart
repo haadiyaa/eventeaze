@@ -10,7 +10,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:uuid/uuid.dart';
 
 class CreateEventWrapper extends StatelessWidget {
@@ -60,6 +62,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
   final TextEditingController titleController = TextEditingController();
 
   final TextEditingController ticketController = TextEditingController();
+  final TextEditingController priceController = TextEditingController();
 
   final TextEditingController locationController = TextEditingController();
 
@@ -73,7 +76,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
 
   final TextEditingController contacttController = TextEditingController();
   final String eventId = Uuid().v4();
-
+  String? imageurl;
 
   @override
   void initState() {
@@ -97,8 +100,28 @@ class _CreateEventPageState extends State<CreateEventPage> {
           ),
         ),
         body: SingleChildScrollView(
-          child: BlocListener<FunctionsBloc, FunctionsState>(
+          child: BlocConsumer<FunctionsBloc, FunctionsState>(
             listener: (context, state) async {
+              if (state is UploadEventImageSuccessState) {
+                imageurl = state.image;
+              } 
+              // else if (state is CreateLoadingState) {
+              //   showDialog(
+              //     context: context,
+              //     builder: (context) {
+              //       return const Center(
+              //         child: SpinKitFadingCircle(
+              //           duration: Duration(seconds: 2),
+              //           color: Colors.white,
+              //         ),
+              //       );
+              //     },
+              //   );
+              // }
+              if (state is DropdownState) {
+                selectedItem = state.value;
+                print('state emittteed ${state.value} and $selectedItem');
+              }
               if (state is DatePickingState) {
                 DateTime? _picked = await showDatePicker(
                   context: context,
@@ -115,10 +138,11 @@ class _CreateEventPageState extends State<CreateEventPage> {
                 }
               }
               if (state is CreateEventState) {
+                print('state emeitted');
                 Navigator.pop(context);
               }
             },
-            child: Column(
+            builder: (context, state) => Column(
               children: [
                 Form(
                   key: _key,
@@ -134,9 +158,16 @@ class _CreateEventPageState extends State<CreateEventPage> {
                           }
                         },
                       ),
-                      CustomDropdown(selectedItem: selectedItem, items: _items),
+                      CustomDropdown(
+                        selectedItem: selectedItem,
+                        items: _items,
+                        validator: (value) {
+                          if (value == null) {
+                            return 'Please select an item';
+                          }
+                        },
+                      ),
                       CreateText(
-                        
                         keyboardType: TextInputType.number,
                         maxLines: 1,
                         text: 'Total No. of tickets',
@@ -195,9 +226,18 @@ class _CreateEventPageState extends State<CreateEventPage> {
                       ),
                       CreateText(
                         maxLines: null,
-                        // expands: true,
                         text: 'Description',
                         controller: descController,
+                        validator: (p0) {
+                          if (p0!.isEmpty) {
+                            return 'Enter Something';
+                          }
+                        },
+                      ),
+                      CreateText(
+                        maxLines: 1,
+                        text: 'Ticket Price',
+                        controller: priceController,
                         validator: (p0) {
                           if (p0!.isEmpty) {
                             return 'Enter Something';
@@ -216,63 +256,99 @@ class _CreateEventPageState extends State<CreateEventPage> {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: StreamBuilder(
-                          stream: FirebaseFirestore.instance.collection('events').where('eventId',isEqualTo: eventId).snapshots(),
-                          builder: (context, snapshot) {
-                            return Row(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    BlocProvider.of<FunctionsBloc>(context)
-                                        .add(UploadEventImageEvent(eventId));
-                                  },
-                                  child: const CircleAvatar(
-                                    radius: 40,
-                                    backgroundColor:
-                                        Color.fromARGB(255, 170, 181, 135),
-                                    child: Icon(
-                                      Icons.add_a_photo_outlined,
-                                      color: Colors.white,
-                                      size: 35,
+                        child: StreamBuilder<
+                                QuerySnapshot<Map<String, dynamic>>>(
+                            stream: FirebaseFirestore.instance
+                                .collection('events')
+                                .where('id', isEqualTo: eventId)
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              return Row(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      BlocProvider.of<FunctionsBloc>(context)
+                                          .add(UploadEventImageEvent(eventId));
+                                    },
+                                    child: imageurl == null
+                                        ? state is LoadingState
+                                            ? Shimmer.fromColors(
+                                                baseColor: Colors.grey.shade300,
+                                                highlightColor:
+                                                    Colors.grey.shade100,
+                                                child: const CircleAvatar(
+                                                    radius: 40,
+                                                    backgroundColor:
+                                                        Color.fromARGB(
+                                                            255, 170, 181, 135),
+                                                    child:
+                                                        CircularProgressIndicator()),
+                                              )
+                                            : const CircleAvatar(
+                                                radius: 40,
+                                                backgroundColor: Color.fromARGB(
+                                                    255, 170, 181, 135),
+                                                child: Icon(
+                                                  Icons.add_a_photo_outlined,
+                                                  color: Colors.white,
+                                                  size: 35,
+                                                ),
+                                              )
+                                        : CircleAvatar(
+                                            radius: 40,
+                                            backgroundImage:
+                                                NetworkImage(imageurl!),
+                                          ),
+                                  ),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  const Text(
+                                    'Upload Image',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      color: Color.fromARGB(255, 123, 131, 98),
                                     ),
                                   ),
-                                ),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                const Text(
-                                  'Upload Image',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    color: Color.fromARGB(255, 123, 131, 98),
-                                  ),
-                                ),
-                              ],
-                            );
-                          }
-                        ),
+                                ],
+                              );
+                            }),
                       ),
                       CustomButton(
                         text: 'Save & Publish',
                         color: const Color.fromARGB(255, 138, 148, 108),
                         onPressed: () {
-                          if (!_key.currentState!.validate()) {
-                            if (timestamp != null) {
-                              final EventModel event = EventModel(
-                                eventId:current!.uid,
-                                id:  eventId,
-                                eventName: titleController.text.trim(),
-                                eventDate: timestamp,
-                                eventDesc: descController.text.trim(),
-                                eventTime: timeController.text.trim(),
-                                location: cityController.text.trim(),
-                                venue: locationController.text.trim(),
-                                seats: ticketController.text.trim(),
-                                contact: contacttController.text.trim(),
-                                category: selectedItem,
-                              );
-                              BlocProvider.of<FunctionsBloc>(context)
-                                  .add(CreateEventEvent(event: event));
+                          print('$selectedItem dfghjmnbvcvbn');
+                          print('button clickedd');
+                          if (imageurl == null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Please select an Image')),
+                            );
+                          } else {
+                            if (_key.currentState!.validate()) {
+                              print('button validaation');
+
+                              if (timestamp != null) {
+                                final EventModel event = EventModel(
+                                  eventName: titleController.text.trim(),
+                                  eventDate: timestamp,
+                                  eventDesc: descController.text.trim(),
+                                  eventTime: timeController.text.trim(),
+                                  location: cityController.text.trim(),
+                                  venue: locationController.text.trim(),
+                                  seats: ticketController.text.trim(),
+                                  contact: contacttController.text.trim(),
+                                  image: imageurl,
+                                  category: selectedItem,
+                                  ticketPrice: priceController.text.trim(),
+                                );
+
+                                BlocProvider.of<FunctionsBloc>(context)
+                                    .add(CreateEventEvent(event: event));
+                              } else {
+                                print('timestamp nulllll');
+                              }
                             }
                           }
                         },

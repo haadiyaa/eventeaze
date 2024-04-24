@@ -60,9 +60,9 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is UpdateUserState) {
-            WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+            // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             Navigator.pop(context);
-          });
+          // });
           }
         },
         builder: (context, state) {
