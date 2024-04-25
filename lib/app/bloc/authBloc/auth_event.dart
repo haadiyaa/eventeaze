@@ -1,17 +1,14 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'auth_bloc.dart';
 
 @immutable
-abstract class AuthEvent  extends Equatable{}
+abstract class AuthEvent {}
 
 class CheckLoginStatusEvent extends AuthEvent{
-  @override
-  List<Object?> get props => [];
   
 }
 
 class OnboardEvent extends AuthEvent{
-  @override
-  List<Object?> get props => [];
   
 }
 
@@ -21,9 +18,6 @@ class LoginEvent extends AuthEvent{
 
   LoginEvent({required this.email, required this.password});
   
-  @override
-  List<Object?> get props =>[email,password];
-  
 }
 
 
@@ -32,19 +26,13 @@ class SignUpEvent extends AuthEvent{
 
   SignUpEvent({required this.user});
   
-  @override
-  List<Object?> get props => [user];
 }
 
 class LogOutEvent extends AuthEvent{
-  @override
-  List<Object?> get props => [];
 }
 
 class LogoutConfirmEvent extends AuthEvent {
 
-  @override
-  List<Object?> get props => [];
   
 }
 
@@ -58,14 +46,10 @@ class ForgotPassEvent extends AuthEvent{
 
   ForgotPassEvent({required this.email});
 
-  @override
-  List<Object?> get props => [email];
   
 }
 class ResetConfirmEvent extends AuthEvent {
 
-  @override
-  List<Object?> get props => [];
   
 }
 
@@ -74,7 +58,16 @@ class UpadateUserEvent extends AuthEvent {
 
   UpadateUserEvent({required this.user});
   
-  @override
-  List<Object?> get props => [user];
+}
+
+class GoogleSignInEvent extends AuthEvent{
+  
+}
+class UserImagePickEvent extends AuthEvent {
+  String email;
+  UserImagePickEvent({
+    required this.email,
+  });
+  
 }
 

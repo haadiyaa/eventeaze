@@ -1,7 +1,7 @@
 part of 'auth_bloc.dart';
 
 @immutable
-sealed class AuthState extends Equatable {}
+sealed class AuthState {}
 
 final class AuthInitial extends AuthState {
   @override
@@ -76,6 +76,47 @@ class UpdationErrorState extends AuthState {
   UpdationErrorState({required this.message});
   @override
   List<Object?> get props => [message];
+}
+
+class GoogleSignInState extends AuthState {
+  User user;
+  GoogleSignInState({
+    required this.user,
+  });
+  
+  @override
+  List<Object?> get props => [user];
+  
+}
+class GoogleSignInErrorState extends AuthState {
+  final String message;
+
+  GoogleSignInErrorState({required this.message});
+  
+  @override
+  List<Object?> get props => [];
+
+}
+class UserImagePickState extends AuthState {
+   final String image;
+
+  UserImagePickState({required this.image});
+  @override
+  List<Object?> get props => [];
+  
+}
+class ImageLoadingState extends AuthState{
+  @override
+  List<Object?> get props => [];
+  
+}
+class ImagePickErrorState extends AuthState {
+  final String message;
+
+  ImagePickErrorState({required this.message});
+  // @override
+  // List<Object?> get props => [];
+  
 }
 
 

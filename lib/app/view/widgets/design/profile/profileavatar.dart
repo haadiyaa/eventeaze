@@ -8,6 +8,7 @@ class ProfileAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      clipBehavior: Clip.antiAlias,
       height: 70,
       width: 70,
       decoration: BoxDecoration(

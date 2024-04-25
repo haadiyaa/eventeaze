@@ -140,7 +140,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 );
               }
               if (snapshot.hasData) {
-                final userData = snapshot.data?.data() as Map<String, dynamic>;
+                final userData = snapshot.data?.data() as Map<String, dynamic>?;
                 if (userData != null) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(
@@ -161,7 +161,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                 child: Row(
                                   children: [
                                     Expanded(
-                                      child: ProfileAvatar(),
+                                      child: userData['image'] != null
+                                          ? ProfileAvatar(
+                                              child: Image(
+                                                  image: NetworkImage(
+                                                      userData['image'])),
+                                            )
+                                          : ProfileAvatar(),
                                     ),
                                     Expanded(
                                       flex: 2,
@@ -171,6 +177,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                         children: [
                                           Text(
                                             userData['username'],
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
                                             style: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 22,
@@ -178,7 +186,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   255, 68, 73, 53),
                                             ),
                                           ),
-                                          Text(userData['email']),
+                                          Text(
+                                            userData['email'],
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(fontSize: 12),
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -233,9 +246,30 @@ class _ProfilePageState extends State<ProfilePage> {
                       ],
                     ),
                   );
+                } else {
+                  return Center(
+                    child: Column(
+                      children: [
+                        const Text("Null"),
+                        CustomButton(
+                          text: 'Logout',
+                          onPressed: () async {
+                            authBloc.add(LogoutConfirmEvent());
+                          },
+                          color: const Color.fromARGB(255, 138, 148, 108),
+                        ),
+                      ],
+                    ),
+                  );
                 }
+              } else if (snapshot.hasError) {
+                return Center(
+                    child: Text("Error fetching user data: ${snapshot.error}"));
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
               }
-              return Container();
             },
           ),
         );

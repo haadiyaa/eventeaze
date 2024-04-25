@@ -9,6 +9,7 @@ import 'package:eventeaze/app/utils/dummydata.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
@@ -20,6 +21,8 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
   final DummyData dummyData = DummyData();
   final catlist = DummyData.categories;
   // final list = DummyData.events;
+  
+
   
 
   FunctionsBloc() : super(FunctionsInitial()) {
@@ -171,4 +174,6 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
   FutureOr<void> _timePick(TimePickEvent event, Emitter<FunctionsState> emit) {
     emit(TimePickState());
   }
+
+ 
 }

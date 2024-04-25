@@ -63,6 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '514805253185',
     projectId: 'eventeaze-7c320',
     storageBucket: 'eventeaze-7c320.appspot.com',
+    androidClientId: '514805253185-3kmlmsrv5ggib8lsjo3rqpdbaokoh58p.apps.googleusercontent.com',
+    iosClientId: '514805253185-obforhp7lov20ic8n8mf09uh8rr8p5vu.apps.googleusercontent.com',
     iosBundleId: 'com.example.eventeaze',
   );
 }

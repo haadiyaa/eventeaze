@@ -30,7 +30,7 @@ class LoginPage extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  AutovalidateMode autovalidateMode=AutovalidateMode.disabled;
+  AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +80,29 @@ class LoginPage extends StatelessWidget {
               behavior: SnackBarBehavior.floating,
               margin: EdgeInsets.all(10),
               content: Text('No User Found '),
+            ),
+          );
+        }else if(state is GoogleSignInState){
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              behavior: SnackBarBehavior.floating,
+              margin: EdgeInsets.all(10),
+              content: Text('Successfully Logged In!'),
+              backgroundColor: Color.fromARGB(255, 89, 121, 90),
+            ),
+          );
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (_) => const TabsScreenWrapper()));
+        }
+        else if(state is GoogleSignInErrorState){
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              behavior: SnackBarBehavior.floating,
+              margin: EdgeInsets.all(10),
+              content: Text('Error Signing in with Goolge!'),
+              backgroundColor: Color.fromARGB(255, 89, 121, 90),
             ),
           );
         }
@@ -179,8 +202,8 @@ class LoginPage extends StatelessWidget {
                           CustomButton(
                             text: 'Login',
                             onPressed: () async {
-
-                              autovalidateMode=AutovalidateMode.onUserInteraction;
+                              autovalidateMode =
+                                  AutovalidateMode.onUserInteraction;
 
                               final authBloc =
                                   BlocProvider.of<AuthBloc>(context);
@@ -216,7 +239,10 @@ class LoginPage extends StatelessWidget {
                         height: 10,
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          final authBloc = BlocProvider.of<AuthBloc>(context);
+                          authBloc.add(GoogleSignInEvent());
+                        },
                         child: const GoogleWidget(),
                       ),
                     ],

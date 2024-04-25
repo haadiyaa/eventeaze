@@ -1,10 +1,16 @@
 import 'dart:async';
+import 'dart:io';
+import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:eventeaze/app/bloc/functionBloc/functions_bloc.dart';
 import 'package:eventeaze/app/model/usermodel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,6 +21,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   static const KEYLOGIN = 'login';
   final FirebaseAuth _auth = FirebaseAuth.instance;
   late UserCredential userCredential;
+  GoogleSignIn googleSignIn = GoogleSignIn(scopes: ["email"]);
   AuthBloc() : super(AuthInitial()) {
     on<CheckLoginStatusEvent>(_checkStatus);
     on<OnboardEvent>(_onBoard);
@@ -26,6 +33,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<ForgotPassEvent>(_forgotPass);
     on<ResetConfirmEvent>(_resetConfirm);
     on<UpadateUserEvent>(_updateUser);
+    on<GoogleSignInEvent>(_googleSignIn);
+    on<UserImagePickEvent>(_imagePick);
   }
 
   Future<void> _onBoard(OnboardEvent event, Emitter<AuthState> emit) async {
@@ -134,7 +143,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Future<void> _resetConfirm(ResetConfirmEvent event, Emitter<AuthState> emit) async{
+  Future<void> _resetConfirm(
+      ResetConfirmEvent event, Emitter<AuthState> emit) async {
     emit(ResetConfirmState());
   }
 
@@ -164,8 +174,90 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  FutureOr<void> _logOutReject(LogoutRejectEvent event, Emitter<AuthState> emit) {
+  FutureOr<void> _logOutReject(
+      LogoutRejectEvent event, Emitter<AuthState> emit) {
     emit(LogoutRejectState());
   }
 
+  Future<FutureOr<void>> _googleSignIn(
+      GoogleSignInEvent event, Emitter<AuthState> emit) async {
+    print('google sign in');
+    emit(AuthLoadingState());
+    try {
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+      if (googleUser != null) {
+        print('$googleUser != Null');
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser.authentication;
+        final AuthCredential credential = GoogleAuthProvider.credential(
+            idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
+
+        final UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithCredential(credential);
+        
+        final user = userCredential.user;
+        if (user != null) {
+          await saveUserDataToFirestore(user);
+          print('user Not null');
+          emit(GoogleSignInState(user: user));
+        } else {
+          print('user Null');
+          emit(GoogleSignInErrorState(message: 'Errroorrr: user null'));
+        }
+        
+      } else {
+        print('$googleUser ====== == NUll');
+        emit(GoogleSignInErrorState(message: 'Gooogle user nulll'));
+      }
+    } catch (e) {
+      print('errror');
+      emit(GoogleSignInErrorState(message: e.toString()));
+    }
+  }
+
+  Future<void> saveUserDataToFirestore(User user) async {
+    try {
+      CollectionReference userCollection =
+          FirebaseFirestore.instance.collection('users');
+
+      DocumentSnapshot docSnapshot = await userCollection.doc(user.uid).get();
+
+      if (!docSnapshot.exists) {
+        await userCollection.doc(user.uid).set({
+          'username': user.displayName,
+          'email': user.email,
+          'phone':'',
+          'uid':user.uid,
+        });
+      }
+    } catch (e) {
+      print('Error saving user data to Firestore: $e');
+    }
+  }
+
+  Future<FutureOr<void>> _imagePick(UserImagePickEvent event, Emitter<AuthState> emit) async {
+    emit(ImageLoadingState());
+
+    final ImagePicker imagePicker=ImagePicker();
+    try {
+      String fileName=DateTime.now().millisecondsSinceEpoch.toString();
+      final pickedFile= await imagePicker.pickImage(source: ImageSource.gallery);
+      if (pickedFile!=null) {
+        final bytes=await pickedFile.readAsBytes();
+        Reference reference=FirebaseStorage.instance.ref().child('user_profile');
+        Reference ref=reference.child(fileName);
+        await ref.putFile(File(pickedFile.path));
+        String imageurl=await ref.getDownloadURL();
+        await FirebaseFirestore.instance.collection('users').where('email',isEqualTo: event.email).get().then((value) {
+          value.docs.forEach((element) { 
+            element.reference.update({'image':imageurl});
+          });
+        });
+        emit(UserImagePickState(image: imageurl));
+      }
+      emit(ImagePickErrorState(message: 'Did not Pick Image'));
+    } catch (e) {
+      emit(ImagePickErrorState(message: e.toString()));
+    }
+  }
 }

@@ -35,7 +35,7 @@ class UserModel extends Equatable {
       'password': password,
       'email': email,
       'phone': phone,
-      // 'image': image,
+      'image': image,
     };
   }
 
