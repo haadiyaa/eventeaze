@@ -84,9 +84,7 @@ class _ProfilePageState extends State<ProfilePage> {
           );
         } else if (state is LogoutRejectState) {
           print("ggggggggggggggggggggg");
-          // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
           Navigator.pop(context);
-          // });
         }
       },
       builder: (context, state) {
@@ -164,6 +162,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       child: userData['image'] != null
                                           ? ProfileAvatar(
                                               child: Image(
+                                                fit: BoxFit.cover,
                                                   image: NetworkImage(
                                                       userData['image'])),
                                             )

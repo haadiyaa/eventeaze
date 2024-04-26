@@ -124,6 +124,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await _auth.signOut().then((value) {
         emit(UnAuthenticatedState());
       });
+      await googleSignIn.signOut();
       var sharedPref = await SharedPreferences.getInstance();
       sharedPref.setBool(KEYLOGIN, false);
     } catch (e) {
@@ -161,7 +162,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       username: event.user.username,
       email: event.user.email,
       phone: event.user.phone,
-      // image: event.user.image,
+      image: event.user.image,
     ).toMap();
     try {
       await FirebaseFirestore.instance
