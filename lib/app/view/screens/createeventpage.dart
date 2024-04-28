@@ -163,10 +163,15 @@ class _CreateEventPageState extends State<CreateEventPage> {
                         maxLines: 1,
                         text: 'Event Title',
                         controller: titleController,
-                        validator: (p0) {
-                          if (p0!.isEmpty) {
-                            return 'Enter Something';
-                          }
+                        validator: (value) {
+                          final name = RegExp(r'^[A-Za-z\s]+$');
+                              if (value!.isEmpty) {
+                                return 'User name can\'t be empty';
+                              } else if (!name.hasMatch(value)) {
+                                return "Enter a valid name";
+                              }else if(value.length<3){
+                                return 'Title should be atleast 3 characters long';
+                              }
                         },
                       ),
                       CustomDropdown(
@@ -183,30 +188,43 @@ class _CreateEventPageState extends State<CreateEventPage> {
                         maxLines: 1,
                         text: 'Total No. of tickets',
                         controller: ticketController,
-                        validator: (p0) {
-                          if (p0!.isEmpty) {
-                            return 'Enter Something';
-                          }
+                        validator: (value) {
+                          final reg2 = RegExp(r"^\d$");
+                              if (value!.isEmpty) {
+                                return 'Number can\'t be empty';
+                              } else if (!reg2.hasMatch(value)) {
+                                return 'Enter a valid number of tickets';
+                              }
                         },
                       ),
                       CreateText(
                         maxLines: 1,
                         text: "City",
                         controller: cityController,
-                        validator: (p0) {
-                          if (p0!.isEmpty) {
-                            return 'Enter Something';
-                          }
+                        validator: (value) {
+                          final name = RegExp(r'^[A-Za-z\s]+$');
+                              if (value!.isEmpty) {
+                                return 'City can\'t be empty';
+                              } else if (!name.hasMatch(value)) {
+                                return "Enter a valid City";
+                              }else if(value.length<3){
+                                return 'City be atleast 3 characters long';
+                              }
                         },
                       ),
                       CreateText(
                         maxLines: 1,
                         text: 'Vanue',
                         controller: locationController,
-                        validator: (p0) {
-                          if (p0!.isEmpty) {
-                            return 'Enter Something';
-                          }
+                        validator: (value) {
+                          final name = RegExp(r'^[A-Za-z\s]+$');
+                              if (value!.isEmpty) {
+                                return 'Venue name can\'t be empty';
+                              } else if (!name.hasMatch(value)) {
+                                return "Enter a valid name";
+                              }else if(value.length<3){
+                                return 'Venue should be atleast 3 characters long';
+                              }
                         },
                       ),
                       CreateText(
@@ -222,7 +240,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                         controller: dateController,
                         validator: (p0) {
                           if (p0!.isEmpty) {
-                            return 'Enter Something';
+                            return 'Plaese select a date!';
                           }
                         },
                       ),
@@ -237,7 +255,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                         keyboardType: TextInputType.none,
                         validator: (p0) {
                           if (p0!.isEmpty) {
-                            return 'Enter Something';
+                            return 'Plaese select a time!';
                           }
                         },
                       ),
@@ -245,31 +263,44 @@ class _CreateEventPageState extends State<CreateEventPage> {
                         maxLines: null,
                         text: 'Description',
                         controller: descController,
-                        validator: (p0) {
-                          if (p0!.isEmpty) {
-                            return 'Enter Something';
-                          }
+                        validator: (value) {
+                          final name = RegExp(r'^[A-Za-z\s]+$');
+                              if (value!.isEmpty) {
+                                return 'Description can\'t be empty';
+                              } else if (!name.hasMatch(value)) {
+                                return "Enter a paragraph";
+                              }else if(value.length<3){
+                                return 'Description should be atleast 3 characters long';
+                              }
                         },
                       ),
                       CreateText(
                         maxLines: 1,
                         text: 'Ticket Price',
                         controller: priceController,
-                        validator: (p0) {
-                          if (p0!.isEmpty) {
-                            return 'Enter Something';
-                          }
+                        validator: (value) {
+                          final reg2 = RegExp(r"^\d{2,}$");
+                              if (value!.isEmpty) {
+                                return 'Ticket price can\'t be empty';
+                              } else if (!reg2.hasMatch(value)) {
+                                return 'Enter a valid number Price';
+                              }
                         },
                       ),
                       CreateText(
                         maxLines: 1,
                         text: 'Contact Number',
                         controller: contacttController,
-                        validator: (p0) {
-                          if (p0!.isEmpty) {
-                            return 'Enter Something';
-                          }
-                        },
+                        validator: (value) {
+                              final reg2 = RegExp(r"^[6789]\d{9}$");
+                              if (value!.isEmpty) {
+                                return 'Number can\'t be empty';
+                              } else if (value.length > 10) {
+                                return "number exact 10";
+                              } else if (!reg2.hasMatch(value)) {
+                                return 'Enter a valid phone number';
+                              }
+                            },
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),

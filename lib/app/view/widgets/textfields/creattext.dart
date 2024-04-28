@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CreateText extends StatelessWidget {
   const CreateText({
@@ -23,7 +24,9 @@ class CreateText extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       child: TextFormField(
-        
+        inputFormatters: [
+          FilteringTextInputFormatter.deny(RegExp(r'\s{2,}'))
+        ],
         onTap: onTap,
         keyboardType: keyboardType,
         maxLines: maxLines,

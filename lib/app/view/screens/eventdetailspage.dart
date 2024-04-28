@@ -120,7 +120,7 @@ class EventDetailsPage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 CustomButton(
-                                  text: 'SHARE LINK',
+                                  text: 'SHARE',
                                   onPressed: () {},
                                   color:
                                       const Color.fromARGB(255, 233, 237, 201),

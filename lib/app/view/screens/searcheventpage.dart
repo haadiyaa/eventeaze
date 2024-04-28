@@ -48,6 +48,7 @@ class _SearchEventPageState extends State<SearchEventPage> {
         }
         return Scaffold(
           appBar: AppBar(
+            titleSpacing: 0,
             title: MyCustomSearchBar(
               onChange: (value) {
                 function.add(SearchEvent(value: value));
