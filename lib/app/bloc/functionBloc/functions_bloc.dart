@@ -9,7 +9,6 @@ import 'package:eventeaze/app/utils/dummydata.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
@@ -20,20 +19,23 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
   FirebaseStorage storage = FirebaseStorage.instance;
   final DummyData dummyData = DummyData();
   final catlist = DummyData.categories;
+  String searchNam='';
   // final list = DummyData.events;
-  
-
-  
 
   FunctionsBloc() : super(FunctionsInitial()) {
     on<FunctionsEvent>((event, emit) {});
     on<DatePickEvent>(_datePick);
     on<TimePickEvent>(_timePick);
     on<FetchCategoryEvent>(_getCategory);
-    // on<UploadDummyEvent>(_uploadDummyCategory);
+    on<UploadDummyEvent>(_uploadDummyCategory);
     on<DropdownEvent>(_dropdown);
     on<CreateEventEvent>(_createEvent);
     on<UploadEventImageEvent>(_uploadImage);
+    on<UpdateEventEvent>(_updateEvent);
+    on<DeleteEvent>(_deleteEvent);
+    on<DeleteConfirmEvent>(_deleteConfirmEvent);
+    on<DeleteRejectEvent>(_deleteRejectEvent);
+    on<SearchEvent>(_searchEvent);
   }
 
   FutureOr<void> _datePick(DatePickEvent event, Emitter<FunctionsState> emit) {
@@ -77,42 +79,43 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
     }
   }
 
-  // Future<FutureOr<void>> _uploadDummyCategory(UploadDummyEvent event, Emitter<FunctionsState> emit) async {
-  //   try {
-  //     for( var events in list){
-  //       final file = await getImageFromAssets(events.image!);
-  //       final url=await uploadImageData('events', file, events.eventName!);
-  //       events.image=url;
-  //       await FirebaseFirestore.instance.collection('events').doc(events.id).set(events.toMap());
-  //       emit(UploadedDummyState());
-  //     }
-  //   } catch (e) {
-  //     emit(ErrorState(message: e.toString()));
-  //   }
+  Future<FutureOr<void>> _uploadDummyCategory(UploadDummyEvent event, Emitter<FunctionsState> emit) async {
+    try {
+      for( var cat in catlist){
+        final file = await getImageFromAssets(cat.image);
+        final url=await uploadImageData('categories', file, cat.name);
+        cat.image=url;
+        await FirebaseFirestore.instance.collection('categories').doc(cat.id).set(cat.toMap());
+        emit(UploadedDummyState());
+      }
+    } catch (e) {
+      emit(ErrorState(message: e.toString()));
+    }
 
-  // }
+  }
 
   FutureOr<void> _dropdown(DropdownEvent event, Emitter<FunctionsState> emit) {
     if (event.value != null) {
       print('event value not null');
       emit(DropdownState(value: event.value!));
+    } else {
+      print('event value null');
     }
-    else{print('event value null');}
   }
 
   FutureOr<void> _createEvent(
       CreateEventEvent event, Emitter<FunctionsState> emit) {
-        emit(CreateLoadingState());
+    emit(CreateLoadingState());
     print('creatint event ');
     User? user = FirebaseAuth.instance.currentUser;
     try {
       if (user != null) {
         print('user !=null');
         String id = user.uid;
-        String eventId=const Uuid().v4();
+        String eventId = const Uuid().v4();
         FirebaseFirestore.instance.collection('events').doc(eventId).set({
-          'eventId':eventId,
-          'id':  id,
+          'eventId': eventId,
+          'id': id,
           'eventName': event.event.eventName,
           'eventDate': event.event.eventDate,
           'eventDesc': event.event.eventDesc,
@@ -123,6 +126,7 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
           'contact': event.event.contact,
           'image': event.event.image,
           'category': event.event.category,
+          'ticketPrice': event.event.ticketPrice
         });
         emit(CreateEventState());
         print('createdddd');
@@ -136,7 +140,7 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
 
   Future<FutureOr<void>> _uploadImage(
       UploadEventImageEvent event, Emitter<FunctionsState> emit) async {
-        emit(LoadingState());
+    emit(LoadingState());
     final ImagePicker imagePicker = ImagePicker();
     try {
       String fileName = DateTime.now().millisecondsSinceEpoch.toString();
@@ -175,5 +179,58 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
     emit(TimePickState());
   }
 
- 
+  Future<FutureOr<void>> _updateEvent(
+      UpdateEventEvent event, Emitter<FunctionsState> emit) async {
+    emit(UpdateLoadingState());
+    final newEvent = EventModel(
+      id: event.event.id,
+      eventId: event.event.eventId,
+      eventName: event.event.eventName,
+      eventDate: event.event.eventDate,
+      eventDesc: event.event.eventDesc,
+      eventTime: event.event.eventTime,
+      location: event.event.location,
+      venue: event.event.venue,
+      seats: event.event.seats,
+      contact: event.event.contact,
+      image: event.event.image,
+      category: event.event.category,
+      ticketPrice: event.event.ticketPrice,
+    ).toMap();
+    try {
+      await FirebaseFirestore.instance
+          .collection('events')
+          .doc(event.event.eventId)
+          .update(newEvent)
+          .then((value) => emit(UpdateEventStete()));
+    } catch (e) {
+      emit(UpdateEventErrorState(message: e.toString()));
+      print(e);
+    }
+  }
+
+  Future<FutureOr<void>> _deleteEvent(
+      DeleteEvent event, Emitter<FunctionsState> emit) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('events')
+          .doc(event.id)
+          .delete()
+          .then((value) => emit(DeleteEventState()));
+    } catch (e) {
+      emit(DeleteEventErrorState(message: e.toString()));
+    }
+  }
+
+  FutureOr<void> _deleteConfirmEvent(DeleteConfirmEvent event, Emitter<FunctionsState> emit) {
+    emit(DeleteConfirmState());
+  }
+
+  FutureOr<void> _deleteRejectEvent(DeleteRejectEvent event, Emitter<FunctionsState> emit) {
+    emit(DeleteRejectState());
+  }
+
+  FutureOr<void> _searchEvent(SearchEvent event, Emitter<FunctionsState> emit) {
+    emit(SearchEventState(searchName: event.value));
+  }
 }

@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/view/screens/createeventpage.dart';
 import 'package:eventeaze/app/view/screens/eventdetailspage.dart';
+import 'package:eventeaze/app/view/screens/usereventdetailspage.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/eventhorizontalcard.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/loadinghorizontal.dart';
+import 'package:eventeaze/app/view/widgets/design/eventdetails/usereventcard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -91,7 +93,7 @@ class _UserEventsPageState extends State<UserEventsPage> {
                         itemCount: snapshot.data!.docs.length,
                         itemBuilder: (BuildContext context, int index) {
                           final eventdata = snapshot.data!.docs[index].data();
-                          return EventHorizontalCard(
+                          return UserEventCard(
                             image: eventdata['image'],
                             title: eventdata['eventName'],
                             date: DateFormat('yyyy-MM-dd')
@@ -105,7 +107,7 @@ class _UserEventsPageState extends State<UserEventsPage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (_) => EventDetailsPage(
+                                      builder: (_) => UserEventDetailsWrapper(
                                             id: eventdata['eventId'],
                                           )));
                             },
@@ -114,7 +116,7 @@ class _UserEventsPageState extends State<UserEventsPage> {
                       ),
                     ],
                   ),
-                ),
+                ),  
               );
             }
             return Padding(

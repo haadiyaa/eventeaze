@@ -159,6 +159,7 @@ class SignUpPage extends StatelessWidget {
                                   r"^[a-zA-Z0-9_\-\.\S]{4,}[@][a-z]+[\.][a-z]{2,3}[\s]*$");
                               if (!emailReg.hasMatch(value)) {
                                 return 'Invalid email address!';
+                                
                               }
                             },
                           ),

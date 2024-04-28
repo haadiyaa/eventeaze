@@ -9,9 +9,12 @@ class FunctionsInitial extends FunctionsState {}
 
 class LoadingState extends FunctionsState {}
 
+class UpdateLoadingState extends FunctionsState {}
+
 class CreateLoadingState extends FunctionsState {}
 
 class DatePickingState extends FunctionsState {}
+
 class TimePickState extends FunctionsState {}
 
 class DatePickedState extends FunctionsState {
@@ -48,5 +51,26 @@ class UploadEventImageSuccessState extends FunctionsState {
   UploadEventImageSuccessState({required this.image});
 }
 
+class UpdateEventStete extends FunctionsState {}
 
+class UpdateEventErrorState extends FunctionsState {
+  final String message;
 
+  UpdateEventErrorState({required this.message});
+}
+
+class DeleteEventState extends FunctionsState {}
+class DeleteConfirmState extends FunctionsState {}
+class DeleteRejectState extends FunctionsState {}
+class DeleteEventErrorState extends FunctionsState {
+  final String message;
+
+  DeleteEventErrorState({required this.message});
+}
+
+class SearchEventState extends FunctionsState {
+  String searchName;
+  SearchEventState({
+    required this.searchName,
+  });
+}

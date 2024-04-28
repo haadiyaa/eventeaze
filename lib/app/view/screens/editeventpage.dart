@@ -10,10 +10,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:uuid/uuid.dart';
 
-class CreateEventWrapper extends StatelessWidget {
-  const CreateEventWrapper({super.key});
+class EditEventWrapper extends StatelessWidget {
+  const EditEventWrapper({
+    super.key,
+    required this.event,
+  });
+  final EventModel event;
 
   @override
   Widget build(BuildContext context) {
@@ -26,24 +29,26 @@ class CreateEventWrapper extends StatelessWidget {
           create: (context) => FunctionsBloc(),
         ),
       ],
-      child: CreateEventPage(),
+      child: EditEventPage(
+        event: event,
+      ),
     );
   }
 }
 
-class CreateEventPage extends StatefulWidget {
-  CreateEventPage({super.key});
+class EditEventPage extends StatefulWidget {
+  EditEventPage({super.key, required this.event});
+  final EventModel event;
 
   @override
-  State<CreateEventPage> createState() => _CreateEventPageState();
+  State<EditEventPage> createState() => _EditEventPageState();
 }
 
-class _CreateEventPageState extends State<CreateEventPage> {
+class _EditEventPageState extends State<EditEventPage> {
   final List<String> _items = [
     'Sports',
     'Art',
     'Cultural',
-    'Music',
     'Family',
     'Business',
     'Birthday',
@@ -57,31 +62,40 @@ class _CreateEventPageState extends State<CreateEventPage> {
   User? current;
   Timestamp? timestamp;
   final _key = GlobalKey<FormState>();
-  final TextEditingController titleController = TextEditingController();
-
-  final TextEditingController ticketController = TextEditingController();
-  final TextEditingController priceController = TextEditingController();
-
-  final TextEditingController locationController = TextEditingController();
-
-  final TextEditingController cityController = TextEditingController();
-
-  final TextEditingController dateController = TextEditingController();
-
-  TextEditingController timeController = TextEditingController();
-
-  final TextEditingController descController = TextEditingController();
-
-  final TextEditingController contacttController = TextEditingController();
-  final String eventId = Uuid().v4();
+  TextEditingController? titleController;
+  TextEditingController? ticketController;
+  TextEditingController? priceController;
+  TextEditingController? locationController;
+  TextEditingController? cityController;
+  TextEditingController? dateController;
+  TextEditingController? timeController;
+  TextEditingController? descController;
+  TextEditingController? contacttController;
   String? imageurl;
   String? date;
-  TimeOfDay selectedTime = TimeOfDay.now();
 
   @override
   void initState() {
     super.initState();
+
+    titleController = TextEditingController(text: widget.event.eventName);
+    ticketController = TextEditingController(text: widget.event.seats);
+    priceController = TextEditingController(text: widget.event.ticketPrice);
+    locationController = TextEditingController(text: widget.event.location);
+    cityController = TextEditingController(text: widget.event.venue);
+    dateController = TextEditingController(
+        text: DateFormat('yyyy-MM-dd')
+            .format(widget.event.eventDate!.toDate())
+            .split('-')
+            .reversed
+            .join('-'));
+    timeController = TextEditingController(text: widget.event.eventTime);
+    descController = TextEditingController(text: widget.event.eventDesc);
+    contacttController = TextEditingController(text: widget.event.contact);
+    selectedItem = widget.event.category;
     current = FirebaseAuth.instance.currentUser!;
+    imageurl=widget.event.image;
+    timestamp=widget.event.eventDate;
   }
 
   @override
@@ -91,7 +105,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Create Event',
+            'Edit',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Color.fromARGB(255, 68, 73, 53),
@@ -125,16 +139,17 @@ class _CreateEventPageState extends State<CreateEventPage> {
               if (state is TimePickState) {
                 TimeOfDay? time = await showTimePicker(
                   context: context,
-                  initialTime: selectedTime,
-                  initialEntryMode: TimePickerEntryMode.dial,
+                  initialTime: TimeOfDay.now(),
                 );
                 if (time != null) {
-                  timeController.text = time.format(context);
+                  TimeOfDay pickedTime = time;
                 }
               }
 
               if (state is DatePickingState) {
-                DateTime? _picked = await showDatePicker(
+                DateTime? _picked ;
+                _picked=timestamp!.toDate();
+                _picked =  await showDatePicker(
                   context: context,
                   initialDate: DateTime.now(),
                   firstDate: DateTime(2000),
@@ -142,15 +157,17 @@ class _CreateEventPageState extends State<CreateEventPage> {
                 );
                 if (_picked != null) {
                   DateTime pickedDate = _picked;
-                  String formatDate =
-                      DateFormat('yyyy-MM-dd').format(pickedDate);
-                  dateController.text = formatDate;
+                  String formatDate =DateFormat('yyyy-MM-dd').format(pickedDate);
+                  dateController!.text = formatDate;
                   timestamp = Timestamp.fromDate(pickedDate);
                 }
               }
-              if (state is CreateEventState) {
+              if (state is UpdateEventStete) {
                 print('state emeitted');
                 Navigator.pop(context);
+              }
+              if (state is UpdateEventErrorState) {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Upadate Error!')));
               }
             },
             builder: (context, state) => Column(
@@ -162,7 +179,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                       CreateText(
                         maxLines: 1,
                         text: 'Event Title',
-                        controller: titleController,
+                        controller: titleController!,
                         validator: (p0) {
                           if (p0!.isEmpty) {
                             return 'Enter Something';
@@ -182,7 +199,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                         keyboardType: TextInputType.number,
                         maxLines: 1,
                         text: 'Total No. of tickets',
-                        controller: ticketController,
+                        controller: ticketController!,
                         validator: (p0) {
                           if (p0!.isEmpty) {
                             return 'Enter Something';
@@ -192,7 +209,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                       CreateText(
                         maxLines: 1,
                         text: "City",
-                        controller: cityController,
+                        controller: cityController!,
                         validator: (p0) {
                           if (p0!.isEmpty) {
                             return 'Enter Something';
@@ -202,7 +219,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                       CreateText(
                         maxLines: 1,
                         text: 'Vanue',
-                        controller: locationController,
+                        controller: locationController!,
                         validator: (p0) {
                           if (p0!.isEmpty) {
                             return 'Enter Something';
@@ -219,7 +236,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                         keyboardType: TextInputType.none,
                         maxLines: 1,
                         text: "Date",
-                        controller: dateController,
+                        controller: dateController!,
                         validator: (p0) {
                           if (p0!.isEmpty) {
                             return 'Enter Something';
@@ -233,7 +250,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                         },
                         maxLines: 1,
                         text: 'Time',
-                        controller: timeController,
+                        controller: timeController!,
                         keyboardType: TextInputType.none,
                         validator: (p0) {
                           if (p0!.isEmpty) {
@@ -244,7 +261,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                       CreateText(
                         maxLines: null,
                         text: 'Description',
-                        controller: descController,
+                        controller: descController!,
                         validator: (p0) {
                           if (p0!.isEmpty) {
                             return 'Enter Something';
@@ -254,7 +271,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                       CreateText(
                         maxLines: 1,
                         text: 'Ticket Price',
-                        controller: priceController,
+                        controller: priceController!,
                         validator: (p0) {
                           if (p0!.isEmpty) {
                             return 'Enter Something';
@@ -264,7 +281,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                       CreateText(
                         maxLines: 1,
                         text: 'Contact Number',
-                        controller: contacttController,
+                        controller: contacttController!,
                         validator: (p0) {
                           if (p0!.isEmpty) {
                             return 'Enter Something';
@@ -273,10 +290,11 @@ class _CreateEventPageState extends State<CreateEventPage> {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                        child: StreamBuilder<
+                                QuerySnapshot<Map<String, dynamic>>>(
                             stream: FirebaseFirestore.instance
                                 .collection('events')
-                                .where('id', isEqualTo: eventId)
+                                .where('id', isEqualTo: current!.uid)
                                 .snapshots(),
                             builder: (context, snapshot) {
                               return Row(
@@ -284,7 +302,8 @@ class _CreateEventPageState extends State<CreateEventPage> {
                                   GestureDetector(
                                     onTap: () {
                                       BlocProvider.of<FunctionsBloc>(context)
-                                          .add(UploadEventImageEvent(eventId));
+                                          .add(UploadEventImageEvent(
+                                              current!.uid));
                                     },
                                     child: imageurl == null
                                         ? state is LoadingState
@@ -347,21 +366,23 @@ class _CreateEventPageState extends State<CreateEventPage> {
 
                               if (timestamp != null) {
                                 final EventModel event = EventModel(
-                                  eventName: titleController.text.trim(),
+                                  id: widget.event.id,
+                                  eventId: widget.event.eventId,
+                                  eventName: titleController!.text.trim(),
                                   eventDate: timestamp,
-                                  eventDesc: descController.text.trim(),
-                                  eventTime: timeController.text.trim(),
-                                  location: cityController.text.trim(),
-                                  venue: locationController.text.trim(),
-                                  seats: ticketController.text.trim(),
-                                  contact: contacttController.text.trim(),
+                                  eventDesc: descController!.text.trim(),
+                                  location: locationController!.text.trim(),
+                                  venue: cityController!.text.trim(),
+                                  seats: ticketController!.text.trim(),
+                                  contact: contacttController!.text.trim(),
                                   image: imageurl,
                                   category: selectedItem,
-                                  ticketPrice: priceController.text.trim(),
+                                  ticketPrice: priceController!.text.trim(),
+                                  eventTime: timeController!.text.trim(),
                                 );
 
                                 BlocProvider.of<FunctionsBloc>(context)
-                                    .add(CreateEventEvent(event: event));
+                                    .add(UpdateEventEvent(event: event));
                               } else {
                                 print('timestamp nulllll');
                               }

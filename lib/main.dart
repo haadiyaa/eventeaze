@@ -3,6 +3,7 @@ import 'package:eventeaze/app/view/screens/login_page.dart';
 import 'package:eventeaze/app/view/screens/onbording_screen.dart';
 import 'package:eventeaze/app/view/screens/splashscreen.dart';
 import 'package:eventeaze/app/view/screens/tabs_screen.dart';
+import 'package:eventeaze/app/view/screens/usereventspage.dart';
 import 'package:eventeaze/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         '/login':(context) => const LoginPageWrapper(),
         '/home':(context) => const HomePageWrapper(),
         '/tabs':(context) => const TabsScreenWrapper(),
+        '/eventlist':(context) =>  UserEventsPage(),
       },
     );
   }

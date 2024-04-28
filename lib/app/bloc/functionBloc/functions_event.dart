@@ -1,13 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'functions_bloc.dart';
 
-sealed class FunctionsEvent  {
+sealed class FunctionsEvent {
   const FunctionsEvent();
 }
 
-class DatePickEvent extends FunctionsEvent {
-}
-
+class DatePickEvent extends FunctionsEvent {}
 
 class DatePickedEvent extends FunctionsEvent {
   final DateTime? date;
@@ -15,18 +13,13 @@ class DatePickedEvent extends FunctionsEvent {
   DatePickedEvent({this.date});
 }
 
-class TimePickEvent extends FunctionsEvent {
-  
-}
+class TimePickEvent extends FunctionsEvent {}
 
-class FetchCategoryEvent extends FunctionsEvent {
-}
+class FetchCategoryEvent extends FunctionsEvent {}
 
-class UploadDummyEvent extends FunctionsEvent {
-}
+class UploadDummyEvent extends FunctionsEvent {}
 
-class FetchEventEvent extends FunctionsEvent {
-}
+class FetchEventEvent extends FunctionsEvent {}
 
 class DropdownEvent extends FunctionsEvent {
   final String? value;
@@ -45,4 +38,24 @@ class UploadEventImageEvent extends FunctionsEvent {
   UploadEventImageEvent(this.eventId);
 }
 
+class UpdateEventEvent extends FunctionsEvent {
+  final EventModel event;
 
+  UpdateEventEvent({required this.event});
+}
+
+class DeleteEvent extends FunctionsEvent {
+  final String id;
+
+  DeleteEvent({required this.id});
+}
+
+class DeleteConfirmEvent extends FunctionsEvent {}
+class DeleteRejectEvent extends FunctionsEvent {}
+
+class SearchEvent extends FunctionsEvent {
+  String value;
+  SearchEvent({
+    required this.value,
+  });
+}

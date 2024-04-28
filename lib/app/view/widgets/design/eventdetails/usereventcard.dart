@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 
-class EventHorizontalCard extends StatelessWidget {
-  const EventHorizontalCard({
+class UserEventCard extends StatelessWidget {
+  const UserEventCard({
     super.key,
     this.onTap,
     required this.image,

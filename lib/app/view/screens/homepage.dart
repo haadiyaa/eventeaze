@@ -5,6 +5,7 @@ import 'package:eventeaze/app/view/screens/categoriespage.dart';
 import 'package:eventeaze/app/view/screens/createeventpage.dart';
 import 'package:eventeaze/app/view/screens/eventlist.dart';
 import 'package:eventeaze/app/view/screens/login_page.dart';
+import 'package:eventeaze/app/view/screens/searcheventpage.dart';
 import 'package:eventeaze/app/view/screens/upcomimgeventpage.dart';
 import 'package:eventeaze/app/view/widgets/buttons/sectionheading.dart';
 import 'package:eventeaze/app/view/widgets/design/eventcategorieslist.dart';
@@ -72,7 +73,9 @@ class _HomePageState extends State<HomePage> {
         return Scaffold(
           appBar: AppBar(
             title: CustomSearchBar(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (_)=> SearchEventWrapper()));
+              },
             ),
             actions: [
               IconButton(

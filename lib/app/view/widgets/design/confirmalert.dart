@@ -31,7 +31,7 @@ class ConfirmAlert extends StatelessWidget {
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color:const  Color.fromARGB(255, 50, 51, 51).withOpacity(0.2),
+                  color: const Color.fromARGB(255, 50, 51, 51).withOpacity(0.2),
                   blurRadius: 7,
                   offset: const Offset(0, 5),
                 ),
@@ -54,11 +54,11 @@ class ConfirmAlert extends StatelessWidget {
             CustomButton(
               text: 'Yes',
               onPressed: onConfirm,
-              color: const Color.fromARGB(255, 170, 181, 135),
+              color: const Color.fromARGB(255, 138, 148, 108),
             ),
             CustomButton(
               text: 'No',
-              foreground: const Color.fromARGB(255, 170, 181, 135),
+              foreground: const Color.fromARGB(255, 138, 148, 108),
               onPressed: onReject,
               color: const Color.fromARGB(255, 233, 237, 201),
             ),

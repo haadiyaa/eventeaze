@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/view/screens/categorylist.dart';
 import 'package:eventeaze/app/view/widgets/buttons/verticalimagetext.dart';
+import 'package:eventeaze/app/view/widgets/shimmers/shimmerloadingcategorycard.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -81,40 +82,7 @@ class EventCategories extends StatelessWidget {
             ),
           );
         }
-        return Shimmer.fromColors(
-          baseColor: Colors.grey.shade300,
-          highlightColor: Colors.grey.shade100,
-          child: SizedBox(
-            height: 165,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: 5,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                  padding: const EdgeInsets.only(right: 10.0),
-                  child: Column(
-                    children: [
-                      Container(
-                        width: 120,
-                        height: 120,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      const SizedBox(
-                        width: 100,
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
-        );
+        return const ShimmerLoadingCategoryCard();
       },
     );
   }

@@ -8,14 +8,10 @@ class CategoryModel extends Equatable {
   String id;
   String name;
   String image;
-  String parentId;
-  bool isFeatured;
   CategoryModel({
     required this.id,
     required this.name,
     required this.image,
-    this.parentId = '',
-    required this.isFeatured,
   });
 
   @override
@@ -23,8 +19,6 @@ class CategoryModel extends Equatable {
         id,
         name,
         image,
-        parentId,
-        isFeatured,
       ];
 
   Map<String, dynamic> toMap() {
@@ -32,8 +26,6 @@ class CategoryModel extends Equatable {
       'id': id,
       'name': name,
       'image': image,
-      'parentId': parentId,
-      'isFeatured': isFeatured,
     };
   }
 
@@ -46,15 +38,12 @@ class CategoryModel extends Equatable {
         id: document.id,
         name: data['name']??'',
         image: data['image'] ??'',
-        parentId: data['parentId'] ??'',
-        isFeatured: data['isFeatured'] ??false,
       );
     }else{
       return CategoryModel(
         id: '',
         name: '',
         image: '',
-        isFeatured: false,
       );
     }
   }
