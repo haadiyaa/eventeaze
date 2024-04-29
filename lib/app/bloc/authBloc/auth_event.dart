@@ -37,8 +37,6 @@ class LogoutConfirmEvent extends AuthEvent {
 }
 
 class LogoutRejectEvent extends AuthEvent {
-  @override
-  List<Object?> get props => [];
 }
 
 class ForgotPassEvent extends AuthEvent{
@@ -64,7 +62,7 @@ class GoogleSignInEvent extends AuthEvent{
   
 }
 class UserImagePickEvent extends AuthEvent {
-  String email;
+  final String email;
   UserImagePickEvent({
     required this.email,
   });

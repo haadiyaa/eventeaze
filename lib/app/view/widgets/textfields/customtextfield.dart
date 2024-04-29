@@ -69,7 +69,7 @@ AutovalidateMode autovalidateMode;
                     ),
                     labelText: labelText,
                     labelStyle: const TextStyle(
-                      color: Color.fromARGB(255, 170, 181, 135),
+                      color:Color.fromARGB(255, 68, 73, 53),
                     ),
                     // hintStyle:
                     filled: true,

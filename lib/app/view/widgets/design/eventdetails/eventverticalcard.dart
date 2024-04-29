@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:shimmer/shimmer.dart';
 
 class EventVerticalCard extends StatelessWidget {
   const EventVerticalCard({
@@ -23,15 +25,23 @@ class EventVerticalCard extends StatelessWidget {
             Container(
               width: 150,
               height: 150,
+              clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image(
-                  image: NetworkImage(image),
-                  fit: BoxFit.cover,
+              child: CachedNetworkImage(
+                imageUrl: image,
+                fit: BoxFit.cover,
+                placeholder: (context, url) => Shimmer.fromColors(
+                  baseColor: Colors.grey.shade300,
+                  highlightColor: Colors.grey.shade100,
+                  child: Container(
+                    width: 10,
+                    height: 10,
+                    color: Colors.white,
+                  ),
                 ),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),
             Positioned(
@@ -42,7 +52,7 @@ class EventVerticalCard extends StatelessWidget {
                 height: 65,
                 width: 150,
                 decoration: const BoxDecoration(
-                  color: Color.fromARGB(159, 138, 137, 137),
+                  color: Color.fromARGB(159, 110, 110, 110),
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(20),
                     bottomRight: Radius.circular(20),

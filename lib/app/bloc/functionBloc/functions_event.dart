@@ -59,3 +59,13 @@ class SearchEvent extends FunctionsEvent {
     required this.value,
   });
 }
+class ShareEvent extends FunctionsEvent {
+  final String title;
+  final String desc;
+  final String date;
+  final String time;
+  final String location;
+  final String contact;
+
+  ShareEvent({required this.desc,required this.contact, required this.title, required this.date, required this.time, required this.location,});
+}

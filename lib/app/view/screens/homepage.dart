@@ -51,10 +51,8 @@ class _HomePageState extends State<HomePage> {
       listener: (context, state) {
         if (state is UnAuthenticatedState) {
           Navigator.pop(context);
-          // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (_) => const LoginPageWrapper()));
-          // });
         } else if (state is AuthLoadingState) {
           showDialog(
             context: context,
@@ -74,7 +72,7 @@ class _HomePageState extends State<HomePage> {
           appBar: AppBar(
             title: CustomSearchBar(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_)=> SearchEventWrapper()));
+                Navigator.push(context, MaterialPageRoute(builder: (_)=>const SearchEventWrapper()));
               },
             ),
             actions: [

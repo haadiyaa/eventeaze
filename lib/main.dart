@@ -1,7 +1,7 @@
 import 'package:eventeaze/app/view/screens/homepage.dart';
 import 'package:eventeaze/app/view/screens/login_page.dart';
 import 'package:eventeaze/app/view/screens/onbording_screen.dart';
-import 'package:eventeaze/app/view/screens/splashscreen.dart';
+import 'package:eventeaze/app/view/screens/splash.dart';
 import 'package:eventeaze/app/view/screens/tabs_screen.dart';
 import 'package:eventeaze/app/view/screens/usereventspage.dart';
 import 'package:eventeaze/firebase_options.dart';
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(fontFamily: 'Poppins'),
       debugShowCheckedModeBanner: false,
       title: 'EventEaze',
-      home: const SplashScreen(),
+      home: const Splash(),
       routes: {
         '/onboarding':(context) => const OnBoardingWrapper(),
         '/login':(context) => const LoginPageWrapper(),

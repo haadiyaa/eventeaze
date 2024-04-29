@@ -189,7 +189,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                             userData['email'],
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(fontSize: 12),
+                                            style: const TextStyle(fontSize: 12),
                                           ),
                                         ],
                                       ),

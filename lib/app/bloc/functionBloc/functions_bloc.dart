@@ -10,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:uuid/uuid.dart';
 
 part 'functions_event.dart';
@@ -19,7 +20,7 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
   FirebaseStorage storage = FirebaseStorage.instance;
   final DummyData dummyData = DummyData();
   final catlist = DummyData.categories;
-  String searchNam='';
+  String searchNam = '';
   // final list = DummyData.events;
 
   FunctionsBloc() : super(FunctionsInitial()) {
@@ -36,6 +37,7 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
     on<DeleteConfirmEvent>(_deleteConfirmEvent);
     on<DeleteRejectEvent>(_deleteRejectEvent);
     on<SearchEvent>(_searchEvent);
+    on<ShareEvent>(_shareEvent);
   }
 
   FutureOr<void> _datePick(DatePickEvent event, Emitter<FunctionsState> emit) {
@@ -70,7 +72,7 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
   Future<String> uploadImageData(
       String path, Uint8List image, String name) async {
     try {
-      final ref = await FirebaseStorage.instance.ref(path).child(name);
+      final ref = FirebaseStorage.instance.ref(path).child(name);
       await ref.putData(image);
       final url = await ref.getDownloadURL();
       return url;
@@ -79,19 +81,22 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
     }
   }
 
-  Future<FutureOr<void>> _uploadDummyCategory(UploadDummyEvent event, Emitter<FunctionsState> emit) async {
+  Future<FutureOr<void>> _uploadDummyCategory(
+      UploadDummyEvent event, Emitter<FunctionsState> emit) async {
     try {
-      for( var cat in catlist){
+      for (var cat in catlist) {
         final file = await getImageFromAssets(cat.image);
-        final url=await uploadImageData('categories', file, cat.name);
-        cat.image=url;
-        await FirebaseFirestore.instance.collection('categories').doc(cat.id).set(cat.toMap());
+        final url = await uploadImageData('categories', file, cat.name);
+        cat.image = url;
+        await FirebaseFirestore.instance
+            .collection('categories')
+            .doc(cat.id)
+            .set(cat.toMap());
         emit(UploadedDummyState());
       }
     } catch (e) {
       emit(ErrorState(message: e.toString()));
     }
-
   }
 
   FutureOr<void> _dropdown(DropdownEvent event, Emitter<FunctionsState> emit) {
@@ -147,7 +152,7 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
       final pickedFile =
           await imagePicker.pickImage(source: ImageSource.gallery);
       if (pickedFile != null) {
-        final bytes = await pickedFile.readAsBytes();
+        // final bytes = await pickedFile.readAsBytes();
 
         Reference referenceRoot = storage.ref();
         Reference refDirImages = referenceRoot.child("images");
@@ -222,15 +227,27 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
     }
   }
 
-  FutureOr<void> _deleteConfirmEvent(DeleteConfirmEvent event, Emitter<FunctionsState> emit) {
+  FutureOr<void> _deleteConfirmEvent(
+      DeleteConfirmEvent event, Emitter<FunctionsState> emit) {
     emit(DeleteConfirmState());
   }
 
-  FutureOr<void> _deleteRejectEvent(DeleteRejectEvent event, Emitter<FunctionsState> emit) {
+  FutureOr<void> _deleteRejectEvent(
+      DeleteRejectEvent event, Emitter<FunctionsState> emit) {
     emit(DeleteRejectState());
   }
 
   FutureOr<void> _searchEvent(SearchEvent event, Emitter<FunctionsState> emit) {
     emit(SearchEventState(searchName: event.value));
+  }
+
+  Future<FutureOr<void>> _shareEvent(ShareEvent event, Emitter<FunctionsState> emit) async {
+    await Share.share('Checkout this event!\n\n'
+        'Event Name: *${event.title}*\n'
+        '${event.desc}\n'
+        'Date : ${event.date}\n'
+        'Time : ${event.time}\n\n'
+        'Contact for more Information : ${event.contact}');
+        emit(ShareState());
   }
 }

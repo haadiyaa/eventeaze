@@ -27,6 +27,8 @@ class SignUpPage extends StatelessWidget {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
+  AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
+
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -38,7 +40,7 @@ class SignUpPage extends StatelessWidget {
           showDialog(
             context: context,
             builder: (context) {
-              return Center(
+              return const Center(
                 child: SpinKitFadingCircle(
                   duration: Duration(seconds: 2),
                   color: Colors.white,
@@ -120,7 +122,7 @@ class SignUpPage extends StatelessWidget {
                       child: Column(
                         children: [
                           CustomTextField(
-                            autovalidateMode: AutovalidateMode.disabled,
+                            autovalidateMode: autovalidateMode,
                             controller: _nameController,
                             labelText: 'User Name',
                             validator: (value) {
@@ -133,7 +135,7 @@ class SignUpPage extends StatelessWidget {
                             },
                           ),
                           CustomTextField(
-                            autovalidateMode: AutovalidateMode.disabled,
+                            autovalidateMode: autovalidateMode,
                             controller: _phoneController,
                             labelText: 'Phone Number',
                             validator: (value) {
@@ -148,7 +150,7 @@ class SignUpPage extends StatelessWidget {
                             },
                           ),
                           CustomTextField(
-                            autovalidateMode: AutovalidateMode.disabled,
+                            autovalidateMode: autovalidateMode,
                             controller: _emailController,
                             labelText: 'Email Address',
                             validator: (value) {
@@ -164,7 +166,8 @@ class SignUpPage extends StatelessWidget {
                             },
                           ),
                           CustomTextField(
-                            autovalidateMode: AutovalidateMode.disabled,
+                            autovalidateMode: 
+                            autovalidateMode,
                             obscuretext: true,
                             controller: _passwordController,
                             labelText: 'Enter Password',
@@ -181,6 +184,7 @@ class SignUpPage extends StatelessWidget {
                           CustomButton(
                             text: 'Sign Up',
                             onPressed: () {
+                              autovalidateMode=AutovalidateMode.onUserInteraction;
                               if (_formKey.currentState!.validate()) {
                                 UserModel user = UserModel(
                                   username: _nameController.text.trim(),

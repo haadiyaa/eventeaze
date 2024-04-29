@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shimmer/shimmer.dart';
 
 class EventHorizontalCard extends StatelessWidget {
   const EventHorizontalCard({
@@ -27,18 +29,24 @@ class EventHorizontalCard extends StatelessWidget {
           children: [
             Container(
               height: 155,
+              clipBehavior: Clip.antiAlias,
               width: MediaQuery.of(context).size.width*0.9,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
               ),
-              child:  ClipRRect(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(20),
+              child: CachedNetworkImage(
+                imageUrl: image,
+                fit: BoxFit.cover,
+                placeholder: (context, url) => Shimmer.fromColors(
+                  baseColor: Colors.grey.shade300,
+                  highlightColor: Colors.grey.shade100,
+                  child: Container(
+                    width: 10,
+                    height: 10,
+                    color: Colors.white,
+                  ),
                 ),
-                child: Image(
-                  image: NetworkImage(image),
-                  fit: BoxFit.cover,
-                ),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),
             Positioned(
@@ -59,32 +67,30 @@ class EventHorizontalCard extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                           Text(
-                            title,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18,
-                            ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                         Text(
+                          title,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18,
                           ),
-                          Row(
-                            children: [
-                               Text(
-                                date,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                ),
+                        ),
+                        Row(
+                          children: [
+                             Text(
+                              date,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
                               ),
-                              SvgPicture.asset('assets/Calendar.svg'),
-                            ],
-                          ),
-                        ],
-                      ),
+                            ),
+                            SvgPicture.asset('assets/Calendar.svg'),
+                          ],
+                        ),
+                      ],
                     ),
                      Row(
                       children: [

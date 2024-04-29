@@ -212,7 +212,24 @@ class UserEventDetailsPage extends StatelessWidget {
                                 children: [
                                   CustomButton(
                                     text: 'Share ',
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      functionBloc.add(
+                                        ShareEvent(
+                                          desc: event['eventDesc'],
+                                          contact: event['contact'],
+                                          title: event['eventName'],
+                                          date: DateFormat('yyyy-MM-dd')
+                                              .format(
+                                                  event['eventDate'].toDate())
+                                              .split('-')
+                                              .reversed
+                                              .join('-'),
+                                          time: event['eventTime'],
+                                          location:
+                                              '${event['location']}, ${event['venue']}',
+                                        ),
+                                      );
+                                    },
                                     color: const Color.fromARGB(
                                         255, 233, 237, 201),
                                     foreground:

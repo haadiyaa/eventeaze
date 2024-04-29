@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/view/screens/eventdetailspage.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/eventverticalcard.dart';
+import 'package:eventeaze/app/view/widgets/shimmers/shimmerrecommended.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 class RecommendedList extends StatelessWidget {
   const RecommendedList({
@@ -43,30 +45,10 @@ class RecommendedList extends StatelessWidget {
             ),
           );
         }
-        return Padding(
-          padding: const EdgeInsets.only(top: 10.0),
-          child: SizedBox(
-            height: 150,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: 6,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  width: 150,
-                  height: 150,
-                  decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                );
-              },
-            ),
-          ),
-        );
+        if (snapshot.connectionState==ConnectionState.waiting) {
+          return const ShimmerRecommendedList();
+        }
+        return const ShimmerRecommendedList();
       },
     );
   }

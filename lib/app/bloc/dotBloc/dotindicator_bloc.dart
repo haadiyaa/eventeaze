@@ -1,6 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
-
 part 'dotindicator_event.dart';
 part 'dotindicator_state.dart';
 

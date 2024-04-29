@@ -5,8 +5,10 @@ import 'package:eventeaze/app/view/screens/usereventdetailspage.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/eventhorizontalcard.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/loadinghorizontal.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/usereventcard.dart';
+import 'package:eventeaze/app/view/widgets/shimmers/shimmeruserevents.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
 class UserEventsPage extends StatefulWidget {
@@ -116,26 +118,10 @@ class _UserEventsPageState extends State<UserEventsPage> {
                       ),
                     ],
                   ),
-                ),  
+                ),
               );
             }
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: 6,
-                      itemBuilder: (BuildContext context, int index) {
-                        return LoadinHorizontalcard();
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            );
+            return const ShimmerUserEvents();
           }),
     );
   }

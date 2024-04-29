@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/view/screens/eventdetailspage.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/eventhorizontalcard.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/loadinghorizontal.dart';
+import 'package:eventeaze/app/view/widgets/shimmers/shimmerupcoming.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
 class UpcomingList extends StatelessWidget {
@@ -15,13 +17,11 @@ class UpcomingList extends StatelessWidget {
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: FirebaseFirestore.instance
             .collection('events')
-            .where('eventDate',isGreaterThan: DateTime.now())
+            .where('eventDate', isGreaterThan: DateTime.now())
             .orderBy('eventDate')
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            print('Data: ${snapshot.data!.docs}');
-
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
               child: Column(
@@ -35,7 +35,11 @@ class UpcomingList extends StatelessWidget {
                       return EventHorizontalCard(
                         image: eventdata['image'],
                         title: eventdata['eventName'],
-                        date: DateFormat('yyyy-MM-dd').format(eventdata['eventDate'].toDate()).split('-').reversed.join('-'),
+                        date: DateFormat('yyyy-MM-dd')
+                            .format(eventdata['eventDate'].toDate())
+                            .split('-')
+                            .reversed
+                            .join('-'),
                         time: eventdata['eventTime'],
                         location: eventdata['location'],
                         onTap: () {
@@ -55,21 +59,7 @@ class UpcomingList extends StatelessWidget {
               ),
             );
           }
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-            child: Column(
-              children: [
-                ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: 4,
-                  itemBuilder: (BuildContext context, int index) {
-                    return const LoadinHorizontalcard();
-                  },
-                ),
-              ],
-            ),
-          );
+          return const ShimmerUpcoming();
         });
   }
 }

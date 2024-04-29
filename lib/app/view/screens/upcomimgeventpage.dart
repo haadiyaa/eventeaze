@@ -2,19 +2,33 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/view/screens/eventdetailspage.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/eventhorizontalcard.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/loadinghorizontal.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class UpcomingEventPage extends StatelessWidget {
+class UpcomingEventPage extends StatefulWidget {
   const UpcomingEventPage({super.key, required this.title});
   final String title;
+
+  @override
+  State<UpcomingEventPage> createState() => _UpcomingEventPageState();
+}
+
+class _UpcomingEventPageState extends State<UpcomingEventPage> {
+
+  User? user;
+  @override
+  void initState() {
+    super.initState();
+    user=FirebaseAuth.instance.currentUser;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          title,
+          widget.title,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: Color.fromARGB(255, 68, 73, 53),
@@ -48,6 +62,9 @@ class UpcomingEventPage extends StatelessWidget {
                             time: eventdata['eventTime'],
                             location: eventdata['location'],
                             onTap: () {
+                              if (eventdata['id']==user!.uid) {
+                                
+                              }
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(

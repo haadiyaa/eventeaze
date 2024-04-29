@@ -74,3 +74,6 @@ class SearchEventState extends FunctionsState {
     required this.searchName,
   });
 }
+class ShareState extends FunctionsState {
+  
+}

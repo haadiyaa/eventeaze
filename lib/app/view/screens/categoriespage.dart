@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/bloc/functionBloc/functions_bloc.dart';
 import 'package:eventeaze/app/model/categorymodel.dart';
 import 'package:eventeaze/app/view/screens/categorylist.dart';
-import 'package:eventeaze/app/view/screens/eventlist.dart';
 import 'package:eventeaze/app/view/widgets/design/categorycard.dart';
+import 'package:eventeaze/app/view/widgets/shimmers/shimmercategorycard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -74,39 +74,7 @@ class CategoriesPage extends StatelessWidget {
                       ),
                     );
                   }
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          GridView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisExtent: 195,
-                              mainAxisSpacing: 15,
-                              crossAxisSpacing: 15,
-                            ),
-                            itemCount: 6,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Container(
-                                width: 170,
-                                height: 170,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
+                  return const ShimmerCategoryCard();
                 });
           },
         ),
