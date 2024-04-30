@@ -42,7 +42,7 @@ class CustomSearchBar extends StatelessWidget {
             const Text(
               'Search',
               style: TextStyle(
-                color: Color.fromARGB(255, 170, 181, 135),
+                color: Color.fromARGB(255, 147, 156, 118),
                 fontSize: 16,
                 fontWeight: FontWeight.w300,
               ),

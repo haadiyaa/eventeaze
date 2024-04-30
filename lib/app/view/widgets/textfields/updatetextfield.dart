@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
 
 class UpdateTextField extends StatelessWidget {
-  const UpdateTextField({
+  UpdateTextField({
     super.key,
     required this.controller,
     required this.text,
     this.enabled,
+    this.validator,
+    required this.autovalidateMode,
   });
 
   final TextEditingController controller;
   final String text;
   final bool? enabled;
+  AutovalidateMode autovalidateMode;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 15),
       child: TextFormField(
+        autovalidateMode: autovalidateMode,
+        validator: validator,
         enabled: enabled ?? true,
         style: const TextStyle(
           color: Color.fromARGB(255, 68, 73, 53),

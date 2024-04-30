@@ -22,9 +22,9 @@ class TabsScreen extends StatelessWidget {
   TabsScreen({super.key});
 
   List<Widget> pages = [
-    HomePageWrapper(),
+    const HomePageWrapper(),
     CategoriesPage(),
-    ProfilePageWrapper(),
+    const ProfilePageWrapper(),
   ];
 
   List<GButton> bottomNavItems = const[

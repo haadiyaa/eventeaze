@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:eventeaze/app/model/usermodel.dart';
@@ -37,6 +38,9 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
   TextEditingController? _nameController;
   TextEditingController? _emailController;
   TextEditingController? _phoneController;
+  AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
+  final _formKey = GlobalKey<FormState>();
+
   late User _currentUser;
 
   @override
@@ -64,9 +68,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is UpdateUserState) {
-            // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             Navigator.pop(context);
-            // });
           } else if (state is UserImagePickState) {
             image = state.image;
           }
@@ -98,7 +100,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                               children: [
                                 Text(
                                   _emailController!.text,
-                                  style: TextStyle(fontSize: 12),
+                                  style: const TextStyle(fontSize: 12),
                                 ),
                                 const SizedBox(
                                   height: 12,
@@ -106,9 +108,11 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                                 data['image'] == null
                                     ? state is ImageLoadingState
                                         ? Shimmer.fromColors(
-                                            baseColor: Colors.grey.shade300,
+                                            baseColor: const Color.fromARGB(
+                                                255, 180, 192, 142),
                                             highlightColor:
-                                                Colors.grey.shade100,
+                                                const Color.fromARGB(
+                                                    255, 230, 247, 182),
                                             child: Container(
                                               clipBehavior: Clip.antiAlias,
                                               height: 70,
@@ -131,9 +135,29 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                                           )
                                         : ProfileAvatar()
                                     : ProfileAvatar(
-                                        child: Image(
+                                        child: CachedNetworkImage(
+                                          imageUrl: data['image'],
                                           fit: BoxFit.cover,
-                                          image: NetworkImage(data['image']),
+                                          placeholder: (context, url) =>
+                                              Shimmer.fromColors(
+                                            baseColor: const Color.fromARGB(
+                                                255, 180, 192, 142),
+                                            highlightColor:
+                                                const Color.fromARGB(
+                                                    255, 230, 247, 182),
+                                            child: Container(
+                                              width: 10,
+                                              height: 10,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+
+                                          errorWidget: (context, url, error) =>
+                                              const Icon(Icons.error),
+                                          // child: Image(
+                                          //   fit: BoxFit.cover,
+                                          //   image: NetworkImage(data['image']),
+                                          // ),
                                         ),
                                       ),
                                 const SizedBox(
@@ -156,20 +180,39 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                                   height: 10,
                                 ),
                                 Form(
+                                  key: _formKey,
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       UpdateTextField(
+                                        autovalidateMode: autovalidateMode,
+                                        validator: (value) {
+                                          final name =
+                                              RegExp(r'^[A-Za-z\s]{3,}[\s]*$');
+                                          if (value!.isEmpty) {
+                                            return 'User name can\'t be empty';
+                                          } else if (!name.hasMatch(value)) {
+                                            return "Enter a valid name";
+                                          }
+                                        },
                                         controller: _nameController!,
                                         text: 'Username',
                                       ),
-                                      // UpdateTextField(
-                                      //   enabled: false,
-                                      //   controller: _emailController!,
-                                      //   text: "Email",
-                                      // ),
                                       UpdateTextField(
+                                          autovalidateMode: autovalidateMode,
+                                          validator: (value) {
+                                            final reg2 =
+                                                RegExp(r"^[6789]\d{9}[\s]*$");
+                                            if (value!.isEmpty) {
+                                              return 'Number can\'t be empty';
+                                            } else if (value.trim().length >
+                                                10) {
+                                              return "number exact 10";
+                                            } else if (!reg2.hasMatch(value)) {
+                                              return 'Enter a valid phone number';
+                                            }
+                                          },
                                           controller: _phoneController!,
                                           text: "Phone Number"),
                                       const SizedBox(
@@ -182,18 +225,25 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                                           CustomButton(
                                             text: 'Done',
                                             onPressed: () {
-                                              UserModel user = UserModel(
-                                                uid: widget.user.uid,
-                                                username: _nameController!.text
-                                                    .trim(),
-                                                email: _emailController!.text
-                                                    .trim(),
-                                                phone: _phoneController!.text
-                                                    .trim(),
-                                                image: data['image'],
-                                              );
-                                              authBloc.add(
-                                                  UpadateUserEvent(user: user));
+                                              autovalidateMode =
+                                                  AutovalidateMode
+                                                      .onUserInteraction;
+                                              if (_formKey.currentState!
+                                                  .validate()) {
+                                                UserModel user = UserModel(
+                                                  uid: widget.user.uid,
+                                                  username: _nameController!
+                                                      .text
+                                                      .trim(),
+                                                  email: _emailController!.text
+                                                      .trim(),
+                                                  phone: _phoneController!.text
+                                                      .trim(),
+                                                  image: data['image'],
+                                                );
+                                                authBloc.add(UpadateUserEvent(
+                                                    user: user));
+                                              }
                                             },
                                             color: const Color.fromARGB(
                                                 255, 138, 148, 108),

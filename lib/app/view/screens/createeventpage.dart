@@ -122,6 +122,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                 selectedItem = state.value;
                 print('state emittteed ${state.value} and $selectedItem');
               }
+    // this.expands = false,
               if (state is TimePickState) {
                 TimeOfDay? time = await showTimePicker(
                   context: context,
@@ -189,7 +190,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                         text: 'Total No. of tickets',
                         controller: ticketController,
                         validator: (value) {
-                          final reg2 = RegExp(r"^\d$");
+                          final reg2 = RegExp(r"^\d{2,}$");
                               if (value!.isEmpty) {
                                 return 'Number can\'t be empty';
                               } else if (!reg2.hasMatch(value)) {
@@ -202,7 +203,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                         text: "City",
                         controller: cityController,
                         validator: (value) {
-                          final name = RegExp(r'^[A-Za-z\s]+$');
+                          final name = RegExp(r'^[A-Za-z\s\.]+$');
                               if (value!.isEmpty) {
                                 return 'City can\'t be empty';
                               } else if (!name.hasMatch(value)) {
@@ -217,7 +218,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                         text: 'Vanue',
                         controller: locationController,
                         validator: (value) {
-                          final name = RegExp(r'^[A-Za-z\s]+$');
+                          final name = RegExp(r'^[A-Za-z\s\S]+$');
                               if (value!.isEmpty) {
                                 return 'Venue name can\'t be empty';
                               } else if (!name.hasMatch(value)) {
@@ -264,7 +265,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                         text: 'Description',
                         controller: descController,
                         validator: (value) {
-                          final name = RegExp(r'^[A-Za-z\s]+$');
+                          final name = RegExp(r'^[A-Za-z\s\S\d]+$');
                               if (value!.isEmpty) {
                                 return 'Description can\'t be empty';
                               } else if (!name.hasMatch(value)) {
@@ -365,7 +366,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                         text: 'Save & Publish',
                         color: Color.fromARGB(255, 81, 87, 64),
                         onPressed: () {
-                          print('$selectedItem dfghjmnbvcvbn');
+                          print('$selectedItem category');
                           print('button clickedd');
                           if (imageurl == null) {
                             ScaffoldMessenger.of(context).showSnackBar(

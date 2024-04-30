@@ -1,12 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
-import 'package:eventeaze/app/model/usermodel.dart';
 import 'package:eventeaze/app/view/screens/createeventpage.dart';
 import 'package:eventeaze/app/view/screens/login_page.dart';
-import 'package:eventeaze/app/view/screens/userdetails_page.dart';
 import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
 import 'package:eventeaze/app/view/widgets/design/confirmalert.dart';
-import 'package:eventeaze/app/view/widgets/design/profile/profileavatar.dart';
+import 'package:eventeaze/app/view/widgets/design/profile/profilecard.dart';
 import 'package:eventeaze/app/view/widgets/design/profile/profilelist.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -145,89 +143,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         horizontal: 20, vertical: 10),
                     child: Column(
                       children: [
-                        Container(
-                          padding: const EdgeInsets.all(20),
-                          decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 233, 237, 201),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                flex: 4,
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: userData['image'] != null
-                                          ? ProfileAvatar(
-                                              child: Image(
-                                                fit: BoxFit.cover,
-                                                  image: NetworkImage(
-                                                      userData['image'])),
-                                            )
-                                          : ProfileAvatar(),
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            userData['username'],
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 22,
-                                              color: Color.fromARGB(
-                                                  255, 68, 73, 53),
-                                            ),
-                                          ),
-                                          Text(
-                                            userData['email'],
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: const TextStyle(fontSize: 12),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: IconButton(
-                                  onPressed: () {},
-                                  icon: IconButton(
-                                    onPressed: () {
-                                      final user = UserModel(
-                                        uid: userData['uid'],
-                                        email: userData['email'],
-                                        phone: userData['phone'],
-                                        username: userData['username'],
-                                        // image: userData['image'],
-                                      );
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (_) =>
-                                                  UserDetailsPageWrapper(
-                                                    user: user,
-                                                  )));
-                                    },
-                                    icon: const Icon(
-                                      Icons.arrow_circle_right_rounded,
-                                      color: Color.fromARGB(255, 68, 73, 53),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        ProfileCard(userData: userData),
                         const SizedBox(
                           height: 10,
                         ),

@@ -28,11 +28,11 @@ class CustomDropdown extends StatelessWidget {
             decoration: InputDecoration(
               labelText: 'Category',
               labelStyle: const TextStyle(
-                fontWeight: FontWeight.w400,
+                fontWeight: FontWeight.w500,
                 color:Color.fromARGB(255, 81, 87, 64),
               ),
               filled: true,
-              fillColor: const Color.fromARGB(170, 235, 235, 235),
+              fillColor:const Color.fromARGB(170, 243, 242, 242),
               enabledBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
                     color: Color.fromARGB(255, 170, 181, 135), width: 0.2),

@@ -1,8 +1,6 @@
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:eventeaze/app/view/screens/forgotpass_page.dart';
-import 'package:eventeaze/app/view/screens/homepage.dart';
 import 'package:eventeaze/app/view/screens/signuppage.dart';
-import 'package:eventeaze/app/view/screens/splashscreen.dart';
 import 'package:eventeaze/app/view/screens/tabs_screen.dart';
 import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
 import 'package:eventeaze/app/view/widgets/textfields/customtextfield.dart';
@@ -11,7 +9,6 @@ import 'package:eventeaze/app/view/widgets/googlewidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPageWrapper extends StatelessWidget {
   const LoginPageWrapper({super.key});

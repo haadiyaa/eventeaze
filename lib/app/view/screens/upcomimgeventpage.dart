@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/view/screens/eventdetailspage.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/eventhorizontalcard.dart';
-import 'package:eventeaze/app/view/widgets/design/eventdetails/loadinghorizontal.dart';
+import 'package:eventeaze/app/view/widgets/shimmers/shimmerupcoming.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -79,23 +79,7 @@ class _UpcomingEventPageState extends State<UpcomingEventPage> {
                 ),
               );
             }
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: 6,
-                      itemBuilder: (BuildContext context, int index) {
-                        return LoadinHorizontalcard();
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            );
+            return const ShimmerUpcoming();
           }),
     );
   }

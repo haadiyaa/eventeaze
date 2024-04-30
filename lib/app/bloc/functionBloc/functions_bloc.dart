@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/model/categorymodel.dart';
@@ -9,6 +8,7 @@ import 'package:eventeaze/app/utils/dummydata.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:uuid/uuid.dart';
@@ -152,8 +152,6 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
       final pickedFile =
           await imagePicker.pickImage(source: ImageSource.gallery);
       if (pickedFile != null) {
-        // final bytes = await pickedFile.readAsBytes();
-
         Reference referenceRoot = storage.ref();
         Reference refDirImages = referenceRoot.child("images");
         Reference refImageToUpload = refDirImages.child(fileName);
@@ -161,15 +159,6 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
         await refImageToUpload.putFile(File(pickedFile.path));
         String imageUrl = await refImageToUpload.getDownloadURL();
         print('gooottt urlll');
-        // await FirebaseFirestore.instance
-        //   .collection('events')
-        //       .where('id', isEqualTo: event.eventId)
-        //       .get()
-        //       .then((value) async {
-        //     value.docs.forEach((element) {
-        //       element.reference.update({'image': imageUrl});
-        //     });
-        //   });
         emit(UploadEventImageSuccessState(image: imageUrl));
       } else {
         emit(const ErrorState(message: 'not selected'));

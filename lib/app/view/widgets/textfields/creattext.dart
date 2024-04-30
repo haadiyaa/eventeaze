@@ -7,14 +7,12 @@ class CreateText extends StatelessWidget {
     required this.text,
     required this.controller,
     this.validator,
-    // this.expands = false,
     this.maxLines, this.keyboardType, this.onTap, this.hintText ,
   });
   final String text;
   final String? hintText;
   final TextEditingController controller;
   final String? Function(String?)? validator;
-  // final bool expands;
   final int? maxLines;
   final TextInputType? keyboardType;
   final void Function()? onTap;
@@ -24,24 +22,24 @@ class CreateText extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       child: TextFormField(
+        textCapitalization: TextCapitalization.sentences,
         inputFormatters: [
           FilteringTextInputFormatter.deny(RegExp(r'\s{2,}'))
         ],
         onTap: onTap,
         keyboardType: keyboardType,
         maxLines: maxLines,
-        // expands: expands,
         validator: validator,
         controller: controller,
         decoration: InputDecoration(
           hintText: hintText,
           label: Text(text),
           labelStyle: const TextStyle(
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w500,
             color: Color.fromARGB(255, 81, 87, 64),
           ),
           filled: true,
-          fillColor:const Color.fromARGB(170, 235, 235, 235),
+          fillColor:const Color.fromARGB(170, 243, 242, 242),
           border: OutlineInputBorder(
             borderSide:
                 const BorderSide(color: Color.fromARGB(255, 170, 181, 135)),
