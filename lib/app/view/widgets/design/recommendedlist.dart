@@ -1,14 +1,29 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/view/screens/eventdetailspage.dart';
+import 'package:eventeaze/app/view/screens/usereventdetailspage.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/eventverticalcard.dart';
 import 'package:eventeaze/app/view/widgets/shimmers/shimmerrecommended.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-class RecommendedList extends StatelessWidget {
+class RecommendedList extends StatefulWidget {
   const RecommendedList({
     super.key,
   });
+
+  @override
+  State<RecommendedList> createState() => _RecommendedListState();
+}
+
+class _RecommendedListState extends State<RecommendedList> {
+  User? user;
+
+   @override
+   void initState() {
+     super.initState();
+     user=FirebaseAuth.instance.currentUser;
+   }
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +48,20 @@ class RecommendedList extends StatelessWidget {
                     image: event['image'],
                     title: event['eventName'],
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) =>
-                                  EventDetailsPage(id: event['eventId'])));
+                      if(event['id']==user!.uid){
+                                
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) =>
+                                          UserEventDetailsWrapper(id: event['eventId'],)));
+                              }else{
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) =>
+                                          EventDetailsPage(id: event['eventId'],)));
+                              };
                     },
                   );
                 },

@@ -1,20 +1,35 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/view/screens/eventdetailspage.dart';
+import 'package:eventeaze/app/view/screens/usereventdetailspage.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/eventhorizontalcard.dart';
 import 'package:eventeaze/app/view/widgets/shimmers/shimmerupcoming.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class EventList extends StatelessWidget {
-  const EventList({super.key, required this.title});
+class EventList extends StatefulWidget {
+   EventList({super.key, required this.title});
   final String title;
+
+  @override
+  State<EventList> createState() => _EventListState();
+}
+
+class _EventListState extends State<EventList> {
+  User? user;
+
+   @override
+   void initState() {
+     super.initState();
+     user=FirebaseAuth.instance.currentUser;
+   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          title,
+          widget.title,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: Color.fromARGB(255, 68, 73, 53),
@@ -48,11 +63,20 @@ class EventList extends StatelessWidget {
                             time: eventdata['eventTime'],
                             location: eventdata['location'],
                             onTap: () {
+                             if(eventdata['id']==user!.uid){
+                                
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (_) =>
+                                          UserEventDetailsWrapper(id: eventdata['eventId'],)));
+                              }else{
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) =>
                                           EventDetailsPage(id: eventdata['eventId'],)));
+                              }
                             },
                           );
                         },

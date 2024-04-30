@@ -129,7 +129,7 @@ class _HomePageState extends State<HomePage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (_) => const EventList(
+                                      builder: (_) =>  EventList(
                                           title: 'Recommended')));
                             },
                           ),

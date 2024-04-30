@@ -44,7 +44,7 @@ class _SearchEventPageState extends State<SearchEventPage> {
     return BlocBuilder<FunctionsBloc, FunctionsState>(
       builder: (context, state) {
         if (state is SearchEventState) {
-          searchName = state.searchName;
+          searchName = state.searchName.toLowerCase();
         }
         return Scaffold(
           appBar: AppBar(
@@ -57,10 +57,7 @@ class _SearchEventPageState extends State<SearchEventPage> {
           ),
           body: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
-                  .collection('events')
-                  .orderBy('eventName')
-                  .startAt([searchName]).endAt(
-                      ['$searchName\uf8ff']).snapshots(),
+                  .collection('events').snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return const Center(
@@ -76,6 +73,10 @@ class _SearchEventPageState extends State<SearchEventPage> {
                     child: Text('null!'),
                   );
                 }
+                final filteredEvents = snapshot.data!.docs.where((event) {
+                  final eventName = event['eventName'].toString().toLowerCase();
+                  return eventName.contains(searchName);
+                }).toList();
 
                 return SingleChildScrollView(
                   child: Column(
@@ -86,9 +87,9 @@ class _SearchEventPageState extends State<SearchEventPage> {
                         child: ListView.separated(
                           separatorBuilder: (context, index) => const SizedBox(height: 5,),
                           shrinkWrap: true,
-                          itemCount: snapshot.data!.docs.length,
+                          itemCount: filteredEvents.length,
                           itemBuilder: (BuildContext context, int index) {
-                            var data = snapshot.data!.docs[index];
+                            var data = filteredEvents[index];
                             return Card(
                               // color: Colors.white,
                               color: const Color.fromARGB(255, 248, 255, 224),

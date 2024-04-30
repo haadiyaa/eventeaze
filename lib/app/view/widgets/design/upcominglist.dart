@@ -1,16 +1,29 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/view/screens/eventdetailspage.dart';
+import 'package:eventeaze/app/view/screens/usereventdetailspage.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/eventhorizontalcard.dart';
-import 'package:eventeaze/app/view/widgets/design/eventdetails/loadinghorizontal.dart';
 import 'package:eventeaze/app/view/widgets/shimmers/shimmerupcoming.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
-class UpcomingList extends StatelessWidget {
+class UpcomingList extends StatefulWidget {
   UpcomingList({
     super.key,
   });
+
+  @override
+  State<UpcomingList> createState() => _UpcomingListState();
+}
+
+class _UpcomingListState extends State<UpcomingList> {
+  User? user;
+
+   @override
+   void initState() {
+     super.initState();
+     user=FirebaseAuth.instance.currentUser;
+   }
 
   @override
   Widget build(BuildContext context) {
@@ -43,14 +56,20 @@ class UpcomingList extends StatelessWidget {
                         time: eventdata['eventTime'],
                         location: eventdata['location'],
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => EventDetailsPage(
-                                id: eventdata['eventId'],
-                              ),
-                            ),
-                          );
+                          if(eventdata['id']==user!.uid){
+                                
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) =>
+                                          UserEventDetailsWrapper(id: eventdata['eventId'],)));
+                              }else{
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) =>
+                                          EventDetailsPage(id: eventdata['eventId'],)));
+                              }
                         },
                       );
                     },

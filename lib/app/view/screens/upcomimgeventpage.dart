@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/view/screens/eventdetailspage.dart';
+import 'package:eventeaze/app/view/screens/usereventdetailspage.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/eventhorizontalcard.dart';
 import 'package:eventeaze/app/view/widgets/shimmers/shimmerupcoming.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -62,14 +63,20 @@ class _UpcomingEventPageState extends State<UpcomingEventPage> {
                             time: eventdata['eventTime'],
                             location: eventdata['location'],
                             onTap: () {
-                              if (eventdata['id']==user!.uid) {
+                              if(eventdata['id']==user!.uid){
                                 
-                              }
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (_) =>
+                                          UserEventDetailsWrapper(id: eventdata['eventId'],)));
+                              }else{
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) =>
                                           EventDetailsPage(id: eventdata['eventId'],)));
+                              }
                             },
                           );
                         },

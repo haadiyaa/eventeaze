@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/bloc/functionBloc/functions_bloc.dart';
+import 'package:eventeaze/app/view/screens/bookingpage.dart';
 import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/aboutevent.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/detailslisttile.dart';
@@ -123,7 +124,9 @@ class EventDetailsPage extends StatelessWidget {
                                   children: [
                                     CustomButton(
                                       text: 'GET TICKETS',
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.push(context, MaterialPageRoute(builder: (_)=> BookingPageWrapper(id:event['eventId'])));
+                                      },
                                       color: const Color.fromARGB(
                                           255, 138, 148, 108),
                                     ),

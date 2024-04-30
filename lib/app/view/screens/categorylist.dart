@@ -1,20 +1,35 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/view/screens/eventdetailspage.dart';
+import 'package:eventeaze/app/view/screens/usereventdetailspage.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/eventhorizontalcard.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/loadinghorizontal.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class CategoryList extends StatelessWidget {
-  const CategoryList({super.key, required this.title});
+class CategoryList extends StatefulWidget {
+  CategoryList({super.key, required this.title});
   final String title;
+
+  @override
+  State<CategoryList> createState() => _CategoryListState();
+}
+
+class _CategoryListState extends State<CategoryList> {
+   User? user;
+
+   @override
+   void initState() {
+     super.initState();
+     user=FirebaseAuth.instance.currentUser;
+   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          title,
+          widget.title,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: Color.fromARGB(255, 68, 73, 53),
@@ -25,7 +40,7 @@ class CategoryList extends StatelessWidget {
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
           stream: FirebaseFirestore.instance
               .collection('events')
-              .where('category', isEqualTo: title)
+              .where('category', isEqualTo: widget.title)
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -63,11 +78,21 @@ class CategoryList extends StatelessWidget {
                             time: eventdata['eventTime'],
                             location: eventdata['location'],
                             onTap: () {
+                              if(eventdata['id']==user!.uid){
+                                
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (_) =>
+                                          UserEventDetailsWrapper(id: eventdata['eventId'],)));
+                              }else{
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) =>
                                           EventDetailsPage(id: eventdata['eventId'],)));
+                              }
+                              
                             },
                           );
                         },
