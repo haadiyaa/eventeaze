@@ -7,6 +7,7 @@ import 'package:eventeaze/app/view/widgets/design/profile/profileavatar.dart';
 import 'package:eventeaze/app/view/widgets/textfields/updatetextfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -151,13 +152,8 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                                               color: Colors.white,
                                             ),
                                           ),
-
                                           errorWidget: (context, url, error) =>
                                               const Icon(Icons.error),
-                                          // child: Image(
-                                          //   fit: BoxFit.cover,
-                                          //   image: NetworkImage(data['image']),
-                                          // ),
                                         ),
                                       ),
                                 const SizedBox(
@@ -186,6 +182,8 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       UpdateTextField(
+                                        inputFormatters: [LengthLimitingTextInputFormatter(25),FilteringTextInputFormatter.deny(RegExp(r'\s{2,}'))],
+                                        keyboardType: TextInputType.name,
                                         autovalidateMode: autovalidateMode,
                                         validator: (value) {
                                           final name =
@@ -200,6 +198,13 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                                         text: 'Username',
                                       ),
                                       UpdateTextField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.deny(
+                                                RegExp(r'\s')),
+                                            LengthLimitingTextInputFormatter(
+                                                10),
+                                          ],
+                                          keyboardType: TextInputType.phone,
                                           autovalidateMode: autovalidateMode,
                                           validator: (value) {
                                             final reg2 =

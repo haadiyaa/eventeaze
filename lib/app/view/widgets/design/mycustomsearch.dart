@@ -12,13 +12,13 @@ class MyCustomSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 20),
+      padding: const EdgeInsets.only(left: 20),
       child: Container(
           width: double.infinity,
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
-                color: Color.fromARGB(255, 11, 12, 12).withOpacity(0.2),
+                color:const Color.fromARGB(255, 11, 12, 12).withOpacity(0.2),
                 blurRadius: 15,
                 offset: const Offset(0, 5),
               )

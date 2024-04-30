@@ -7,6 +7,7 @@ import 'package:eventeaze/app/view/widgets/textfields/customtextfield.dart';
 import 'package:eventeaze/app/view/widgets/design/mycircle.dart';
 import 'package:eventeaze/app/view/widgets/googlewidget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -79,7 +80,7 @@ class LoginPage extends StatelessWidget {
               content: Text('No User Found '),
             ),
           );
-        }else if(state is GoogleSignInState){
+        } else if (state is GoogleSignInState) {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -91,8 +92,7 @@ class LoginPage extends StatelessWidget {
           );
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (_) => const TabsScreenWrapper()));
-        }
-        else if(state is GoogleSignInErrorState){
+        } else if (state is GoogleSignInErrorState) {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -146,6 +146,11 @@ class LoginPage extends StatelessWidget {
                       child: Column(
                         children: [
                           CustomTextField(
+                            inputFormatters: [
+                              FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                              LengthLimitingTextInputFormatter(20),
+                            ],
+                            keyboardType: TextInputType.emailAddress,
                             autovalidateMode: autovalidateMode,
                             controller: _emailController,
                             labelText: 'Email Address',
@@ -160,8 +165,12 @@ class LoginPage extends StatelessWidget {
                               }
                             },
                           ),
-                          // const SizedBox(height: 10,),
                           CustomTextField(
+                            inputFormatters: [
+                              FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                              LengthLimitingTextInputFormatter(15)
+                            ],
+                            keyboardType: TextInputType.visiblePassword,
                             autovalidateMode: autovalidateMode,
                             obscuretext: true,
                             controller: _passwordController,

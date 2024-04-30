@@ -1,5 +1,6 @@
 import 'package:eventeaze/app/bloc/cubit/password_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -11,7 +12,7 @@ class CustomTextField extends StatelessWidget {
     required this.labelText,
     this.keyboardType,
     this.obscuretext = false,
-    required this.autovalidateMode ,
+    required this.autovalidateMode, this.inputFormatters ,
   });
   final TextEditingController controller;
   // final String hintText;
@@ -20,6 +21,7 @@ class CustomTextField extends StatelessWidget {
 AutovalidateMode autovalidateMode;
   final TextInputType? keyboardType;
   final bool obscuretext;
+  final List<TextInputFormatter>? inputFormatters;
    
 
   @override
@@ -44,6 +46,8 @@ AutovalidateMode autovalidateMode;
             child: BlocBuilder<PasswordCubit, bool>(
               builder: (context, isPasswordVisible) {
                 return TextFormField(
+                  inputFormatters: inputFormatters,
+                  textCapitalization: TextCapitalization.sentences,
                   obscureText: obscuretext && !isPasswordVisible,
                   keyboardType: keyboardType ?? TextInputType.name,
                   autovalidateMode: autovalidateMode,

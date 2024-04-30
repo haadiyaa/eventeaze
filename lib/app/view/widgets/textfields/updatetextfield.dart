@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class UpdateTextField extends StatelessWidget {
   UpdateTextField({
@@ -7,20 +8,25 @@ class UpdateTextField extends StatelessWidget {
     required this.text,
     this.enabled,
     this.validator,
-    required this.autovalidateMode,
+    required this.autovalidateMode, this.keyboardType, this.inputFormatters,
   });
 
   final TextEditingController controller;
   final String text;
+  final TextInputType? keyboardType;
   final bool? enabled;
   AutovalidateMode autovalidateMode;
   final String? Function(String?)? validator;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 15),
       child: TextFormField(
+        inputFormatters: inputFormatters,
+        keyboardType: keyboardType,
+        textCapitalization: TextCapitalization.sentences,
         autovalidateMode: autovalidateMode,
         validator: validator,
         enabled: enabled ?? true,

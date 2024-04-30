@@ -6,6 +6,7 @@ import 'package:eventeaze/app/view/widgets/textfields/customtextfield.dart';
 import 'package:eventeaze/app/view/widgets/design/mycircle2.dart';
 import 'package:eventeaze/app/view/widgets/googlewidget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -59,8 +60,8 @@ class SignUpPage extends StatelessWidget {
             ),
           );
           // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (_) => const LoginPageWrapper()));
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (_) => const LoginPageWrapper()));
           // });
         }
         if (state is UnAuthenticatedState) {
@@ -122,6 +123,12 @@ class SignUpPage extends StatelessWidget {
                       child: Column(
                         children: [
                           CustomTextField(
+                            inputFormatters: [
+                              FilteringTextInputFormatter.deny(
+                                  RegExp(r'\s{2,}')),
+                              LengthLimitingTextInputFormatter(25)
+                            ],
+                            keyboardType: TextInputType.name,
                             autovalidateMode: autovalidateMode,
                             controller: _nameController,
                             labelText: 'User Name',
@@ -135,6 +142,11 @@ class SignUpPage extends StatelessWidget {
                             },
                           ),
                           CustomTextField(
+                            inputFormatters: [
+                              FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                              LengthLimitingTextInputFormatter(10)
+                            ],
+                            keyboardType: TextInputType.phone,
                             autovalidateMode: autovalidateMode,
                             controller: _phoneController,
                             labelText: 'Phone Number',
@@ -150,6 +162,11 @@ class SignUpPage extends StatelessWidget {
                             },
                           ),
                           CustomTextField(
+                            inputFormatters: [
+                              FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                              LengthLimitingTextInputFormatter(20)
+                            ],
+                            keyboardType: TextInputType.emailAddress,
                             autovalidateMode: autovalidateMode,
                             controller: _emailController,
                             labelText: 'Email Address',
@@ -161,13 +178,16 @@ class SignUpPage extends StatelessWidget {
                                   r"^[a-zA-Z0-9_\-\.\S]{4,}[@][a-z]+[\.][a-z]{2,3}[\s]*$");
                               if (!emailReg.hasMatch(value)) {
                                 return 'Invalid email address!';
-                                
                               }
                             },
                           ),
                           CustomTextField(
-                            autovalidateMode: 
-                            autovalidateMode,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                              LengthLimitingTextInputFormatter(15)
+                            ],
+                            keyboardType: TextInputType.visiblePassword,
+                            autovalidateMode: autovalidateMode,
                             obscuretext: true,
                             controller: _passwordController,
                             labelText: 'Enter Password',
@@ -184,7 +204,8 @@ class SignUpPage extends StatelessWidget {
                           CustomButton(
                             text: 'Sign Up',
                             onPressed: () {
-                              autovalidateMode=AutovalidateMode.onUserInteraction;
+                              autovalidateMode =
+                                  AutovalidateMode.onUserInteraction;
                               if (_formKey.currentState!.validate()) {
                                 UserModel user = UserModel(
                                   username: _nameController.text.trim(),

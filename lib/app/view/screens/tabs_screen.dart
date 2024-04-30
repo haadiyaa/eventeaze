@@ -27,7 +27,7 @@ class TabsScreen extends StatelessWidget {
     const ProfilePageWrapper(),
   ];
 
-  List<GButton> bottomNavItems = const[
+  List<GButton> bottomNavItems = const [
     GButton(
       icon: Icons.home,
       text: 'Home',
@@ -51,19 +51,20 @@ class TabsScreen extends StatelessWidget {
             child: pages.elementAt(state.tabIndex),
           ),
           bottomNavigationBar: Container(
-            decoration:const BoxDecoration(
-                color: Color.fromARGB(255, 138, 148, 108),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(25),
-                  topRight: Radius.circular(25),
-                )),
+            decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 113, 121, 89),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(25),
+                topRight: Radius.circular(25),
+              ),
+            ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
               child: GNav(
                 gap: 8,
                 tabs: bottomNavItems,
-                backgroundColor: const Color.fromARGB(255, 138, 148, 108),
-                color: const Color.fromARGB(255, 68, 73, 53),
+                backgroundColor: const Color.fromARGB(255, 113, 121, 89),
+                color: const Color.fromARGB(255, 64, 68, 50),
                 activeColor: Colors.white,
                 tabBackgroundColor: const Color.fromARGB(255, 162, 173, 127),
                 padding: const EdgeInsets.all(10),

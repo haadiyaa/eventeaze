@@ -33,7 +33,7 @@ class _SearchEventPageState extends State<SearchEventPage> {
   @override
   void initState() {
     super.initState();
-    currentUser=FirebaseAuth.instance.currentUser;
+    currentUser = FirebaseAuth.instance.currentUser;
   }
 
   var searchName = '';
@@ -48,16 +48,23 @@ class _SearchEventPageState extends State<SearchEventPage> {
         }
         return Scaffold(
           appBar: AppBar(
+            automaticallyImplyLeading: false,
             titleSpacing: 0,
             title: MyCustomSearchBar(
               onChange: (value) {
                 function.add(SearchEvent(value: value));
               },
             ),
+            actions: [
+              IconButton(
+                onPressed: () => Navigator.pop(context),
+                icon: const Icon(Icons.close),
+              ),
+            ],
           ),
           body: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection('events').snapshots(),
+              stream:
+                  FirebaseFirestore.instance.collection('events').snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return const Center(
@@ -82,10 +89,13 @@ class _SearchEventPageState extends State<SearchEventPage> {
                   child: Column(
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 15),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 15),
                         height: MediaQuery.of(context).size.height,
                         child: ListView.separated(
-                          separatorBuilder: (context, index) => const SizedBox(height: 5,),
+                          separatorBuilder: (context, index) => const SizedBox(
+                            height: 5,
+                          ),
                           shrinkWrap: true,
                           itemCount: filteredEvents.length,
                           itemBuilder: (BuildContext context, int index) {
@@ -96,14 +106,23 @@ class _SearchEventPageState extends State<SearchEventPage> {
                               elevation: 10,
                               child: ListTile(
                                 onTap: () {
-                                  if (data['id']==currentUser!.uid) {
-                                    Navigator.push(context, MaterialPageRoute(builder: (_)=>UserEventDetailsWrapper(id: data['eventId'])));
-                                  }
-                                  else{
-                                    Navigator.push(context, MaterialPageRoute(builder: (_)=>EventDetailsPage(id: data['eventId'])));
+                                  if (data['id'] == currentUser!.uid) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                UserEventDetailsWrapper(
+                                                    id: data['eventId'])));
+                                  } else {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => EventDetailsPage(
+                                                id: data['eventId'])));
                                   }
                                 },
-                                textColor: const Color.fromARGB(255, 68, 73, 53),
+                                textColor:
+                                    const Color.fromARGB(255, 68, 73, 53),
                                 title: Text(data['eventName']),
                                 subtitle: Text(DateFormat('yyyy-MM-dd')
                                     .format(data['eventDate'].toDate())

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:eventeaze/app/bloc/functionBloc/functions_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:eventeaze/app/view/widgets/textfields/creattext.dart';
 import 'package:eventeaze/app/view/widgets/textfields/customdropdown.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
@@ -73,7 +75,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
   final TextEditingController descController = TextEditingController();
 
   final TextEditingController contacttController = TextEditingController();
-  final String eventId = Uuid().v4();
+  final String eventId = const Uuid().v4();
   String? imageurl;
   String? date;
   TimeOfDay selectedTime = TimeOfDay.now();
@@ -122,7 +124,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                 selectedItem = state.value;
                 print('state emittteed ${state.value} and $selectedItem');
               }
-    // this.expands = false,
+              // this.expands = false,
               if (state is TimePickState) {
                 TimeOfDay? time = await showTimePicker(
                   context: context,
@@ -161,18 +163,23 @@ class _CreateEventPageState extends State<CreateEventPage> {
                   child: Column(
                     children: [
                       CreateText(
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(RegExp(r'\s{2,}')),
+                          LengthLimitingTextInputFormatter(20)
+                        ],
+                        keyboardType: TextInputType.name,
                         maxLines: 1,
                         text: 'Event Title',
                         controller: titleController,
                         validator: (value) {
                           final name = RegExp(r'^[A-Za-z\s]+$');
-                              if (value!.isEmpty) {
-                                return 'User name can\'t be empty';
-                              } else if (!name.hasMatch(value)) {
-                                return "Enter a valid name";
-                              }else if(value.length<3){
-                                return 'Title should be atleast 3 characters long';
-                              }
+                          if (value!.isEmpty) {
+                            return 'User name can\'t be empty';
+                          } else if (!name.hasMatch(value)) {
+                            return "Enter a valid name";
+                          } else if (value.length < 3) {
+                            return 'Title should be atleast 3 characters long';
+                          }
                         },
                       ),
                       CustomDropdown(
@@ -185,47 +192,61 @@ class _CreateEventPageState extends State<CreateEventPage> {
                         },
                       ),
                       CreateText(
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                          LengthLimitingTextInputFormatter(6)
+                        ],
                         keyboardType: TextInputType.number,
                         maxLines: 1,
                         text: 'Total No. of tickets',
                         controller: ticketController,
                         validator: (value) {
-                          final reg2 = RegExp(r"^\d{2,}$");
-                              if (value!.isEmpty) {
-                                return 'Number can\'t be empty';
-                              } else if (!reg2.hasMatch(value)) {
-                                return 'Enter a valid number of tickets';
-                              }
+                          final reg2 = RegExp(r"^\d+$");
+                          if (value!.isEmpty) {
+                            return 'Number can\'t be empty';
+                          } else if (!reg2.hasMatch(value)) {
+                            return 'Enter a valid number of tickets';
+                          }
                         },
                       ),
                       CreateText(
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(RegExp(r'\s{2,}')),
+                          LengthLimitingTextInputFormatter(15)
+                        ],
+                        keyboardType: TextInputType.name,
                         maxLines: 1,
                         text: "City",
                         controller: cityController,
                         validator: (value) {
                           final name = RegExp(r'^[A-Za-z\s\.]+$');
-                              if (value!.isEmpty) {
-                                return 'City can\'t be empty';
-                              } else if (!name.hasMatch(value)) {
-                                return "Enter a valid City";
-                              }else if(value.length<3){
-                                return 'City be atleast 3 characters long';
-                              }
+                          if (value!.isEmpty) {
+                            return 'City can\'t be empty';
+                          } else if (!name.hasMatch(value)) {
+                            return "Enter a valid City";
+                          } else if (value.length < 3) {
+                            return 'City be atleast 3 characters long';
+                          }
                         },
                       ),
                       CreateText(
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(RegExp(r'\s{2,}')),
+                          LengthLimitingTextInputFormatter(15)
+                        ],
+                        keyboardType: TextInputType.name,
                         maxLines: 1,
                         text: 'Vanue',
                         controller: locationController,
                         validator: (value) {
                           final name = RegExp(r'^[A-Za-z\s\S]+$');
-                              if (value!.isEmpty) {
-                                return 'Venue name can\'t be empty';
-                              } else if (!name.hasMatch(value)) {
-                                return "Enter a valid name";
-                              }else if(value.length<3){
-                                return 'Venue should be atleast 3 characters long';
-                              }
+                          if (value!.isEmpty) {
+                            return 'Venue name can\'t be empty';
+                          } else if (!name.hasMatch(value)) {
+                            return "Enter a valid name";
+                          } else if (value.length < 3) {
+                            return 'Venue should be atleast 3 characters long';
+                          }
                         },
                       ),
                       CreateText(
@@ -261,51 +282,66 @@ class _CreateEventPageState extends State<CreateEventPage> {
                         },
                       ),
                       CreateText(
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(RegExp(r'\s{2,}')),
+                        ],
+                        keyboardType: TextInputType.name,
                         maxLines: null,
                         text: 'Description',
                         controller: descController,
                         validator: (value) {
                           final name = RegExp(r'^[A-Za-z\s\S\d]+$');
-                              if (value!.isEmpty) {
-                                return 'Description can\'t be empty';
-                              } else if (!name.hasMatch(value)) {
-                                return "Enter a paragraph";
-                              }else if(value.length<3){
-                                return 'Description should be atleast 3 characters long';
-                              }
+                          if (value!.isEmpty) {
+                            return 'Description can\'t be empty';
+                          } else if (!name.hasMatch(value)) {
+                            return "Enter a paragraph";
+                          } else if (value.length < 3) {
+                            return 'Description should be atleast 3 characters long';
+                          }
                         },
                       ),
                       CreateText(
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                          LengthLimitingTextInputFormatter(6)
+                        ],
+                        keyboardType: TextInputType.number,
                         maxLines: 1,
                         text: 'Ticket Price',
                         controller: priceController,
                         validator: (value) {
                           final reg2 = RegExp(r"^\d{2,}$");
-                              if (value!.isEmpty) {
-                                return 'Ticket price can\'t be empty';
-                              } else if (!reg2.hasMatch(value)) {
-                                return 'Enter a valid number Price';
-                              }
+                          if (value!.isEmpty) {
+                            return 'Ticket price can\'t be empty';
+                          } else if (!reg2.hasMatch(value)) {
+                            return 'Enter a valid number Price';
+                          }
                         },
                       ),
                       CreateText(
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                          LengthLimitingTextInputFormatter(15)
+                        ],
+                        keyboardType: TextInputType.phone,
                         maxLines: 1,
                         text: 'Contact Number',
                         controller: contacttController,
                         validator: (value) {
-                              final reg2 = RegExp(r"^[6789]\d{9}$");
-                              if (value!.isEmpty) {
-                                return 'Number can\'t be empty';
-                              } else if (value.length > 10) {
-                                return "number exact 10";
-                              } else if (!reg2.hasMatch(value)) {
-                                return 'Enter a valid phone number';
-                              }
-                            },
+                          final reg2 = RegExp(r"^[6789]\d{9}$");
+                          if (value!.isEmpty) {
+                            return 'Number can\'t be empty';
+                          } else if (value.length > 10) {
+                            return "number exact 10";
+                          } else if (!reg2.hasMatch(value)) {
+                            return 'Enter a valid phone number';
+                          }
+                        },
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                        child: StreamBuilder<
+                                QuerySnapshot<Map<String, dynamic>>>(
                             stream: FirebaseFirestore.instance
                                 .collection('events')
                                 .where('id', isEqualTo: eventId)
@@ -344,9 +380,36 @@ class _CreateEventPageState extends State<CreateEventPage> {
                                               )
                                         : CircleAvatar(
                                             radius: 40,
-                                            backgroundImage:
-                                                NetworkImage(imageurl!),
-                                          ),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                              child: CachedNetworkImage(
+                                                imageUrl: imageurl!,
+                                                width: 80,
+                                                height: 80,
+                                                fit: BoxFit.cover,
+                                                placeholder: (context, url) =>
+                                                    Shimmer.fromColors(
+                                                  baseColor:
+                                                      Colors.grey.shade300,
+                                                  highlightColor:
+                                                      Colors.grey.shade100,
+                                                  child: Container(
+                                                    width: 10,
+                                                    height: 10,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        const Icon(Icons.error),
+                                                // child: Image(
+                                                //   fit: BoxFit.cover,
+                                                //   image: NetworkImage(data['image']),
+                                                // ),
+                                              ),
+                                            )),
                                   ),
                                   const SizedBox(
                                     width: 8,
@@ -364,7 +427,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                       ),
                       CustomButton(
                         text: 'Save & Publish',
-                        color: Color.fromARGB(255, 81, 87, 64),
+                        color:const Color.fromARGB(255, 81, 87, 64),
                         onPressed: () {
                           print('$selectedItem category');
                           print('button clickedd');
@@ -406,8 +469,8 @@ class _CreateEventPageState extends State<CreateEventPage> {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        foreground: Color.fromARGB(255, 81, 87, 64),
-                        color: Color.fromARGB(255, 241, 255, 196),
+                        foreground:const Color.fromARGB(255, 81, 87, 64),
+                        color: const Color.fromARGB(255, 241, 255, 196),
                       ),
                     ],
                   ),
