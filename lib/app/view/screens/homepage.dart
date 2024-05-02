@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:eventeaze/app/bloc/functionBloc/functions_bloc.dart';
 import 'package:eventeaze/app/model/categorymodel.dart';
@@ -15,6 +18,7 @@ import 'package:eventeaze/app/view/widgets/textfields/customsearchbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class HomePageWrapper extends StatelessWidget {
   const HomePageWrapper({super.key});
@@ -45,14 +49,67 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<CategoryModel>? allCategory;
 
+  // late StreamSubscription subscription;
+  // var isDeviceConnected = false;
+  // bool isAlertSet = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // getConnectivity();
+  }
+
+  // getConnectivity() => subscription =
+  //         Connectivity().onConnectivityChanged.listen((result) async {
+  //       isDeviceConnected = await InternetConnectionChecker().hasConnection;
+  //       if (!isDeviceConnected && isAlertSet == false) {
+  //         showDialogBox();
+  //         setState(() {
+  //           isAlertSet = true;
+  //         });
+  //       }
+  //     });
+
+  @override
+  void dispose() {
+    // subscription.cancel();
+    super.dispose();
+  }
+
+  showDialogBox() => showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('No Connection'),
+          content: const Text('Please check your Internet Connection'),
+          actions: [
+            // TextButton(
+            //   onPressed: () async {
+            //     Navigator.pop(context);
+            //     setState(() {
+            //       isAlertSet=false;
+            //     });
+            //     isDeviceConnected=await InternetConnectionChecker().hasConnection;
+            //     if (!isDeviceConnected) {
+            //       showDialogBox();
+            //       setState(() {
+            //         isAlertSet=true;
+            //       });
+            //     }
+            //   },
+            //   child:const Text('OK'),
+            // ),
+          ],
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is UnAuthenticatedState) {
           Navigator.pop(context);
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (_) => const LoginPageWrapper()));
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (_) => const LoginPageWrapper()));
         } else if (state is AuthLoadingState) {
           showDialog(
             context: context,
@@ -72,7 +129,10 @@ class _HomePageState extends State<HomePage> {
           appBar: AppBar(
             title: CustomSearchBar(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_)=>const SearchEventWrapper()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => const SearchEventWrapper()));
               },
             ),
             actions: [
@@ -85,7 +145,10 @@ class _HomePageState extends State<HomePage> {
               ),
               IconButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (_)=>const CreateEventWrapper()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const CreateEventWrapper()));
                 },
                 icon: const Icon(
                   Icons.add_to_photos_rounded,
@@ -129,8 +192,8 @@ class _HomePageState extends State<HomePage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (_) =>  EventList(
-                                          title: 'Recommended')));
+                                      builder: (_) =>
+                                          EventList(title: 'Recommended')));
                             },
                           ),
                           const RecommendedList(),
@@ -150,7 +213,7 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
-                     UpcomingList(),
+                    UpcomingList(),
                   ],
                 );
               },

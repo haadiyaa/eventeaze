@@ -182,7 +182,11 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       UpdateTextField(
-                                        inputFormatters: [LengthLimitingTextInputFormatter(25),FilteringTextInputFormatter.deny(RegExp(r'\s{2,}'))],
+                                        inputFormatters: [
+                                          LengthLimitingTextInputFormatter(25),
+                                          FilteringTextInputFormatter.deny(
+                                              RegExp(r'\s{2,}'))
+                                        ],
                                         keyboardType: TextInputType.name,
                                         autovalidateMode: autovalidateMode,
                                         validator: (value) {
@@ -230,6 +234,8 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                                           CustomButton(
                                             text: 'Done',
                                             onPressed: () {
+                                              FocusManager.instance.primaryFocus
+                                                  ?.unfocus();
                                               autovalidateMode =
                                                   AutovalidateMode
                                                       .onUserInteraction;

@@ -51,6 +51,7 @@ class SignUpPage extends StatelessWidget {
           );
         } else if (state is AuthenticatedState) {
           Navigator.pop(context);
+
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               behavior: SnackBarBehavior.floating,
@@ -69,7 +70,16 @@ class SignUpPage extends StatelessWidget {
         }
         if (state is AuthenticatedErrorState) {
           Navigator.pop(context);
-          if (state.message == 'account-exists-with-different-credential') {
+          if (state.message.contains('network-request-failed')) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                behavior: SnackBarBehavior.floating,
+                margin: EdgeInsets.all(10),
+                content: Text('Please check your internet connection'),
+              ),
+            );
+          } else if (state.message
+              .contains('email-already-in-use')) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 behavior: SnackBarBehavior.floating,
@@ -79,6 +89,17 @@ class SignUpPage extends StatelessWidget {
               ),
             );
           }
+          else{
+            ScaffoldMessenger.of(context).showSnackBar(
+               SnackBar(
+                behavior: SnackBarBehavior.floating,
+                margin: const EdgeInsets.all(10),
+                content: Text(state.message),
+              ),
+            );
+          }
+          
+            print(state.message);
         }
       },
       child: Scaffold(
@@ -204,6 +225,7 @@ class SignUpPage extends StatelessWidget {
                           CustomButton(
                             text: 'Sign Up',
                             onPressed: () {
+                              FocusManager.instance.primaryFocus?.unfocus();
                               autovalidateMode =
                                   AutovalidateMode.onUserInteraction;
                               if (_formKey.currentState!.validate()) {

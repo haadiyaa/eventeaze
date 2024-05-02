@@ -24,6 +24,7 @@ class UpdateTextField extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 15),
       child: TextFormField(
+        textInputAction: TextInputAction.next,
         inputFormatters: inputFormatters,
         keyboardType: keyboardType,
         textCapitalization: TextCapitalization.sentences,

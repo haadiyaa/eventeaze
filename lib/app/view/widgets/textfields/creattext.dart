@@ -26,6 +26,7 @@ class CreateText extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       child: TextFormField(
+        textInputAction: TextInputAction.next,
         textCapitalization: TextCapitalization.sentences,
         inputFormatters: inputFormatters,
         onTap: onTap,

@@ -140,7 +140,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                 DateTime? _picked = await showDatePicker(
                   context: context,
                   initialDate: DateTime.now(),
-                  firstDate: DateTime(2000),
+                  firstDate: DateTime.now(),
                   lastDate: DateTime(2100),
                 );
                 if (_picked != null) {
@@ -427,8 +427,9 @@ class _CreateEventPageState extends State<CreateEventPage> {
                       ),
                       CustomButton(
                         text: 'Save & Publish',
-                        color:const Color.fromARGB(255, 81, 87, 64),
+                        color: const Color.fromARGB(255, 81, 87, 64),
                         onPressed: () {
+                          FocusManager.instance.primaryFocus?.unfocus();
                           print('$selectedItem category');
                           print('button clickedd');
                           if (imageurl == null) {
@@ -467,9 +468,10 @@ class _CreateEventPageState extends State<CreateEventPage> {
                       CustomButton(
                         text: 'Cancel',
                         onPressed: () {
+                          FocusManager.instance.primaryFocus?.unfocus();
                           Navigator.pop(context);
                         },
-                        foreground:const Color.fromARGB(255, 81, 87, 64),
+                        foreground: const Color.fromARGB(255, 81, 87, 64),
                         color: const Color.fromARGB(255, 241, 255, 196),
                       ),
                     ],

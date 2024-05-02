@@ -46,6 +46,7 @@ AutovalidateMode autovalidateMode;
             child: BlocBuilder<PasswordCubit, bool>(
               builder: (context, isPasswordVisible) {
                 return TextFormField(
+                  textInputAction: TextInputAction.next,
                   inputFormatters: inputFormatters,
                   textCapitalization: TextCapitalization.sentences,
                   obscureText: obscuretext && !isPasswordVisible,

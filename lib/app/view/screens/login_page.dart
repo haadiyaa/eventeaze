@@ -56,21 +56,47 @@ class LoginPage extends StatelessWidget {
               backgroundColor: Color.fromARGB(255, 89, 121, 90),
             ),
           );
-          // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (_) => const TabsScreenWrapper()));
-          // });
         } else if (state is AuthenticatedErrorState) {
           Navigator.pop(context);
+          if (state.message.contains('network-request-failed')) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                behavior: SnackBarBehavior.floating,
+                margin:  EdgeInsets.all(10),
+                content: Text('Please check your internet connection'),
+              ),
+            );
+          } else if(state.message.contains('wrong-password')){
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                behavior: SnackBarBehavior.floating,
+                margin:  EdgeInsets.all(10),
+                content: Text('Password is Incorrect!'),
+              ),
+            );
+          }else if(state.message.contains('user-not-found')){
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                behavior: SnackBarBehavior.floating,
+                margin:  EdgeInsets.all(10),
+                content: Text('No user found with this email!'),
+              ),
+            );
+          }
+          else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                behavior: SnackBarBehavior.floating,
+                margin: const EdgeInsets.all(10),
+                content: Text(
+                    'No User Found with this email or password did not match: ${state.message}'),
+              ),
+            );
+          }
 
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              behavior: SnackBarBehavior.floating,
-              margin: EdgeInsets.all(10),
-              content: Text(
-                  'No User Found with this email or password did not match'),
-            ),
-          );
+          print(state.message);
         } else if (state is UnAuthenticatedState) {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
@@ -208,6 +234,7 @@ class LoginPage extends StatelessWidget {
                           CustomButton(
                             text: 'Login',
                             onPressed: () async {
+                              FocusManager.instance.primaryFocus?.unfocus();
                               autovalidateMode =
                                   AutovalidateMode.onUserInteraction;
 

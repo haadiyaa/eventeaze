@@ -101,7 +101,6 @@ class _SearchEventPageState extends State<SearchEventPage> {
                           itemBuilder: (BuildContext context, int index) {
                             var data = filteredEvents[index];
                             return Card(
-                              // color: Colors.white,
                               color: const Color.fromARGB(255, 248, 255, 224),
                               elevation: 10,
                               child: ListTile(
@@ -115,10 +114,12 @@ class _SearchEventPageState extends State<SearchEventPage> {
                                                     id: data['eventId'])));
                                   } else {
                                     Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) => EventDetailsPage(
-                                                id: data['eventId'])));
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => EventDetailsPage(
+                                            id: data['eventId']),
+                                      ),
+                                    );
                                   }
                                 },
                                 textColor:

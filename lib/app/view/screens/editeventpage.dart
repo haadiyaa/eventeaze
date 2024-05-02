@@ -94,8 +94,8 @@ class _EditEventPageState extends State<EditEventPage> {
     contacttController = TextEditingController(text: widget.event.contact);
     selectedItem = widget.event.category;
     current = FirebaseAuth.instance.currentUser!;
-    imageurl=widget.event.image;
-    timestamp=widget.event.eventDate;
+    imageurl = widget.event.image;
+    timestamp = widget.event.eventDate;
   }
 
   @override
@@ -147,9 +147,9 @@ class _EditEventPageState extends State<EditEventPage> {
               }
 
               if (state is DatePickingState) {
-                DateTime? _picked ;
-                _picked=timestamp!.toDate();
-                _picked =  await showDatePicker(
+                DateTime? _picked;
+                _picked = timestamp!.toDate();
+                _picked = await showDatePicker(
                   context: context,
                   initialDate: DateTime.now(),
                   firstDate: DateTime(2000),
@@ -157,7 +157,8 @@ class _EditEventPageState extends State<EditEventPage> {
                 );
                 if (_picked != null) {
                   DateTime pickedDate = _picked;
-                  String formatDate =DateFormat('yyyy-MM-dd').format(pickedDate);
+                  String formatDate =
+                      DateFormat('yyyy-MM-dd').format(pickedDate);
                   dateController!.text = formatDate;
                   timestamp = Timestamp.fromDate(pickedDate);
                 }
@@ -167,7 +168,8 @@ class _EditEventPageState extends State<EditEventPage> {
                 Navigator.pop(context);
               }
               if (state is UpdateEventErrorState) {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Upadate Error!')));
+                ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Upadate Error!')));
               }
             },
             builder: (context, state) => Column(
@@ -353,6 +355,7 @@ class _EditEventPageState extends State<EditEventPage> {
                         text: 'Save & Publish',
                         color: Color.fromARGB(255, 81, 87, 64),
                         onPressed: () {
+                          FocusManager.instance.primaryFocus?.unfocus();
                           print('$selectedItem dfghjmnbvcvbn');
                           print('button clickedd');
                           if (imageurl == null) {
@@ -393,6 +396,7 @@ class _EditEventPageState extends State<EditEventPage> {
                       CustomButton(
                         text: 'Cancel',
                         onPressed: () {
+                          FocusManager.instance.primaryFocus?.unfocus();
                           Navigator.pop(context);
                         },
                         foreground: Color.fromARGB(255, 81, 87, 64),
