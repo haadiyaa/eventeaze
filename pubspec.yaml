@@ -60,6 +60,9 @@ dependencies:
   flutter_image_compress: ^2.2.0
   connectivity_plus: ^6.0.3
   internet_connection_checker: ^1.0.0+1
+  firebase_messaging: ^14.9.1
+  app_settings: ^5.1.1
+  flutter_local_notifications: ^17.1.1
 
 dev_dependencies:
   flutter_test:

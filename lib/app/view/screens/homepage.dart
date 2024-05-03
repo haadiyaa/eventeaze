@@ -4,6 +4,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:eventeaze/app/bloc/functionBloc/functions_bloc.dart';
 import 'package:eventeaze/app/model/categorymodel.dart';
+import 'package:eventeaze/app/utils/notificationservices.dart';
 import 'package:eventeaze/app/view/screens/categoriespage.dart';
 import 'package:eventeaze/app/view/screens/createeventpage.dart';
 import 'package:eventeaze/app/view/screens/eventlist.dart';
@@ -49,55 +50,55 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<CategoryModel>? allCategory;
 
-  // late StreamSubscription subscription;
-  // var isDeviceConnected = false;
-  // bool isAlertSet = false;
+  late StreamSubscription subscription;
+  var isDeviceConnected = false;
+  bool isAlertSet = false;
 
   @override
   void initState() {
     super.initState();
-    // getConnectivity();
+    getConnectivity();
   }
 
-  // getConnectivity() => subscription =
-  //         Connectivity().onConnectivityChanged.listen((result) async {
-  //       isDeviceConnected = await InternetConnectionChecker().hasConnection;
-  //       if (!isDeviceConnected && isAlertSet == false) {
-  //         showDialogBox();
-  //         setState(() {
-  //           isAlertSet = true;
-  //         });
-  //       }
-  //     });
+  getConnectivity() => subscription =
+          Connectivity().onConnectivityChanged.listen((result) async {
+        isDeviceConnected = await InternetConnectionChecker().hasConnection;
+        if (!isDeviceConnected && isAlertSet == false) {
+          showDialogBox();
+          setState(() {
+            isAlertSet = true;
+          });
+        }
+      });
 
   @override
   void dispose() {
-    // subscription.cancel();
+    subscription.cancel();
     super.dispose();
   }
 
   showDialogBox() => showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('No Connection'),
-          content: const Text('Please check your Internet Connection'),
+        builder: (context) =>  AlertDialog(
+          title: Text('No Connection'),
+          content: Text('Please check your Internet Connection'),
           actions: [
-            // TextButton(
-            //   onPressed: () async {
-            //     Navigator.pop(context);
-            //     setState(() {
-            //       isAlertSet=false;
-            //     });
-            //     isDeviceConnected=await InternetConnectionChecker().hasConnection;
-            //     if (!isDeviceConnected) {
-            //       showDialogBox();
-            //       setState(() {
-            //         isAlertSet=true;
-            //       });
-            //     }
-            //   },
-            //   child:const Text('OK'),
-            // ),
+            TextButton(
+              onPressed: () async {
+                Navigator.pop(context);
+                setState(() {
+                  isAlertSet=false;
+                });
+                isDeviceConnected=await InternetConnectionChecker().hasConnection;
+                if (!isDeviceConnected) {
+                  showDialogBox();
+                  setState(() {
+                    isAlertSet=true;
+                  });
+                }
+              },
+              child:const Text('OK'),
+            ),
           ],
         ),
       );

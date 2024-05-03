@@ -1,4 +1,5 @@
 import 'package:eventeaze/app/bloc/bottonNavbloc/bottomnav_bloc.dart';
+import 'package:eventeaze/app/utils/notificationservices.dart';
 import 'package:eventeaze/app/view/screens/categoriespage.dart';
 import 'package:eventeaze/app/view/screens/homepage.dart';
 import 'package:eventeaze/app/view/screens/profile_page.dart';
@@ -18,8 +19,26 @@ class TabsScreenWrapper extends StatelessWidget {
   }
 }
 
-class TabsScreen extends StatelessWidget {
+class TabsScreen extends StatefulWidget {
   TabsScreen({super.key});
+
+  @override
+  State<TabsScreen> createState() => _TabsScreenState();
+}
+
+class _TabsScreenState extends State<TabsScreen> {
+  NotificationServices notificationServices = NotificationServices();
+
+  @override
+  void initState() {
+    super.initState();
+    notificationServices.requestNotificationPermission();
+    notificationServices.firebaseInit(context);
+    // notificationServices.isTokenRefresh();
+    notificationServices.getDeviceToken().then((value) {
+      print('Device Token : $value');
+    });
+  }
 
   List<Widget> pages = [
     const HomePageWrapper(),
