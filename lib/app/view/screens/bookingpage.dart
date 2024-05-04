@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/bloc/functionBloc/functions_bloc.dart';
+import 'package:eventeaze/app/utils/notificationservices.dart';
+import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
 import 'package:eventeaze/app/view/widgets/design/confirmalert.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/detailslisttile.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/eventdetail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 
 class BookingPageWrapper extends StatelessWidget {
   const BookingPageWrapper({super.key, required this.id});
@@ -23,8 +28,9 @@ class BookingPageWrapper extends StatelessWidget {
 }
 
 class BookingPage extends StatelessWidget {
-  const BookingPage({super.key, required this.id});
+  BookingPage({super.key, required this.id});
   final String id;
+  NotificationServices notificationServices = NotificationServices();
 
   @override
   Widget build(BuildContext context) {
@@ -151,6 +157,44 @@ class BookingPage extends StatelessWidget {
                               const Divider(),
                               const SizedBox(
                                 height: 20,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CustomButton(
+                                    text: 'Send Request',
+                                    onPressed: () {
+                                      notificationServices
+                                          .getDeviceToken()
+                                          .then((value) async {
+                                        var data = {
+                                          'to':value.toString(),
+                                          'priority': 'high',
+                                          'notification': {
+                                            'title': 'Hadiya',
+                                            'body': 'Hello, good morning'
+                                          },
+                                          'data':{
+                                            'type':'msg',
+                                            'id':'123456',
+                                          },
+                                        };
+                                        await http.post(
+                                          Uri.parse(
+                                              'https://fcm.googleapis.com/fcm/send'),
+                                          body: jsonEncode(data),
+                                          headers: {
+                                            'Content-Type':
+                                                'application/json; charset=UTF-8',
+                                            'Authorization':
+                                                'key=AAAAd9zIxEE:APA91bGeFb3CY_PAjpSaIc_xvR7GYtSOy0n2n4zn7o5W_rs034TapwJZ_sgwE0l4mOoXPndnQTd-P1yo7ARIF7rPkhh-BnMHtu59XfM7gvDFZriH03WcGtCp6xFNnhIxul2qINI4bZTu',
+                                          },
+                                        );
+                                      });
+                                    },
+                                    color: const Color.fromARGB(255, 105, 114, 77),
+                                  ),
+                                ],
                               ),
                             ],
                           ),

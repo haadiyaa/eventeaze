@@ -1,8 +1,10 @@
+import 'package:eventeaze/app/bloc/bloc/notifications_bloc.dart';
 import 'package:eventeaze/app/bloc/bottonNavbloc/bottomnav_bloc.dart';
 import 'package:eventeaze/app/utils/notificationservices.dart';
 import 'package:eventeaze/app/view/screens/categoriespage.dart';
 import 'package:eventeaze/app/view/screens/homepage.dart';
 import 'package:eventeaze/app/view/screens/profile_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -12,8 +14,15 @@ class TabsScreenWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => BottomnavBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => BottomnavBloc(),
+        ),
+        BlocProvider(
+          create: (context) => NotificationsBloc(),
+        ),
+      ],
       child: TabsScreen(),
     );
   }
@@ -28,14 +37,20 @@ class TabsScreen extends StatefulWidget {
 
 class _TabsScreenState extends State<TabsScreen> {
   NotificationServices notificationServices = NotificationServices();
+  String mToken = '';
+  User? user;
 
   @override
   void initState() {
     super.initState();
+    user=FirebaseAuth.instance.currentUser;
     notificationServices.requestNotificationPermission();
     notificationServices.firebaseInit(context);
+    notificationServices.setupInteractMessage(context);
     // notificationServices.isTokenRefresh();
     notificationServices.getDeviceToken().then((value) {
+      BlocProvider.of<NotificationsBloc>(context).add(GetTokenEvent(email: user!.email!, token: value));
+      mToken = value;
       print('Device Token : $value');
     });
   }

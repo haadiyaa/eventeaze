@@ -2,8 +2,10 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:app_settings/app_settings.dart';
+import 'package:eventeaze/app/view/screens/notificationscreen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
@@ -43,7 +45,9 @@ class NotificationServices {
 
     await _flutterLocalNotificationsPlugin.initialize(
       initializationSetting,
-      onDidReceiveNotificationResponse: (payload) {},
+      onDidReceiveNotificationResponse: (payload) {
+        handleMessage(context, message);
+      },
     );
   }
 
@@ -52,11 +56,15 @@ class NotificationServices {
       if (kDebugMode) {
         print(message.notification!.title.toString());
         print(message.notification!.body.toString());
+        print(message.data.toString());
+        print(message.data['type']);
+        print(message.data['id']);
       }
       if (Platform.isAndroid) {
         initLocalNotifications(context, message);
-
-      showNotification(message);
+        showNotification(message);
+      } else {
+        showNotification(message);
       }
     });
   }
@@ -87,7 +95,8 @@ class NotificationServices {
           message.notification!.title.toString(),
           message.notification!.body.toString(),
           notificationDetails,
-        );  
+          // payload: message.data['body']
+        );
       },
     );
   }
@@ -102,5 +111,27 @@ class NotificationServices {
       event.toString();
       print('refresh');
     });
+  }
+
+  Future<void> setupInteractMessage(BuildContext context) async {
+    //terminated
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+    if (initialMessage != null) {
+      handleMessage(context, initialMessage);
+    }
+
+    //background
+    FirebaseMessaging.onMessageOpenedApp.listen((event) { 
+      handleMessage(context, event);
+    });
+
+  }
+
+  void handleMessage(BuildContext context, RemoteMessage message) {
+    if (message.data['type'] == 'msg') {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (_) => const NotificationScreen()));
+    }
   }
 }

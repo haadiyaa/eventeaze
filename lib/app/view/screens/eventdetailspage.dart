@@ -123,7 +123,7 @@ class EventDetailsPage extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     CustomButton(
-                                      text: 'GET TICKETS',
+                                      text: 'BOOK TICKETS',
                                       onPressed: () {
                                         Navigator.push(context, MaterialPageRoute(builder: (_)=> BookingPageWrapper(id:event['eventId'])));
                                       },
