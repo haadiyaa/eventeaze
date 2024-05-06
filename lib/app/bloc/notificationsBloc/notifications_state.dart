@@ -11,3 +11,8 @@ class GetTokenState extends NotificationsState {
 
   GetTokenState({required this.token});
 }
+class NetworkState extends NotificationsState {
+  final bool value;
+
+  NetworkState({required this.value});
+}

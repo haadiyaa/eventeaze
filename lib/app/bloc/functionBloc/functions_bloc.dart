@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/model/categorymodel.dart';
 import 'package:eventeaze/app/model/evenmodel.dart';
-import 'package:eventeaze/app/utils/dummydata.dart';
+import 'package:eventeaze/app/serivices/dummydata.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
@@ -239,4 +239,6 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
         'Contact for more Information : ${event.contact}');
         emit(ShareState());
   }
+
+ 
 }

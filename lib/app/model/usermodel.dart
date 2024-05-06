@@ -8,6 +8,7 @@ class UserModel extends Equatable {
   String? email;
   String? phone;
   String? image;
+  String? token;
 
   UserModel({
     this.uid,
@@ -16,6 +17,7 @@ class UserModel extends Equatable {
     this.password,
     this.email,
     this.image,
+    this.token,
   });
 
   @override
@@ -25,7 +27,8 @@ class UserModel extends Equatable {
         password,
         email,
         phone,
-        image
+        image,
+        token,
       ];
 
   Map<String, dynamic> toMap() {
@@ -36,6 +39,7 @@ class UserModel extends Equatable {
       'email': email,
       'phone': phone,
       'image': image,
+      'token': token,
     };
   }
 

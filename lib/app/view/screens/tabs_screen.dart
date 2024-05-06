@@ -1,6 +1,9 @@
-import 'package:eventeaze/app/bloc/bloc/notifications_bloc.dart';
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:eventeaze/app/bloc/notificationsBloc/notifications_bloc.dart';
 import 'package:eventeaze/app/bloc/bottonNavbloc/bottomnav_bloc.dart';
-import 'package:eventeaze/app/utils/notificationservices.dart';
+import 'package:eventeaze/app/serivices/notificationservices.dart';
 import 'package:eventeaze/app/view/screens/categoriespage.dart';
 import 'package:eventeaze/app/view/screens/homepage.dart';
 import 'package:eventeaze/app/view/screens/profile_page.dart';
@@ -8,6 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class TabsScreenWrapper extends StatelessWidget {
   const TabsScreenWrapper({super.key});
@@ -40,20 +44,69 @@ class _TabsScreenState extends State<TabsScreen> {
   String mToken = '';
   User? user;
 
+  late StreamSubscription subscription;
+  var isDeviceConnected = false;
+  bool isAlertSet = false;
+
   @override
   void initState() {
     super.initState();
-    user=FirebaseAuth.instance.currentUser;
+    getConnectivity();
+    user = FirebaseAuth.instance.currentUser;
     notificationServices.requestNotificationPermission();
     notificationServices.firebaseInit(context);
     notificationServices.setupInteractMessage(context);
     // notificationServices.isTokenRefresh();
     notificationServices.getDeviceToken().then((value) {
-      BlocProvider.of<NotificationsBloc>(context).add(GetTokenEvent(email: user!.email!, token: value));
+      // BlocProvider.of<NotificationsBloc>(context).add(GetTokenEvent(currentUser: user!, token: value));
       mToken = value;
       print('Device Token : $value');
     });
   }
+
+  @override
+  void dispose() {
+    subscription.cancel();
+    super.dispose();
+  }
+
+  showDialogBox() => showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('No Connection'),
+          content: const Text('Please check your Internet Connection'),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                Navigator.pop(context);
+                setState(() {
+                  isAlertSet = false;
+                });
+                isDeviceConnected =
+                    await InternetConnectionChecker().hasConnection;
+                if (!isDeviceConnected) {
+                  showDialogBox();
+                  setState(() {
+                    isAlertSet = true;
+                  });
+                }
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+
+  getConnectivity() => subscription =
+          Connectivity().onConnectivityChanged.listen((result) async {
+        isDeviceConnected = await InternetConnectionChecker().hasConnection;
+        if (!isDeviceConnected && isAlertSet == false) {
+          showDialogBox();
+          setState(() {
+            isAlertSet = true;
+          });
+        }
+      });
 
   List<Widget> pages = [
     const HomePageWrapper(),

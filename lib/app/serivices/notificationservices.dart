@@ -77,11 +77,13 @@ class NotificationServices {
     );
     AndroidNotificationDetails androidNotificationDetails =
         AndroidNotificationDetails(
-            channel.id.toString(), channel.name.toString(),
-            channelDescription: 'your channel description',
-            importance: Importance.high,
-            priority: Priority.high,
-            ticker: 'ticker');
+      channel.id.toString(),
+      channel.name.toString(),
+      channelDescription: 'your channel description',
+      importance: Importance.high,
+      priority: Priority.high,
+      ticker: 'ticker',
+    );
 
     NotificationDetails notificationDetails = NotificationDetails(
       android: androidNotificationDetails,
@@ -122,10 +124,9 @@ class NotificationServices {
     }
 
     //background
-    FirebaseMessaging.onMessageOpenedApp.listen((event) { 
+    FirebaseMessaging.onMessageOpenedApp.listen((event) {
       handleMessage(context, event);
     });
-
   }
 
   void handleMessage(BuildContext context, RemoteMessage message) {

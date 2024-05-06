@@ -101,7 +101,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           'email': user.email,
           'phone': event.user.phone,
           'username': event.user.username,
-          // 'image':event.user.image,
+          'token':event.user.token,
         });
         print('authenticated');
         emit(AuthenticatedState(user: userCredential.user!));

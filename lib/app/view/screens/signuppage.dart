@@ -1,5 +1,6 @@
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:eventeaze/app/model/usermodel.dart';
+import 'package:eventeaze/app/serivices/notificationservices.dart';
 import 'package:eventeaze/app/view/screens/login_page.dart';
 import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
 import 'package:eventeaze/app/view/widgets/textfields/customtextfield.dart';
@@ -29,6 +30,8 @@ class SignUpPage extends StatelessWidget {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
+  NotificationServices notificationServices = NotificationServices();
+
 
   final _formKey = GlobalKey<FormState>();
 
@@ -229,13 +232,17 @@ class SignUpPage extends StatelessWidget {
                               autovalidateMode =
                                   AutovalidateMode.onUserInteraction;
                               if (_formKey.currentState!.validate()) {
-                                UserModel user = UserModel(
+                                notificationServices.getDeviceToken().then((value) {
+                                  UserModel user = UserModel(
+                                    token: value,
                                   username: _nameController.text.trim(),
                                   password: _passwordController.text.trim(),
                                   email: _emailController.text.trim(),
                                   phone: _phoneController.text.trim(),
                                 );
                                 authBloc.add(SignUpEvent(user: user));
+                                });
+                                
                               }
                             },
                             color: const Color.fromARGB(255, 170, 181, 135),

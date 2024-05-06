@@ -1,10 +1,6 @@
-import 'dart:async';
-
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:eventeaze/app/bloc/functionBloc/functions_bloc.dart';
 import 'package:eventeaze/app/model/categorymodel.dart';
-import 'package:eventeaze/app/utils/notificationservices.dart';
 import 'package:eventeaze/app/view/screens/categoriespage.dart';
 import 'package:eventeaze/app/view/screens/createeventpage.dart';
 import 'package:eventeaze/app/view/screens/eventlist.dart';
@@ -19,7 +15,6 @@ import 'package:eventeaze/app/view/widgets/textfields/customsearchbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class HomePageWrapper extends StatelessWidget {
   const HomePageWrapper({super.key});
@@ -49,60 +44,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<CategoryModel>? allCategory;
-
-  late StreamSubscription subscription;
-  var isDeviceConnected = false;
-  bool isAlertSet = false;
-
-  @override
-  void initState() {
-    super.initState();
-    getConnectivity();
-  }
-
-  getConnectivity() => subscription =
-          Connectivity().onConnectivityChanged.listen((result) async {
-        isDeviceConnected = await InternetConnectionChecker().hasConnection;
-        if (!isDeviceConnected && isAlertSet == false) {
-          showDialogBox();
-          setState(() {
-            isAlertSet = true;
-          });
-        }
-      });
-
-  @override
-  void dispose() {
-    subscription.cancel();
-    super.dispose();
-  }
-
-  showDialogBox() => showDialog(
-        context: context,
-        builder: (context) =>  AlertDialog(
-          title: Text('No Connection'),
-          content: Text('Please check your Internet Connection'),
-          actions: [
-            TextButton(
-              onPressed: () async {
-                Navigator.pop(context);
-                setState(() {
-                  isAlertSet=false;
-                });
-                isDeviceConnected=await InternetConnectionChecker().hasConnection;
-                if (!isDeviceConnected) {
-                  showDialogBox();
-                  setState(() {
-                    isAlertSet=true;
-                  });
-                }
-              },
-              child:const Text('OK'),
-            ),
-          ],
-        ),
-      );
-
+  
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
@@ -183,10 +125,7 @@ class _HomePageState extends State<HomePage> {
                           const SizedBox(
                             height: 10,
                           ),
-                          //categories
                           EventCategories(),
-
-                          //recommended
                           SectionHeading(
                             title: 'Recommended for you',
                             onPressed: () {

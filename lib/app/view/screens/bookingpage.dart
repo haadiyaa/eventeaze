@@ -2,11 +2,12 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/bloc/functionBloc/functions_bloc.dart';
-import 'package:eventeaze/app/utils/notificationservices.dart';
+import 'package:eventeaze/app/serivices/notificationservices.dart';
 import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
 import 'package:eventeaze/app/view/widgets/design/confirmalert.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/detailslisttile.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/eventdetail.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -31,6 +32,7 @@ class BookingPage extends StatelessWidget {
   BookingPage({super.key, required this.id});
   final String id;
   NotificationServices notificationServices = NotificationServices();
+  final User? _user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -158,44 +160,80 @@ class BookingPage extends StatelessWidget {
                               const SizedBox(
                                 height: 20,
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  CustomButton(
-                                    text: 'Send Request',
-                                    onPressed: () {
-                                      notificationServices
-                                          .getDeviceToken()
-                                          .then((value) async {
-                                        var data = {
-                                          'to':value.toString(),
-                                          'priority': 'high',
-                                          'notification': {
-                                            'title': 'Hadiya',
-                                            'body': 'Hello, good morning'
-                                          },
-                                          'data':{
-                                            'type':'msg',
-                                            'id':'123456',
-                                          },
-                                        };
-                                        await http.post(
-                                          Uri.parse(
-                                              'https://fcm.googleapis.com/fcm/send'),
-                                          body: jsonEncode(data),
-                                          headers: {
-                                            'Content-Type':
-                                                'application/json; charset=UTF-8',
-                                            'Authorization':
-                                                'key=AAAAd9zIxEE:APA91bGeFb3CY_PAjpSaIc_xvR7GYtSOy0n2n4zn7o5W_rs034TapwJZ_sgwE0l4mOoXPndnQTd-P1yo7ARIF7rPkhh-BnMHtu59XfM7gvDFZriH03WcGtCp6xFNnhIxul2qINI4bZTu',
-                                          },
+                              StreamBuilder<DocumentSnapshot>(
+                                  stream: FirebaseFirestore.instance
+                                      .collection('users')
+                                      .doc(event['id'])
+                                      .snapshots(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      final user = snapshot.data?.data()
+                                          as Map<String, dynamic>?;
+                                      if (user != null) {
+                                        return Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            StreamBuilder<DocumentSnapshot>(
+                                              stream: FirebaseFirestore.instance
+                                                  .collection('users')
+                                                  .doc(_user!.uid)
+                                                  .snapshots(),
+                                              builder: (context, snapshot) {
+                                                if (snapshot.hasData) {
+                                                  final user2 = snapshot.data
+                                                          ?.data()
+                                                      as Map<String, dynamic>?;
+                                                  if (user2 != null) {
+                                                    return CustomButton(
+                                                      text: 'Send Request',
+                                                      onPressed: () async {
+                                                        var data = {
+                                                          'to': user['token']
+                                                              .toString(),
+                                                          'priority': 'high',
+                                                          'notification': {
+                                                            'title':
+                                                                'Hey, ${user['username']}',
+                                                            'body':
+                                                                '${user2['username']} has requested to join your event!'
+                                                          },
+                                                          'data': {
+                                                            'type': 'msg',
+                                                            'id': '123456',
+                                                          },
+                                                        };
+                                                        await http.post(
+                                                          Uri.parse(
+                                                              'https://fcm.googleapis.com/fcm/send'),
+                                                          body:
+                                                              jsonEncode(data),
+                                                          headers: {
+                                                            'Content-Type':
+                                                                'application/json; charset=UTF-8',
+                                                            'Authorization':
+                                                                'key=AAAAd9zIxEE:APA91bGeFb3CY_PAjpSaIc_xvR7GYtSOy0n2n4zn7o5W_rs034TapwJZ_sgwE0l4mOoXPndnQTd-P1yo7ARIF7rPkhh-BnMHtu59XfM7gvDFZriH03WcGtCp6xFNnhIxul2qINI4bZTu',
+                                                          },
+                                                        );
+                                                      },
+                                                      color:
+                                                          const Color.fromARGB(
+                                                              255,
+                                                              105,
+                                                              114,
+                                                              77),
+                                                    );
+                                                  }
+                                                }
+                                                return Container();
+                                              },
+                                            ),
+                                          ],
                                         );
-                                      });
-                                    },
-                                    color: const Color.fromARGB(255, 105, 114, 77),
-                                  ),
-                                ],
-                              ),
+                                      }
+                                    }
+                                    return Container();
+                                  }),
                             ],
                           ),
                         ),
