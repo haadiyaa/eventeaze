@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => const HomePageWrapper(),
         '/tabs': (context) => const TabsScreenWrapper(),
         '/eventlist': (context) => UserEventsPage(),
+        
       },
     );
   }

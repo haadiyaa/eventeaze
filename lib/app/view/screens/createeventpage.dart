@@ -212,7 +212,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                       CreateText(
                         inputFormatters: [
                           FilteringTextInputFormatter.deny(RegExp(r'\s{2,}')),
-                          LengthLimitingTextInputFormatter(15)
+                          LengthLimitingTextInputFormatter(25)
                         ],
                         keyboardType: TextInputType.name,
                         maxLines: 1,
@@ -232,7 +232,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                       CreateText(
                         inputFormatters: [
                           FilteringTextInputFormatter.deny(RegExp(r'\s{2,}')),
-                          LengthLimitingTextInputFormatter(15)
+                          LengthLimitingTextInputFormatter(30)
                         ],
                         keyboardType: TextInputType.name,
                         maxLines: 1,
@@ -321,7 +321,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                       CreateText(
                         inputFormatters: [
                           FilteringTextInputFormatter.deny(RegExp(r'\s')),
-                          LengthLimitingTextInputFormatter(15)
+                          LengthLimitingTextInputFormatter(10)
                         ],
                         keyboardType: TextInputType.phone,
                         maxLines: 1,

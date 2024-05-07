@@ -132,7 +132,10 @@ class NotificationServices {
   void handleMessage(BuildContext context, RemoteMessage message) {
     if (message.data['type'] == 'msg') {
       Navigator.push(context,
-          MaterialPageRoute(builder: (_) => const NotificationScreen()));
+          MaterialPageRoute(builder: (_) => NotificationScreen(title: message.notification!.title.toString(),
+          body: message.notification!.body.toString(),)));
     }
+    Navigator.push(context, MaterialPageRoute(builder: (_)=>NotificationScreen(title: message.notification!.title.toString(),
+          body: message.notification!.body.toString(),)));
   }
 }

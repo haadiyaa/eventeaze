@@ -1,17 +1,17 @@
-import 'dart:convert';
-
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+
 import 'package:eventeaze/app/bloc/functionBloc/functions_bloc.dart';
+import 'package:eventeaze/app/bloc/notificationsBloc/notifications_bloc.dart';
 import 'package:eventeaze/app/serivices/notificationservices.dart';
 import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
 import 'package:eventeaze/app/view/widgets/design/confirmalert.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/detailslisttile.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/eventdetail.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
-import 'package:http/http.dart' as http;
 
 class BookingPageWrapper extends StatelessWidget {
   const BookingPageWrapper({super.key, required this.id});
@@ -19,8 +19,15 @@ class BookingPageWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => FunctionsBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => FunctionsBloc(),
+        ),
+        BlocProvider(
+          create: (context) => NotificationsBloc(),
+        ),
+      ],
       child: BookingPage(
         id: id,
       ),
@@ -29,14 +36,18 @@ class BookingPageWrapper extends StatelessWidget {
 }
 
 class BookingPage extends StatelessWidget {
-  BookingPage({super.key, required this.id});
+  BookingPage({
+    Key? key,
+    required this.id,
+  }) : super(key: key);
   final String id;
-  NotificationServices notificationServices = NotificationServices();
+  final NotificationServices notificationServices = NotificationServices();
   final User? _user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
     final functionBloc = BlocProvider.of<FunctionsBloc>(context);
+    final notification = BlocProvider.of<NotificationsBloc>(context);
     return BlocListener<FunctionsBloc, FunctionsState>(
       listener: (context, state) {
         if (state is DeleteConfirmState) {
@@ -151,7 +162,6 @@ class BookingPage extends StatelessWidget {
                               ),
 
                               //contact
-
                               AboutEventData(
                                 desc: event['contact'],
                                 title: 'CONTACT',
@@ -186,36 +196,38 @@ class BookingPage extends StatelessWidget {
                                                       as Map<String, dynamic>?;
                                                   if (user2 != null) {
                                                     return CustomButton(
-                                                      text: 'Send Request',
-                                                      onPressed: () async {
-                                                        var data = {
-                                                          'to': user['token']
-                                                              .toString(),
-                                                          'priority': 'high',
-                                                          'notification': {
-                                                            'title':
-                                                                'Hey, ${user['username']}',
-                                                            'body':
-                                                                '${user2['username']} has requested to join your event!'
-                                                          },
-                                                          'data': {
-                                                            'type': 'msg',
-                                                            'id': '123456',
-                                                          },
-                                                        };
-                                                        await http.post(
-                                                          Uri.parse(
-                                                              'https://fcm.googleapis.com/fcm/send'),
-                                                          body:
-                                                              jsonEncode(data),
-                                                          headers: {
-                                                            'Content-Type':
-                                                                'application/json; charset=UTF-8',
-                                                            'Authorization':
-                                                                'key=AAAAd9zIxEE:APA91bGeFb3CY_PAjpSaIc_xvR7GYtSOy0n2n4zn7o5W_rs034TapwJZ_sgwE0l4mOoXPndnQTd-P1yo7ARIF7rPkhh-BnMHtu59XfM7gvDFZriH03WcGtCp6xFNnhIxul2qINI4bZTu',
-                                                          },
-                                                        );
-                                                      },
+                                                      text: 'Join',
+                                                      onPressed: int.parse(event[
+                                                                  'seats']) <=
+                                                              0
+                                                          ? () {}
+                                                          : () async {
+                                                              var data = {
+                                                                'to': user[
+                                                                        'token']
+                                                                    .toString(),
+                                                                'priority':
+                                                                    'high',
+                                                                'notification':
+                                                                    {
+                                                                  'title':
+                                                                      'Hey, ${user['username']}',
+                                                                  'body':
+                                                                      '${user2['username']} has joined your event!'
+                                                                },
+                                                                'data': {
+                                                                  'type': 'msg',
+                                                                  'id':
+                                                                      '123456',
+                                                                },
+                                                              };
+                                                              notification.add(JoinEvent(
+                                                                  data: data,
+                                                                  seats: event[
+                                                                      'seats'],
+                                                                  id: event[
+                                                                      'eventId']));
+                                                            },
                                                       color:
                                                           const Color.fromARGB(
                                                               255,
@@ -231,8 +243,26 @@ class BookingPage extends StatelessWidget {
                                           ],
                                         );
                                       }
+                                    } else {
+                                      return Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          CustomButton(
+                                            text: 'Join',
+                                            onPressed: () {},
+                                            child:
+                                                const CircularProgressIndicator(),
+                                          ),
+                                        ],
+                                      );
                                     }
-                                    return Container();
+                                    return Container(
+                                      color: Colors.amber,
+                                      height: 10,
+                                      width: double.infinity,
+                                    );
+                                    //return const SizedBox();
                                   }),
                             ],
                           ),

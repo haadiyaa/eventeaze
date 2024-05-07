@@ -80,6 +80,7 @@ class _SearchEventPageState extends State<SearchEventPage> {
                     child: Text('null!'),
                   );
                 }
+                
                 final filteredEvents = snapshot.data!.docs.where((event) {
                   final eventName = event['eventName'].toString().toLowerCase();
                   return eventName.contains(searchName);

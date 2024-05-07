@@ -16,3 +16,16 @@ class NetworkState extends NotificationsState {
 
   NetworkState({required this.value});
 }
+
+class JoinEventState extends NotificationsState{
+
+}
+class JoinLoadingState extends NotificationsState{
+
+}
+
+class JoinEventErrorState extends NotificationsState{
+  final String message;
+
+  JoinEventErrorState({required this.message});
+}
