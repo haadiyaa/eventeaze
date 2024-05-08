@@ -1,3 +1,4 @@
+import 'package:eventeaze/app/view/screens/eventstoattend.dart';
 import 'package:eventeaze/app/view/screens/privacypolicy.dart';
 import 'package:eventeaze/app/view/screens/usereventspage.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,9 @@ class ProfileList extends StatelessWidget {
           ),
           const Divider(),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (_)=>EventsToAttend()));
+            },
             child: const ListTile(
               title: Text(
                 'EVENTS TO ATTEND',

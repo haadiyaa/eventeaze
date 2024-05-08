@@ -20,7 +20,8 @@ class NetwoekEvent extends NotificationsEvent {
 class JoinEvent extends NotificationsEvent{
   final Map<String, Object> data;
   final String seats;
-  final String id;
+  final  EventModel eventdetails;
+  final String userid;
 
-  JoinEvent({required this.id, required this.seats, required this.data});
+  JoinEvent({required this.userid,required this.eventdetails, required this.seats, required this.data});
 }

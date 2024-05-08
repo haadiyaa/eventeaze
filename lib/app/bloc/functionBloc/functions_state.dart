@@ -78,4 +78,7 @@ class ShareState extends FunctionsState {
   
 }
 
+class NotAvailableState extends FunctionsState{
+  
+}
 

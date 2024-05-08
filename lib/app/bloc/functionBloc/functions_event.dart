@@ -70,4 +70,6 @@ class ShareEvent extends FunctionsEvent {
   ShareEvent({required this.desc,required this.contact, required this.title, required this.date, required this.time, required this.location,});
 }
 
-
+class NotAvailableEvent extends FunctionsEvent{
+  
+}

@@ -8,7 +8,6 @@ import 'package:eventeaze/app/serivices/dummydata.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:uuid/uuid.dart';
@@ -38,6 +37,7 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
     on<DeleteRejectEvent>(_deleteRejectEvent);
     on<SearchEvent>(_searchEvent);
     on<ShareEvent>(_shareEvent);
+    on<NotAvailableEvent>(_notAvailable);
   }
 
   FutureOr<void> _datePick(DatePickEvent event, Emitter<FunctionsState> emit) {
@@ -241,4 +241,9 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
   }
 
  
+
+  FutureOr<void> _notAvailable(NotAvailableEvent event, Emitter<FunctionsState> emit) {
+
+    emit(NotAvailableState());
+  }
 }
