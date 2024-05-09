@@ -9,24 +9,16 @@ class TicketBox extends StatelessWidget {
     super.key,
     this.onTap,
     required this.event,
-    required this.date,
-    required this.time,
-    required this.location,
-    required this.price,
     required this.bookid,
-    required this.venue,
     required this.image,
+    required this.booktime,
     this.count=0,
   });
   final void Function()? onTap;
   final String event;
-  final String date;
-  final String time;
-  final String location;
-  final String price;
   final String bookid;
-  final String venue;
   final String image;
+  final String booktime;
   int count;
 
   @override
@@ -48,8 +40,8 @@ class TicketBox extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              width: 80,
-              height: 120,
+              width: 60,
+              height: 60,
               clipBehavior: Clip.antiAlias,
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(10)),
@@ -80,32 +72,7 @@ class TicketBox extends StatelessWidget {
                       fontWeight: FontWeight.w500, fontSize: 22),
                 ),
                 const SizedBox(
-                  height: 8,
-                ),
-                Text(
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  '$date,$time',
-                  style: const TextStyle(fontSize: 14),
-                ),
-                const SizedBox(
                   height: 4,
-                ),
-                Text(
-                  '$venue,$location',
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                Text(
-                  "Amount: $price",
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                ),
-                const SizedBox(
-                  height: 8,
                 ),
                 Text(
                   overflow: TextOverflow.ellipsis,
@@ -113,6 +80,12 @@ class TicketBox extends StatelessWidget {
                   'BOOKING ID : $bookid'.toString().split('-')[0],
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 12),
+                ),
+                Text(
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  booktime,
+                  style: const TextStyle(fontSize: 10),
                 ),
               ],
             ),

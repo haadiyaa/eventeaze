@@ -11,11 +11,11 @@ class ProfileAvatar extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       height: 70,
       width: 70,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         shape: BoxShape.circle,
-        color: const Color.fromARGB(255, 184, 197, 146),
-        border: Border.all(color: const Color.fromARGB(255, 68, 73, 53)),
-        boxShadow: const [
+        color: Color.fromARGB(255, 184, 197, 146),
+        // border: Border.all(color: const Color.fromARGB(255, 68, 73, 53)),
+        boxShadow: [
           BoxShadow(blurRadius: 7, offset: Offset(0, 4), color: Colors.grey),
         ],
       ),

@@ -1,9 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eventeaze/app/view/widgets/design/eventdetails/bottomsheet.dart';
 import 'package:eventeaze/app/view/widgets/design/ticketbox.dart';
 import 'package:eventeaze/app/view/widgets/shimmers/shimmerupcoming.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
 
 class EventsToAttend extends StatefulWidget {
   EventsToAttend({super.key});
@@ -51,18 +54,20 @@ class _EventsToAttendState extends State<EventsToAttend> {
                   itemBuilder: (BuildContext context, int index) {
                     final eventdata = snapshot.data!.docs[index].data();
                     return TicketBox(
+                      onTap: () {
+                        showModalBottomSheet(
+                          showDragHandle: true,
+                          context: context,
+                          builder: (context) {
+                            return MyBottomSheet(eventdata: eventdata);
+                          },
+                        );
+                      },
+                      booktime: DateFormat("dd MMM yyyy 'at' hh:mm a")
+                          .format(eventdata['bookingTime'].toDate()),
                       image: eventdata['image'],
                       event: eventdata['eventName'],
-                      date: DateFormat('yyyy-MM-dd')
-                          .format(eventdata['eventDate'].toDate())
-                          .split('-')
-                          .reversed
-                          .join('-'),
-                      time: eventdata['eventTime'],
-                      location: eventdata['location'],
-                      price: eventdata['price'],
                       bookid: eventdata['eventId'],
-                      venue: eventdata['venue'],
                     );
                   },
                 ),

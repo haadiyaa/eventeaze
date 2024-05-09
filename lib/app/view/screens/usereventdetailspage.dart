@@ -2,14 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/bloc/functionBloc/functions_bloc.dart';
 import 'package:eventeaze/app/model/evenmodel.dart';
 import 'package:eventeaze/app/view/screens/editeventpage.dart';
-import 'package:eventeaze/app/view/screens/usereventspage.dart';
 import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
 import 'package:eventeaze/app/view/widgets/design/confirmalert.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/aboutevent.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/detailslisttile.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/eventdetail.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
@@ -248,7 +246,7 @@ class UserEventDetailsPage extends StatelessWidget {
               }
             }
 //----------------------------------------------------------------------------------------------------
-            return EventDetail();
+            return const EventDetail();
           }),
     );
   }

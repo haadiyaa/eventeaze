@@ -42,11 +42,7 @@ class _UserEventsPageState extends State<UserEventsPage> {
               .where('id', isEqualTo: user!.uid)
               .snapshots(),
           builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return const Center(
-                child: Text('Sorry! Something went Wrong!'),
-              );
-            } else if (snapshot.hasData && snapshot.data!.docs.isEmpty) {
+            if (snapshot.hasData && snapshot.data!.docs.isEmpty) {
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -103,11 +99,13 @@ class _UserEventsPageState extends State<UserEventsPage> {
                             location: eventdata['location'],
                             onTap: () {
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => UserEventDetailsWrapper(
-                                            id: eventdata['eventId'],
-                                          )));
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => UserEventDetailsWrapper(
+                                    id: eventdata['eventId'],
+                                  ),
+                                ),
+                              );
                             },
                           );
                         },

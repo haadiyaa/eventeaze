@@ -16,12 +16,11 @@ class UpcomingEventPage extends StatefulWidget {
 }
 
 class _UpcomingEventPageState extends State<UpcomingEventPage> {
-
   User? user;
   @override
   void initState() {
     super.initState();
-    user=FirebaseAuth.instance.currentUser;
+    user = FirebaseAuth.instance.currentUser;
   }
 
   @override
@@ -40,7 +39,7 @@ class _UpcomingEventPageState extends State<UpcomingEventPage> {
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
           stream: FirebaseFirestore.instance
               .collection('events')
-              .where('eventDate',isGreaterThan: DateTime.now())
+              .where('eventDate', isGreaterThan: DateTime.now())
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -59,23 +58,28 @@ class _UpcomingEventPageState extends State<UpcomingEventPage> {
                           return EventHorizontalCard(
                             image: eventdata['image'],
                             title: eventdata['eventName'],
-                            date: DateFormat('yyyy-MM-dd').format(eventdata['eventDate'].toDate()).split('-').reversed.join('-'),
+                            date: DateFormat('yyyy-MM-dd')
+                                .format(eventdata['eventDate'].toDate())
+                                .split('-')
+                                .reversed
+                                .join('-'),
                             time: eventdata['eventTime'],
                             location: eventdata['location'],
                             onTap: () {
-                              if(eventdata['id']==user!.uid){
-                                
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) =>
-                                          UserEventDetailsWrapper(id: eventdata['eventId'],)));
-                              }else{
+                              if (eventdata['id'] == user!.uid) {
                                 Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) =>
-                                          EventDetailsPage(id: eventdata['eventId'],)));
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => UserEventDetailsWrapper(
+                                              id: eventdata['eventId'],
+                                            )));
+                              } else {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => EventDetailsPage(
+                                              id: eventdata['eventId'],
+                                            )));
                               }
                             },
                           );
