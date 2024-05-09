@@ -17,7 +17,10 @@ class VerticalImageText extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.only(right: 10.0),
+        padding: const EdgeInsets.only(
+          left: 5,
+          right: 5,
+        ),
         child: Column(
           children: [
             //category image

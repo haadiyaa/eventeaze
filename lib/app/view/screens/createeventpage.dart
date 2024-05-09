@@ -440,7 +440,6 @@ class _CreateEventPageState extends State<CreateEventPage> {
                           } else {
                             if (_key.currentState!.validate()) {
                               print('button validaation');
-
                               if (timestamp != null) {
                                 final EventModel event = EventModel(
                                   eventName: titleController.text.trim(),
@@ -455,7 +454,6 @@ class _CreateEventPageState extends State<CreateEventPage> {
                                   category: selectedItem,
                                   ticketPrice: priceController.text.trim(),
                                 );
-
                                 BlocProvider.of<FunctionsBloc>(context)
                                     .add(CreateEventEvent(event: event));
                               } else {

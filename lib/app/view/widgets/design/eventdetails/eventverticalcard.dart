@@ -19,7 +19,7 @@ class EventVerticalCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.only(right: 10.0),
+        padding: const EdgeInsets.only(right: 5,left: 5),
         child: Stack(
           children: [
             Container(

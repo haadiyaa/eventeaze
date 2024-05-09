@@ -39,6 +39,7 @@ class _RecommendedListState extends State<RecommendedList> {
             child: SizedBox(
               height: 150,
               child: ListView.builder(
+                padding: EdgeInsets.symmetric(horizontal: 10),
                 shrinkWrap: true,
                 itemCount: snapshot.data!.docs.length,
                 scrollDirection: Axis.horizontal,

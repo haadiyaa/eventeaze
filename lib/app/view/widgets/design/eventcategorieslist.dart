@@ -32,6 +32,7 @@ class EventCategories extends StatelessWidget {
           return SizedBox(
             height: 165,
             child: ListView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               shrinkWrap: true,
               itemCount: snapshot.data!.docs.length,
               scrollDirection: Axis.horizontal,
