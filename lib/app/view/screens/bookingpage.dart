@@ -183,11 +183,12 @@ class BookingPage extends StatelessWidget {
                                   height: 10,
                                 ),
                                 //ticket price
+                                event['ticketPrice']!=''?
                                 AboutEventData(
                                   desc: '${event['ticketPrice']} INR',
                                   title: 'TICKET PRICE',
-                                ),
-                                const Divider(),
+                                ):const SizedBox(),
+                                event['ticketPrice']!=''?const Divider():SizedBox(),
                                 const SizedBox(
                                   height: 10,
                                 ),
@@ -272,7 +273,7 @@ class BookingPage extends StatelessWidget {
                                                                       image: event['image'],
                                                                       category: event['category'],
                                                                       eventId: event['eventId'],
-                                                                      ticketPrice: event['ticketPrice'],
+                                                                      ticketPrice: event['ticketPrice']??'',
                                                                     );
                                                                 notification.add(
                                                                     JoinEvent(

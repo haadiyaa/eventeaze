@@ -4,11 +4,13 @@ import 'package:eventeaze/app/model/categorymodel.dart';
 import 'package:eventeaze/app/view/screens/categoriespage.dart';
 import 'package:eventeaze/app/view/screens/createeventpage.dart';
 import 'package:eventeaze/app/view/screens/eventlist.dart';
+import 'package:eventeaze/app/view/screens/freeeventspage.dart';
 import 'package:eventeaze/app/view/screens/login_page.dart';
 import 'package:eventeaze/app/view/screens/searcheventpage.dart';
 import 'package:eventeaze/app/view/screens/upcomimgeventpage.dart';
 import 'package:eventeaze/app/view/widgets/buttons/sectionheading.dart';
 import 'package:eventeaze/app/view/widgets/design/eventcategorieslist.dart';
+import 'package:eventeaze/app/view/widgets/design/mybanner.dart';
 import 'package:eventeaze/app/view/widgets/design/recommendedlist.dart';
 import 'package:eventeaze/app/view/widgets/design/upcominglist.dart';
 import 'package:eventeaze/app/view/widgets/textfields/customsearchbar.dart';
@@ -113,54 +115,8 @@ class _HomePageState extends State<HomePage> {
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20.0, vertical: 10),
-                          child: Banner(
-                            message: 'Free Events',
-                            location: BannerLocation.topEnd,
-                            child: Container(
-                              padding: const EdgeInsets.all(10),
-                              width: MediaQuery.of(context).size.width,
-                              height: MediaQuery.of(context).size.height * 0.25,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  // border: Border.all(
-                                  //   color:
-                                  //       const Color.fromARGB(255, 68, 73, 53),
-                                  // ),
-                                  color:
-                                      Color.fromARGB(255, 242, 247, 231),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Colors.grey,
-                                      offset: Offset(3, 3),
-                                      blurRadius: 10,
-                                    ),
-                                  ]),
-                              child: Row(
-                                children: [
-                                  LottieBuilder.asset(
-                                      'assets/lottie/Animation - 1715253108377.json'),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  const Column(
-                                    children: [
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        'Discover\nExciting\nFree\nActivities!',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 24,
-                                          color:
-                                              Color.fromARGB(255, 68, 73, 53),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
+                          child: MyBanner(
+                            onTap: () {Navigator.push(context, MaterialPageRoute(builder: (_)=>FreeEventsPage()));},
                           ),
                         ),
                         Padding(
@@ -191,10 +147,12 @@ class _HomePageState extends State<HomePage> {
                             title: 'Recommended for you',
                             onPressed: () {
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) =>
-                                          EventList(title: 'Recommended')));
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) =>
+                                      EventList(title: 'Recommended'),
+                                ),
+                              );
                             },
                           ),
                         ),
@@ -211,10 +169,12 @@ class _HomePageState extends State<HomePage> {
                             title: 'Upcoming Events',
                             onPressed: () {
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => const UpcomingEventPage(
-                                          title: 'Upcoming Events')));
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const UpcomingEventPage(
+                                      title: 'Upcoming Events'),
+                                ),
+                              );
                             },
                           ),
                         ),

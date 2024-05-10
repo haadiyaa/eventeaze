@@ -69,6 +69,7 @@ class MyBottomSheet extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
             ),
+            eventdata['price']==''?const SizedBox():
             Text(
               "Amount: ${eventdata['price']}",
               overflow: TextOverflow.ellipsis,

@@ -104,9 +104,10 @@ class EventDetailsPage extends StatelessWidget {
                                   height: 10,
                                 ),
                                 //ticket price
+                                event['ticketPrice']!=''?
                                 AboutEvent(
                                     desc: '${event['ticketPrice']} INR',
-                                    title: 'TICKET PRICE'),
+                                    title: 'TICKET PRICE'):const SizedBox(),
                                 const SizedBox(
                                   height: 20,
                                 ),

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/bloc/functionBloc/functions_bloc.dart';
 import 'package:eventeaze/app/model/evenmodel.dart';
@@ -143,15 +145,15 @@ class UserEventDetailsPage extends StatelessWidget {
                                 height: 10,
                               ),
                               //ticket price
+                              event['ticketPrice']!=''?
                               AboutEvent(
                                   desc: '${event['ticketPrice']} INR',
-                                  title: 'TICKET PRICE'),
+                                  title: 'TICKET PRICE'):const SizedBox(height: 0,),
                               const SizedBox(
-                                height: 20,
+                                height: 5,
                               ),
-
+                              
                               //contact
-
                               AboutEvent(
                                   desc: event['contact'], title: 'CONTACT'),
                               const SizedBox(
@@ -159,7 +161,6 @@ class UserEventDetailsPage extends StatelessWidget {
                               ),
 
                               //buttons
-
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -179,7 +180,7 @@ class UserEventDetailsPage extends StatelessWidget {
                                         contact: event['contact'],
                                         image: event['image'],
                                         category: event['category'],
-                                        ticketPrice: event['ticketPrice'],
+                                        ticketPrice: event['ticketPrice']??'',
                                       );
                                       Navigator.push(
                                           context,

@@ -51,10 +51,16 @@ class _CreateEventPageState extends State<CreateEventPage> {
     'Birthday',
     'Health',
     'Food',
-    'Education'
+    'Education',
+  ];
+
+  final List<String> _itemsss = [
+    'Paid',
+    'Free',
   ];
 
   String? selectedItem;
+  String? selected;
 
   User? current;
   Timestamp? timestamp;
@@ -107,22 +113,12 @@ class _CreateEventPageState extends State<CreateEventPage> {
               if (state is UploadEventImageSuccessState) {
                 imageurl = state.image;
               }
-              // else if (state is CreateLoadingState) {
-              //   showDialog(
-              //     context: context,
-              //     builder: (context) {
-              //       return const Center(
-              //         child: SpinKitFadingCircle(
-              //           duration: Duration(seconds: 2),
-              //           color: Colors.white,
-              //         ),
-              //       );
-              //     },
-              //   );
-              // }
               if (state is DropdownState) {
                 selectedItem = state.value;
                 print('state emittteed ${state.value} and $selectedItem');
+              }
+              if (state is DropdownFreeState) {
+                selected=state.value;
               }
               // this.expands = false,
               if (state is TimePickState) {
@@ -180,16 +176,38 @@ class _CreateEventPageState extends State<CreateEventPage> {
                           } else if (value.length < 3) {
                             return 'Title should be atleast 3 characters long';
                           }
+                          return null;
                         },
                       ),
                       CustomDropdown(
+                        onChanged: (value) {
+                          BlocProvider.of<FunctionsBloc>(context)
+                              .add(DropdownEvent(value: value));
+                          print('oooonnnn change$selectedItem paassseeeddd');
+                        },
                         selectedItem: selectedItem,
                         items: _items,
                         validator: (value) {
                           if (value == null) {
                             return 'Please select an item';
                           }
+                          return null;
                         },
+                        text: 'Category',
+                      ),
+                      CustomDropdown(
+                        onChanged: (value){
+                          BlocProvider.of<FunctionsBloc>(context).add(DropdownFreeEvent(value: value));
+                        },
+                        selectedItem: selected,
+                        validator: (value) {
+                          if (value == null) {
+                            return 'Please select an item';
+                          }
+                          return null;
+                        },
+                        items: _itemsss,
+                        text: 'Select',
                       ),
                       CreateText(
                         inputFormatters: [
@@ -207,6 +225,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                           } else if (!reg2.hasMatch(value)) {
                             return 'Enter a valid number of tickets';
                           }
+                          return null;
                         },
                       ),
                       CreateText(
@@ -227,6 +246,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                           } else if (value.length < 3) {
                             return 'City be atleast 3 characters long';
                           }
+                          return null;
                         },
                       ),
                       CreateText(
@@ -247,6 +267,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                           } else if (value.length < 3) {
                             return 'Venue should be atleast 3 characters long';
                           }
+                          return null;
                         },
                       ),
                       CreateText(
@@ -264,6 +285,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                           if (p0!.isEmpty) {
                             return 'Plaese select a date!';
                           }
+                          return null;
                         },
                       ),
                       CreateText(
@@ -279,6 +301,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                           if (p0!.isEmpty) {
                             return 'Plaese select a time!';
                           }
+                          return null;
                         },
                       ),
                       CreateText(
@@ -298,8 +321,9 @@ class _CreateEventPageState extends State<CreateEventPage> {
                           } else if (value.length < 3) {
                             return 'Description should be atleast 3 characters long';
                           }
+                          return null;
                         },
-                      ),
+                      ),selected=='Free'?const SizedBox():
                       CreateText(
                         inputFormatters: [
                           FilteringTextInputFormatter.deny(RegExp(r'\s')),
@@ -316,6 +340,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                           } else if (!reg2.hasMatch(value)) {
                             return 'Enter a valid number Price';
                           }
+                          return null;
                         },
                       ),
                       CreateText(
@@ -336,6 +361,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                           } else if (!reg2.hasMatch(value)) {
                             return 'Enter a valid phone number';
                           }
+                          return null;
                         },
                       ),
                       Padding(
@@ -404,10 +430,6 @@ class _CreateEventPageState extends State<CreateEventPage> {
                                                 errorWidget:
                                                     (context, url, error) =>
                                                         const Icon(Icons.error),
-                                                // child: Image(
-                                                //   fit: BoxFit.cover,
-                                                //   image: NetworkImage(data['image']),
-                                                // ),
                                               ),
                                             )),
                                   ),
@@ -452,7 +474,8 @@ class _CreateEventPageState extends State<CreateEventPage> {
                                   contact: contacttController.text.trim(),
                                   image: imageurl,
                                   category: selectedItem,
-                                  ticketPrice: priceController.text.trim(),
+                                  ticketPrice: priceController.text,
+                                  freeOrPaid: selected
                                 );
                                 BlocProvider.of<FunctionsBloc>(context)
                                     .add(CreateEventEvent(event: event));

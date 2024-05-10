@@ -34,7 +34,7 @@ class EventCategories extends StatelessWidget {
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               shrinkWrap: true,
-              itemCount: snapshot.data!.docs.length,
+              itemCount: 6,
               scrollDirection: Axis.horizontal,
               itemBuilder: (BuildContext context, int index) {
                 final category = snapshot.data?.docs[index].data();

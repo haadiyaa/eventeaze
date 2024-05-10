@@ -15,6 +15,7 @@ class EventModel extends Equatable {
   String? image;
   String? category;
   String? ticketPrice;
+  String? freeOrPaid;
   EventModel({
     this.id,
     this.eventName,
@@ -29,6 +30,7 @@ class EventModel extends Equatable {
     this.category,
     this.eventId,
     this.ticketPrice,
+    this.freeOrPaid,
   });
 
   @override
@@ -49,6 +51,7 @@ class EventModel extends Equatable {
       'category': category,
       'eventId': eventId,
       'ticketPrice': ticketPrice,
+      'freeOrPaid':freeOrPaid,
     };
   }
 
@@ -69,6 +72,7 @@ class EventModel extends Equatable {
         category: data['category'] ?? '',
         eventId: data['eventId'] ?? '',
         ticketPrice: data['ticketPrice'] ?? '',
+        freeOrPaid: data['freeOrPaid'] ?? '',
       );
     } else {
       return EventModel(
@@ -85,6 +89,7 @@ class EventModel extends Equatable {
         image: '',
         category: '',
         ticketPrice: '',
+        freeOrPaid: '',
       );
     }
   }

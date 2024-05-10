@@ -29,6 +29,7 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
     on<FetchCategoryEvent>(_getCategory);
     on<UploadDummyEvent>(_uploadDummyCategory);
     on<DropdownEvent>(_dropdown);
+    on<DropdownFreeEvent>(_dropdownFree);
     on<CreateEventEvent>(_createEvent);
     on<UploadEventImageEvent>(_uploadImage);
     on<UpdateEventEvent>(_updateEvent);
@@ -108,6 +109,15 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
     }
   }
 
+  FutureOr<void> _dropdownFree(DropdownFreeEvent event, Emitter<FunctionsState> emit) {
+
+    if(event.value!=null){
+      emit(DropdownFreeState(value: event.value!));
+    }else{
+      print('Event value null');
+    }
+  }
+
   FutureOr<void> _createEvent(
       CreateEventEvent event, Emitter<FunctionsState> emit) {
     emit(CreateLoadingState());
@@ -131,7 +141,8 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
           'contact': event.event.contact,
           'image': event.event.image,
           'category': event.event.category,
-          'ticketPrice': event.event.ticketPrice
+          'ticketPrice': event.event.ticketPrice,
+          'freeOrPaid':event.event.freeOrPaid,
         });
         emit(CreateEventState());
         print('createdddd');
@@ -190,6 +201,7 @@ class FunctionsBloc extends Bloc<FunctionsEvent, FunctionsState> {
       image: event.event.image,
       category: event.event.category,
       ticketPrice: event.event.ticketPrice,
+      freeOrPaid: event.event.freeOrPaid,
     ).toMap();
     try {
       await FirebaseFirestore.instance

@@ -42,7 +42,7 @@ class _UpcomingListState extends State<UpcomingList> {
                   ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: snapshot.data!.docs.length,
+                    itemCount: 6,
                     itemBuilder: (BuildContext context, int index) {
                       final eventdata = snapshot.data!.docs[index].data();
                       return EventHorizontalCard(

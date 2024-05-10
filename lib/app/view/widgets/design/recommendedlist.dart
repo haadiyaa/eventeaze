@@ -5,7 +5,6 @@ import 'package:eventeaze/app/view/widgets/design/eventdetails/eventverticalcard
 import 'package:eventeaze/app/view/widgets/shimmers/shimmerrecommended.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 
 class RecommendedList extends StatefulWidget {
   const RecommendedList({
@@ -39,9 +38,9 @@ class _RecommendedListState extends State<RecommendedList> {
             child: SizedBox(
               height: 150,
               child: ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 shrinkWrap: true,
-                itemCount: snapshot.data!.docs.length,
+                itemCount: 7,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
                   final event = snapshot.data!.docs[index].data();

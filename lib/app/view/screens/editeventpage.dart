@@ -57,8 +57,13 @@ class _EditEventPageState extends State<EditEventPage> {
     'Education'
   ];
 
-  String? selectedItem;
+  final List<String> _itemsss = [
+    'Paid',
+    'Free',
+  ];
 
+  String? selectedItem;
+  String? selected;
   User? current;
   Timestamp? timestamp;
   final _key = GlobalKey<FormState>();
@@ -96,6 +101,7 @@ class _EditEventPageState extends State<EditEventPage> {
     current = FirebaseAuth.instance.currentUser!;
     imageurl = widget.event.image;
     timestamp = widget.event.eventDate;
+    selected=widget.event.freeOrPaid;
   }
 
   @override
@@ -119,22 +125,12 @@ class _EditEventPageState extends State<EditEventPage> {
               if (state is UploadEventImageSuccessState) {
                 imageurl = state.image;
               }
-              // else if (state is CreateLoadingState) {
-              //   showDialog(
-              //     context: context,
-              //     builder: (context) {
-              //       return const Center(
-              //         child: SpinKitFadingCircle(
-              //           duration: Duration(seconds: 2),
-              //           color: Colors.white,
-              //         ),
-              //       );
-              //     },
-              //   );
-              // }
               if (state is DropdownState) {
                 selectedItem = state.value;
                 print('state emittteed ${state.value} and $selectedItem');
+              }
+              if (state is DropdownFreeState) {
+                selected=state.value;
               }
               if (state is TimePickState) {
                 TimeOfDay? time = await showTimePicker(
@@ -189,6 +185,7 @@ class _EditEventPageState extends State<EditEventPage> {
                         },
                       ),
                       CustomDropdown(
+                        text: 'Category',
                         selectedItem: selectedItem,
                         items: _items,
                         validator: (value) {
@@ -196,6 +193,25 @@ class _EditEventPageState extends State<EditEventPage> {
                             return 'Please select an item';
                           }
                         },
+                        onChanged: (value) {
+                           BlocProvider.of<FunctionsBloc>(context)
+                              .add(DropdownEvent(value: value));
+                          print('oooonnnn change$selectedItem paassseeeddd');
+                        },
+                      ),
+                      CustomDropdown(
+                        onChanged: (value){
+                          BlocProvider.of<FunctionsBloc>(context).add(DropdownFreeEvent(value: value));
+                        },
+                        selectedItem: selected,
+                        validator: (value) {
+                          if (value == null) {
+                            return 'Please select an item';
+                          }
+                          return null;
+                        },
+                        items: _itemsss,
+                        text: 'Select',
                       ),
                       CreateText(
                         keyboardType: TextInputType.number,
@@ -269,7 +285,7 @@ class _EditEventPageState extends State<EditEventPage> {
                             return 'Enter Something';
                           }
                         },
-                      ),
+                      ),selected=='Free'?const SizedBox():
                       CreateText(
                         maxLines: 1,
                         text: 'Ticket Price',
@@ -382,6 +398,7 @@ class _EditEventPageState extends State<EditEventPage> {
                                   category: selectedItem,
                                   ticketPrice: priceController!.text.trim(),
                                   eventTime: timeController!.text.trim(),
+                                  freeOrPaid: selected,
                                 );
 
                                 BlocProvider.of<FunctionsBloc>(context)

@@ -26,6 +26,11 @@ class DropdownEvent extends FunctionsEvent {
 
   const DropdownEvent({required this.value});
 }
+class DropdownFreeEvent extends FunctionsEvent{
+  final String? value;
+
+  DropdownFreeEvent({required this.value});
+}
 
 class CreateEventEvent extends FunctionsEvent {
   final EventModel event;

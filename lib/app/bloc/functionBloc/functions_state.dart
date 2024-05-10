@@ -35,6 +35,13 @@ class DropdownState extends FunctionsState {
   const DropdownState({required this.value});
 }
 
+class DropdownFreeState extends FunctionsState {
+  final String value;
+
+  const DropdownFreeState({required this.value});
+}
+
+
 class ErrorState extends FunctionsState {
   final String message;
 
