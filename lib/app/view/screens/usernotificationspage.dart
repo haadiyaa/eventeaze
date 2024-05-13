@@ -51,7 +51,7 @@ class _UserNotificationsPageState extends State<UserNotificationsPage> {
                         Icons.notifications,
                         color: Color.fromARGB(255, 68, 73, 53),
                       ),
-                      title: Text(
+                       title: Text(
                         notification['title'],
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,

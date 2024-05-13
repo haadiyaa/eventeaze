@@ -1,4 +1,4 @@
-package com.example.eventeaze
+package com.selfstack.eventeaze
 
 import io.flutter.embedding.android.FlutterActivity
 

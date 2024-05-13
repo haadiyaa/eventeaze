@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:514805253185:android:3522d5b30dc537efb272c0",
         "android_client_info": {
-          "package_name": "com.example.eventeaze"
+          "package_name": "com.selfstack.eventeaze"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "514805253185-3kmlmsrv5ggib8lsjo3rqpdbaokoh58p.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.eventeaze",
+            "package_name": "com.selfstack.eventeaze",
             "certificate_hash": "d255972e7a41c918cda103ad97d61b107db84b83"
           }
         },
@@ -42,7 +42,43 @@
               "client_id": "514805253185-obforhp7lov20ic8n8mf09uh8rr8p5vu.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.eventeaze"
+                "bundle_id": "com.selfstack.eventeaze"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:514805253185:android:30dffb062673957fb272c0",
+        "android_client_info": {
+          "package_name": "com.selfstack.eventeaze"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "514805253185-agohtkmj6ups7osu3hj5u4th8ih86v5o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdC3zFfynvJqsYuHY8h93BsDNoBdZAEWc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "514805253185-agohtkmj6ups7osu3hj5u4th8ih86v5o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "514805253185-obforhp7lov20ic8n8mf09uh8rr8p5vu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.selfstack.eventeaze"
               }
             }
           ]

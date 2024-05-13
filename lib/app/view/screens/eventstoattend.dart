@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/bottomsheet.dart';
 import 'package:eventeaze/app/view/widgets/design/ticketbox.dart';
@@ -6,7 +5,6 @@ import 'package:eventeaze/app/view/widgets/shimmers/shimmerupcoming.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:shimmer/shimmer.dart';
 
 class EventsToAttend extends StatefulWidget {
   EventsToAttend({super.key});

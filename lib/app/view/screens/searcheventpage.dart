@@ -6,10 +6,8 @@ import 'package:eventeaze/app/view/widgets/design/mycustomsearch.dart';
 import 'package:eventeaze/app/view/widgets/shimmers/shimmersearch.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:shimmer/shimmer.dart';
 
 class SearchEventWrapper extends StatelessWidget {
   const SearchEventWrapper({super.key});
