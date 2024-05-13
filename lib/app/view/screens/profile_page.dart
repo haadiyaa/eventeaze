@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:eventeaze/app/view/screens/createeventpage.dart';
 import 'package:eventeaze/app/view/screens/login_page.dart';
+import 'package:eventeaze/app/view/screens/usernotificationspage.dart';
 import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
 import 'package:eventeaze/app/view/widgets/design/confirmalert.dart';
 import 'package:eventeaze/app/view/widgets/design/profile/profilecard.dart';
@@ -99,7 +100,9 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             actions: [
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (_)=> UserNotificationsPage()));
+                },
                 icon: const Icon(
                   Icons.notifications,
                   color: Color.fromARGB(255, 68, 73, 53),

@@ -6,7 +6,6 @@ import 'package:eventeaze/app/view/screens/notificationscreen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationServices {
@@ -129,7 +128,9 @@ class NotificationServices {
     });
   }
 
-  void handleMessage(BuildContext context, RemoteMessage message) {
+  Future<void> handleMessage(BuildContext context, RemoteMessage message) async {
+
+    
     if (message.data['type'] == 'msg') {
       Navigator.push(context,
           MaterialPageRoute(builder: (_) => NotificationScreen(title: message.notification!.title.toString(),

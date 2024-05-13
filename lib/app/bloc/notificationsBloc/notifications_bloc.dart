@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/model/evenmodel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
+import 'package:uuid/uuid.dart';
 part 'notifications_event.dart';
 part 'notifications_state.dart';
 
@@ -36,6 +37,7 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   Future<FutureOr<void>> _join(
       JoinEvent event, Emitter<NotificationsState> emit) async {
         emit(JoinLoadingState());
+        final String nId=const Uuid().v4();
     try {
       await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
           body: jsonEncode(event.data),
@@ -45,8 +47,8 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
                 'key=AAAAd9zIxEE:APA91bGeFb3CY_PAjpSaIc_xvR7GYtSOy0n2n4zn7o5W_rs034TapwJZ_sgwE0l4mOoXPndnQTd-P1yo7ARIF7rPkhh-BnMHtu59XfM7gvDFZriH03WcGtCp6xFNnhIxul2qINI4bZTu',
           }).whenComplete(() async {
             await FirebaseFirestore.instance.collection('events').doc(event.eventdetails.eventId).update({'seats':(int.parse(event.seats)-1).toString()});
-          }).then((value) {
-            FirebaseFirestore.instance.collection('users').doc(event.userid).collection('myevents').doc(event.eventdetails.eventId).set({
+          }).then((value) async {
+            await FirebaseFirestore.instance.collection('users').doc(event.userid).collection('myevents').doc(event.eventdetails.eventId).set({
               'eventId':event.eventdetails.eventId,
               'bookingTime':DateTime.now(),
               'eventName':event.eventdetails.eventName,
@@ -57,6 +59,13 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
               'contact':event.eventdetails.contact,
               'price':event.eventdetails.ticketPrice,
               'image':event.eventdetails.image,
+            });
+          }).then((value) async {
+            await FirebaseFirestore.instance.collection('users').doc(event.recieverId).collection('notifications').doc(nId).set({
+              'title':event.title,
+              'body':event.body,
+              'nId':nId,
+              'senderId':event.userid,
             });
           })
           .then((value) => emit(JoinEventState()));

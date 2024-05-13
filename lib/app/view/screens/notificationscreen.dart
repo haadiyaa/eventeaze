@@ -29,7 +29,7 @@ class NotificationScreen extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             child: ListTile(
               leading: const Icon(
-                Icons.notifications_active,
+                Icons.notifications,
                 color: Color.fromARGB(255, 68, 73, 53),
               ),
               title: Text(
@@ -40,7 +40,7 @@ class NotificationScreen extends StatelessWidget {
               subtitle: Text(
                 body,
                 overflow: TextOverflow.ellipsis,
-                maxLines: 1,
+                maxLines: 1,style: const TextStyle(fontWeight: FontWeight.w300),
               ),
             ),
           ),

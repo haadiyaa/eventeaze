@@ -57,7 +57,6 @@ class _UpcomingListState extends State<UpcomingList> {
                         location: eventdata['location'],
                         onTap: () {
                           if(eventdata['id']==user!.uid){
-                                
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(

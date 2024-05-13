@@ -83,13 +83,6 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             actions: [
-              // IconButton(
-              //   onPressed: () {},
-              //   icon: const Icon(
-              //     Icons.notifications,
-              //     color: Color.fromARGB(255, 68, 73, 53),
-              //   ),
-              // ),
               IconButton(
                 onPressed: () {
                   Navigator.push(

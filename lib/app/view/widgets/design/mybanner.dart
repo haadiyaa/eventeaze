@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shimmer/shimmer.dart';
 
 class MyBanner extends StatelessWidget {
   const MyBanner({
@@ -37,18 +38,22 @@ class MyBanner extends StatelessWidget {
               const SizedBox(
                 width: 10,
               ),
-              const Column(
+               Column(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
-                  Text(
-                    'Discover\nExciting\nFree\nEvents!',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24,
-                      color:
-                          Color.fromARGB(255, 68, 73, 53),
+                  Shimmer.fromColors(
+                    baseColor: const Color.fromARGB(255, 51, 54, 39),
+                    highlightColor: const Color.fromARGB(255, 113, 121, 89),
+                    child: const Text(
+                      'Discover\nExciting\nFree\nEvents!',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                        color:
+                            Color.fromARGB(255, 68, 73, 53),
+                      ),
                     ),
                   ),
                 ],

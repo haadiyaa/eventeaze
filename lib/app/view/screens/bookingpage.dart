@@ -239,18 +239,21 @@ class BookingPage extends StatelessWidget {
                                                                     NotAvailableEvent());
                                                               }
                                                             : () async {
-                                                                var data = {
-                                                                  'to': user[
+                                                              final title='Hey, ${user['username']}';
+                                                              final body='${user2['username']} has joined your event!';
+                                                              final recieverToken=user[
                                                                           'token']
-                                                                      .toString(),
+                                                                      .toString();
+                                                                var data = {
+                                                                  'to': recieverToken,
                                                                   'priority':
                                                                       'high',
                                                                   'notification':
                                                                       {
                                                                     'title':
-                                                                        'Hey, ${user['username']}',
+                                                                        title,
                                                                     'body':
-                                                                        '${user2['username']} has joined your event!'
+                                                                        body,
                                                                   },
                                                                   'data': {
                                                                     'type':
@@ -275,15 +278,11 @@ class BookingPage extends StatelessWidget {
                                                                       eventId: event['eventId'],
                                                                       ticketPrice: event['ticketPrice']??'',
                                                                     );
-                                                                notification.add(
-                                                                    JoinEvent(
-                                                                  userid: user2[
-                                                                      'uid'],
+                                                                notification.add(JoinEvent(userid:user2['uid'],recieverId:user['uid'],
                                                                   data: data,
-                                                                  seats: event[
-                                                                      'seats'],
-                                                                  eventdetails:
-                                                                      myEvent,
+                                                                  seats: event['seats'],
+                                                                  eventdetails:myEvent, title: title,
+                                                                  body: body,
                                                                 ));
                                                               },
                                                         color: const Color
