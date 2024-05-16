@@ -41,7 +41,8 @@ class _UserNotificationsPageState extends State<UserNotificationsPage> {
               return Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                child: ListView.builder(
+                child: ListView.separated(
+                  separatorBuilder: (context, index) => const Divider(),
                   itemCount: snapshot.data!.docs.length,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (BuildContext context, int index) {

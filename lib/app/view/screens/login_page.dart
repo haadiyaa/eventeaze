@@ -174,7 +174,7 @@ class LoginPage extends StatelessWidget {
                           CustomTextField(
                             inputFormatters: [
                               FilteringTextInputFormatter.deny(RegExp(r'\s')),
-                              LengthLimitingTextInputFormatter(20),
+                              LengthLimitingTextInputFormatter(40),
                             ],
                             keyboardType: TextInputType.emailAddress,
                             autovalidateMode: autovalidateMode,

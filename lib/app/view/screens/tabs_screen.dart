@@ -58,8 +58,9 @@ class _TabsScreenState extends State<TabsScreen> {
     notificationServices.setupInteractMessage(context);
     // notificationServices.isTokenRefresh();
     notificationServices.getDeviceToken().then((value) {
-      // BlocProvider.of<NotificationsBloc>(context).add(GetTokenEvent(currentUser: user!, token: value));
+      BlocProvider.of<NotificationsBloc>(context).add(GetTokenEvent(currentUser: user!, token: value));
       mToken = value;
+
       print('Device Token : $value');
     });
   }

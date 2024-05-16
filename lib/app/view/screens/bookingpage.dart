@@ -229,6 +229,7 @@ class BookingPage extends StatelessWidget {
                                                             as Map<String,
                                                                 dynamic>?;
                                                     if (user2 != null) {
+                                                      
                                                       return CustomButton(
                                                         text: 'Join',
                                                         onPressed: int.parse(event[

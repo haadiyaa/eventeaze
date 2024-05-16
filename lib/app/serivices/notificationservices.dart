@@ -38,7 +38,7 @@ class NotificationServices {
   Future<void> initLocalNotifications(
       BuildContext context, RemoteMessage message) async {
     var androidInitializationSettings =
-        const AndroidInitializationSettings('@mipmap/ic_launcher');
+        const AndroidInitializationSettings('@mipmap/ez_icon');
     var initializationSetting =
         InitializationSettings(android: androidInitializationSettings);
 

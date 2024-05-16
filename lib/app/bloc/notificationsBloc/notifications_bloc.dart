@@ -20,11 +20,11 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   Future<FutureOr<void>> _getToken(
       GetTokenEvent event, Emitter<NotificationsState> emit) async {
     await FirebaseFirestore.instance
-        .collection('deviceToken')
+        .collection('users')
         .doc(event.currentUser.uid)
         .set({
       'token': event.token,
-    });
+    },SetOptions(merge: true));
     print('event: ${event.token}');
     emit(GetTokenState(token: event.token));
   }
