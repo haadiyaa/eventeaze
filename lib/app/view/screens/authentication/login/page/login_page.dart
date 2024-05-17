@@ -1,11 +1,11 @@
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
-import 'package:eventeaze/app/view/screens/forgotpass_page.dart';
-import 'package:eventeaze/app/view/screens/signuppage.dart';
+import 'package:eventeaze/app/view/screens/authentication/login/page/forgotpass_page.dart';
+import 'package:eventeaze/app/view/screens/authentication/signup/page/signuppage.dart';
 import 'package:eventeaze/app/view/screens/tabs_screen.dart';
 import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
-import 'package:eventeaze/app/view/widgets/textfields/customtextfield.dart';
-import 'package:eventeaze/app/view/widgets/design/mycircle.dart';
-import 'package:eventeaze/app/view/widgets/googlewidget.dart';
+import 'package:eventeaze/app/view/screens/authentication/widgets/customtextfield.dart';
+import 'package:eventeaze/app/view/screens/authentication/login/widgets/mycircle.dart';
+import 'package:eventeaze/app/view/screens/authentication/widgets/googlewidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

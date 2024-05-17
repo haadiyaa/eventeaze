@@ -3,8 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:eventeaze/app/model/usermodel.dart';
 import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
-import 'package:eventeaze/app/view/widgets/design/profile/profileavatar.dart';
-import 'package:eventeaze/app/view/widgets/textfields/updatetextfield.dart';
+import 'package:eventeaze/app/view/screens/profilescreen/widgets/profileavatar.dart';
+import 'package:eventeaze/app/view/screens/profilescreen/widgets/updatetextfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -134,28 +134,69 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                                               ),
                                             ),
                                           )
-                                        : ProfileAvatar()
-                                    : ProfileAvatar(
-                                        child: CachedNetworkImage(
-                                          imageUrl: data['image'],
-                                          fit: BoxFit.cover,
-                                          placeholder: (context, url) =>
-                                              Shimmer.fromColors(
+                                        : GestureDetector(
+                                            onTap: () {
+                                              print('clicked');
+                                              authBloc.add(
+                                                UserImagePickEvent(
+                                                    email:
+                                                        _currentUser.email!));
+                                            },
+                                            child: ProfileAvatar())
+                                    : state is ImageLoadingState? Shimmer.fromColors(
                                             baseColor: const Color.fromARGB(
                                                 255, 180, 192, 142),
                                             highlightColor:
                                                 const Color.fromARGB(
                                                     255, 230, 247, 182),
                                             child: Container(
-                                              width: 10,
-                                              height: 10,
-                                              color: Colors.white,
+                                              clipBehavior: Clip.antiAlias,
+                                              height: 70,
+                                              width: 70,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: const Color.fromARGB(
+                                                    255, 184, 197, 146),
+                                                border: Border.all(
+                                                    color: const Color.fromARGB(
+                                                        255, 68, 73, 53)),
+                                                boxShadow: const [
+                                                  BoxShadow(
+                                                      blurRadius: 7,
+                                                      offset: Offset(0, 4),
+                                                      color: Colors.grey),
+                                                ],
+                                              ),
                                             ),
+                                          ) : GestureDetector(
+                                      onTap: () {
+                                        authBloc.add(
+                                                UserImagePickEvent(
+                                                    email:
+                                                        _currentUser.email!));
+                                      },
+                                      child: ProfileAvatar(
+                                          child: CachedNetworkImage(
+                                            imageUrl: data['image'],
+                                            fit: BoxFit.cover,
+                                            placeholder: (context, url) =>
+                                                Shimmer.fromColors(
+                                              baseColor: const Color.fromARGB(
+                                                  255, 180, 192, 142),
+                                              highlightColor:
+                                                  const Color.fromARGB(
+                                                      255, 230, 247, 182),
+                                              child: Container(
+                                                width: 10,
+                                                height: 10,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            errorWidget: (context, url, error) =>
+                                                const Icon(Icons.error),
                                           ),
-                                          errorWidget: (context, url, error) =>
-                                              const Icon(Icons.error),
                                         ),
-                                      ),
+                                    ),
                                 const SizedBox(
                                   height: 8,
                                 ),
@@ -274,7 +315,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                       );
                     }
                   }
-                  return Container();
+                  return const SizedBox();
                 },
               ),
             ),

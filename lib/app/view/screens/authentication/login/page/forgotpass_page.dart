@@ -1,6 +1,6 @@
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
-import 'package:eventeaze/app/view/widgets/textfields/customtextfield.dart';
+import 'package:eventeaze/app/view/screens/authentication/widgets/customtextfield.dart';
 import 'package:eventeaze/app/view/widgets/design/customalert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

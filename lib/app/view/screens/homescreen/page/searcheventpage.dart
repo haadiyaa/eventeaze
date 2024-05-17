@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/bloc/functionBloc/functions_bloc.dart';
-import 'package:eventeaze/app/view/screens/eventdetailspage.dart';
+import 'package:eventeaze/app/view/screens/eventdetailspage/page/eventdetailspage.dart';
 import 'package:eventeaze/app/view/screens/usereventdetailspage.dart';
 import 'package:eventeaze/app/view/widgets/design/mycustomsearch.dart';
 import 'package:eventeaze/app/view/widgets/shimmers/shimmersearch.dart';

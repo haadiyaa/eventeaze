@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/bloc/functionBloc/functions_bloc.dart';
-import 'package:eventeaze/app/view/screens/bookingpage.dart';
+import 'package:eventeaze/app/view/screens/eventdetailspage/page/bookingpage.dart';
 import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
-import 'package:eventeaze/app/view/widgets/design/eventdetails/aboutevent.dart';
-import 'package:eventeaze/app/view/widgets/design/eventdetails/detailslisttile.dart';
+import 'package:eventeaze/app/view/screens/eventdetailspage/widgets/aboutevent.dart';
+import 'package:eventeaze/app/view/screens/eventdetailspage/widgets/detailslisttile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -23,7 +23,7 @@ class EventDetailsPage extends StatelessWidget {
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              final event = snapshot.data!.data() as Map<String, dynamic>?;
+              final event = snapshot.data!.data() ;
               if (event != null) {
                 final bloc = BlocProvider.of<FunctionsBloc>(context);
                 return BlocListener<FunctionsBloc, FunctionsState>(

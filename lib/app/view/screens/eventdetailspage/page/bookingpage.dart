@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/model/evenmodel.dart';
+import 'package:eventeaze/app/view/screens/eventdetailspage/widgets/abouteventdata.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,7 +14,7 @@ import 'package:eventeaze/app/bloc/notificationsBloc/notifications_bloc.dart';
 import 'package:eventeaze/app/serivices/notificationservices.dart';
 import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
 import 'package:eventeaze/app/view/widgets/design/confirmalert.dart';
-import 'package:eventeaze/app/view/widgets/design/eventdetails/detailslisttile.dart';
+import 'package:eventeaze/app/view/screens/eventdetailspage/widgets/detailslisttile.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/eventdetail.dart';
 
 class BookingPageWrapper extends StatelessWidget {
@@ -88,7 +89,7 @@ class BookingPage extends StatelessWidget {
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              final event = snapshot.data!.data() as Map<String, dynamic>?;
+              final event = snapshot.data!.data();
               if (event != null) {
                 return Scaffold(
                   body: CustomScrollView(
@@ -332,40 +333,6 @@ class BookingPage extends StatelessWidget {
 //----------------------------------------------------------------------------------------------------
             return const EventDetail();
           }),
-    );
-  }
-}
-
-class AboutEventData extends StatelessWidget {
-  const AboutEventData({super.key, required this.desc, required this.title});
-
-  final String desc, title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Color.fromARGB(200, 68, 73, 53),
-                fontSize: 16),
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          Text(
-            desc,
-            style: const TextStyle(
-              color: Color.fromARGB(225, 68, 73, 53),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

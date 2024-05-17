@@ -1,8 +1,8 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eventeaze/app/model/usermodel.dart';
-import 'package:eventeaze/app/view/screens/userdetails_page.dart';
-import 'package:eventeaze/app/view/widgets/design/profile/profileavatar.dart';
+import 'package:eventeaze/app/view/screens/profilescreen/page/userdetails_page.dart';
+import 'package:eventeaze/app/view/screens/profilescreen/widgets/profileavatar.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 

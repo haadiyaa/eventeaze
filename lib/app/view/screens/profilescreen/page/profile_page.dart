@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
-import 'package:eventeaze/app/view/screens/createeventpage.dart';
-import 'package:eventeaze/app/view/screens/login_page.dart';
+import 'package:eventeaze/app/view/screens/createevent/page/createeventpage.dart';
+import 'package:eventeaze/app/view/screens/authentication/login/page/login_page.dart';
 import 'package:eventeaze/app/view/screens/usernotificationspage.dart';
 import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
 import 'package:eventeaze/app/view/widgets/design/confirmalert.dart';
-import 'package:eventeaze/app/view/widgets/design/profile/profilecard.dart';
-import 'package:eventeaze/app/view/widgets/design/profile/profilelist.dart';
+import 'package:eventeaze/app/view/screens/profilescreen/widgets/profilecard.dart';
+import 'package:eventeaze/app/view/screens/profilescreen/widgets/profilelist.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

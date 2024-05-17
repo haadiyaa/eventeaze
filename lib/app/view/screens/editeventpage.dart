@@ -3,8 +3,8 @@ import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:eventeaze/app/bloc/functionBloc/functions_bloc.dart';
 import 'package:eventeaze/app/model/evenmodel.dart';
 import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
-import 'package:eventeaze/app/view/widgets/textfields/creattext.dart';
-import 'package:eventeaze/app/view/widgets/textfields/customdropdown.dart';
+import 'package:eventeaze/app/view/screens/createevent/widgets/creattext.dart';
+import 'package:eventeaze/app/view/screens/createevent/widgets/customdropdown.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -181,7 +181,7 @@ class _EditEventPageState extends State<EditEventPage> {
                         validator: (p0) {
                           if (p0!.isEmpty) {
                             return 'Enter Something';
-                          }
+                          }return null;
                         },
                       ),
                       CustomDropdown(
@@ -191,7 +191,7 @@ class _EditEventPageState extends State<EditEventPage> {
                         validator: (value) {
                           if (value == null) {
                             return 'Please select an item';
-                          }
+                          }return null;
                         },
                         onChanged: (value) {
                            BlocProvider.of<FunctionsBloc>(context)
@@ -221,7 +221,7 @@ class _EditEventPageState extends State<EditEventPage> {
                         validator: (p0) {
                           if (p0!.isEmpty) {
                             return 'Enter Something';
-                          }
+                          }return null;
                         },
                       ),
                       CreateText(
@@ -231,7 +231,7 @@ class _EditEventPageState extends State<EditEventPage> {
                         validator: (p0) {
                           if (p0!.isEmpty) {
                             return 'Enter Something';
-                          }
+                          }return null;
                         },
                       ),
                       CreateText(
@@ -241,7 +241,7 @@ class _EditEventPageState extends State<EditEventPage> {
                         validator: (p0) {
                           if (p0!.isEmpty) {
                             return 'Enter Something';
-                          }
+                          }return null;
                         },
                       ),
                       CreateText(
@@ -258,7 +258,7 @@ class _EditEventPageState extends State<EditEventPage> {
                         validator: (p0) {
                           if (p0!.isEmpty) {
                             return 'Enter Something';
-                          }
+                          }return null;
                         },
                       ),
                       CreateText(
@@ -273,7 +273,7 @@ class _EditEventPageState extends State<EditEventPage> {
                         validator: (p0) {
                           if (p0!.isEmpty) {
                             return 'Enter Something';
-                          }
+                          }return null;
                         },
                       ),
                       CreateText(
@@ -283,7 +283,7 @@ class _EditEventPageState extends State<EditEventPage> {
                         validator: (p0) {
                           if (p0!.isEmpty) {
                             return 'Enter Something';
-                          }
+                          }return null;
                         },
                       ),selected=='Free'?const SizedBox():
                       CreateText(
@@ -293,7 +293,7 @@ class _EditEventPageState extends State<EditEventPage> {
                         validator: (p0) {
                           if (p0!.isEmpty) {
                             return 'Enter Something';
-                          }
+                          }return null;
                         },
                       ),
                       CreateText(
@@ -303,7 +303,7 @@ class _EditEventPageState extends State<EditEventPage> {
                         validator: (p0) {
                           if (p0!.isEmpty) {
                             return 'Enter Something';
-                          }
+                          }return null;
                         },
                       ),
                       Padding(

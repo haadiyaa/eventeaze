@@ -46,7 +46,7 @@ class VerticalImageText extends StatelessWidget {
                 errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),
-
+    
             //text
             const SizedBox(
               height: 8,

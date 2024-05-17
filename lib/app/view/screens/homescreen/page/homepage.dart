@@ -1,19 +1,19 @@
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:eventeaze/app/bloc/functionBloc/functions_bloc.dart';
 import 'package:eventeaze/app/model/categorymodel.dart';
-import 'package:eventeaze/app/view/screens/categoriespage.dart';
-import 'package:eventeaze/app/view/screens/createeventpage.dart';
+import 'package:eventeaze/app/view/screens/categoriesscreen/page/categoriespage.dart';
+import 'package:eventeaze/app/view/screens/createevent/page/createeventpage.dart';
 import 'package:eventeaze/app/view/screens/eventlist.dart';
-import 'package:eventeaze/app/view/screens/freeeventspage.dart';
-import 'package:eventeaze/app/view/screens/login_page.dart';
-import 'package:eventeaze/app/view/screens/searcheventpage.dart';
+import 'package:eventeaze/app/view/screens/homescreen/page/freeeventspage.dart';
+import 'package:eventeaze/app/view/screens/authentication/login/page/login_page.dart';
+import 'package:eventeaze/app/view/screens/homescreen/page/searcheventpage.dart';
 import 'package:eventeaze/app/view/screens/upcomimgeventpage.dart';
-import 'package:eventeaze/app/view/widgets/buttons/sectionheading.dart';
-import 'package:eventeaze/app/view/widgets/design/eventcategorieslist.dart';
-import 'package:eventeaze/app/view/widgets/design/mybanner.dart';
-import 'package:eventeaze/app/view/widgets/design/recommendedlist.dart';
-import 'package:eventeaze/app/view/widgets/design/upcominglist.dart';
-import 'package:eventeaze/app/view/widgets/textfields/customsearchbar.dart';
+import 'package:eventeaze/app/view/screens/homescreen/widgets/sectionheading.dart';
+import 'package:eventeaze/app/view/screens/homescreen/widgets/eventcategorieslist.dart';
+import 'package:eventeaze/app/view/screens/homescreen/widgets/mybanner.dart';
+import 'package:eventeaze/app/view/screens/homescreen/widgets/recommendedlist.dart';
+import 'package:eventeaze/app/view/screens/homescreen/widgets/upcominglist.dart';
+import 'package:eventeaze/app/view/screens/homescreen/widgets/customsearchbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -130,7 +130,7 @@ class _HomePageState extends State<HomePage> {
                         const SizedBox(
                           height: 10,
                         ),
-                        EventCategories(),
+                        const EventCategories(),
                         Padding(
                           padding: const EdgeInsets.only(
                             left: 20,

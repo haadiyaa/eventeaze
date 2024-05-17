@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eventeaze/app/view/screens/homepage.dart';
-import 'package:eventeaze/app/view/screens/login_page.dart';
-import 'package:eventeaze/app/view/screens/onbording_screen.dart';
+import 'package:eventeaze/app/view/screens/homescreen/page/homepage.dart';
+import 'package:eventeaze/app/view/screens/authentication/login/page/login_page.dart';
+import 'package:eventeaze/app/view/screens/authentication/onboarding/page/onbording_screen.dart';
 import 'package:eventeaze/app/view/screens/splash.dart';
 import 'package:eventeaze/app/view/screens/tabs_screen.dart';
 import 'package:eventeaze/app/view/screens/usereventspage.dart';

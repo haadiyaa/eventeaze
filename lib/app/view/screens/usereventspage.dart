@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eventeaze/app/view/screens/createeventpage.dart';
+import 'package:eventeaze/app/view/screens/createevent/page/createeventpage.dart';
 import 'package:eventeaze/app/view/screens/usereventdetailspage.dart';
 import 'package:eventeaze/app/view/widgets/design/eventdetails/usereventcard.dart';
 import 'package:eventeaze/app/view/widgets/shimmers/shimmeruserevents.dart';

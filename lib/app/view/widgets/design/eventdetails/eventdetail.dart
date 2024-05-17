@@ -1,7 +1,7 @@
 
 import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
-import 'package:eventeaze/app/view/widgets/design/eventdetails/aboutevent.dart';
-import 'package:eventeaze/app/view/widgets/design/eventdetails/detailslisttile.dart';
+import 'package:eventeaze/app/view/screens/eventdetailspage/widgets/aboutevent.dart';
+import 'package:eventeaze/app/view/screens/eventdetailspage/widgets/detailslisttile.dart';
 import 'package:flutter/material.dart';
 
 class EventDetail extends StatelessWidget {
