@@ -1,10 +1,10 @@
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:eventeaze/app/bloc/dotBloc/dotindicator_bloc.dart';
 import 'package:eventeaze/app/view/screens/authentication/login/page/login_page.dart';
-import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
-import 'package:eventeaze/app/view/widgets/onboard/dotindicator.dart';
-import 'package:eventeaze/app/view/widgets/onboard/onboardcontent.dart';
-import 'package:eventeaze/app/view/widgets/onboard/onboardwidget.dart';
+import 'package:eventeaze/app/view/common/buttons/custombutton.dart';
+import 'package:eventeaze/app/view/screens/authentication/onboarding/widgets/onboard/dotindicator.dart';
+import 'package:eventeaze/app/view/screens/authentication/onboarding/widgets/onboard/onboardcontent.dart';
+import 'package:eventeaze/app/view/screens/authentication/onboarding/widgets/onboard/onboardwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

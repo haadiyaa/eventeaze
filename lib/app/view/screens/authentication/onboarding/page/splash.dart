@@ -1,5 +1,5 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
-import 'package:eventeaze/app/view/screens/splashscreen.dart';
+import 'package:eventeaze/app/view/screens/authentication/onboarding/page/splashscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 

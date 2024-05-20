@@ -1,4 +1,4 @@
-import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
+import 'package:eventeaze/app/view/common/buttons/custombutton.dart';
 import 'package:flutter/material.dart';
 
 class CustomAlert extends StatelessWidget {

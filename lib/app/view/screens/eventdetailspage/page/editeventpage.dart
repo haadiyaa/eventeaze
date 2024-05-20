@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:eventeaze/app/bloc/functionBloc/functions_bloc.dart';
 import 'package:eventeaze/app/model/evenmodel.dart';
-import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
+import 'package:eventeaze/app/view/common/buttons/custombutton.dart';
 import 'package:eventeaze/app/view/screens/createevent/widgets/creattext.dart';
 import 'package:eventeaze/app/view/screens/createevent/widgets/customdropdown.dart';
 import 'package:firebase_auth/firebase_auth.dart';

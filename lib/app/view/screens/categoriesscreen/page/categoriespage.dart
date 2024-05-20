@@ -3,7 +3,7 @@ import 'package:eventeaze/app/bloc/functionBloc/functions_bloc.dart';
 import 'package:eventeaze/app/model/categorymodel.dart';
 import 'package:eventeaze/app/view/screens/categoriesscreen/page/categorylist.dart';
 import 'package:eventeaze/app/view/screens/categoriesscreen/widgets/categorycard.dart';
-import 'package:eventeaze/app/view/widgets/shimmers/shimmercategorycard.dart';
+import 'package:eventeaze/app/view/common/shimmers/shimmercategorycard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

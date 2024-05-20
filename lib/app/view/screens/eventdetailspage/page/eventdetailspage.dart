@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/bloc/functionBloc/functions_bloc.dart';
 import 'package:eventeaze/app/view/screens/eventdetailspage/page/bookingpage.dart';
-import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
+import 'package:eventeaze/app/view/common/buttons/custombutton.dart';
 import 'package:eventeaze/app/view/screens/eventdetailspage/widgets/aboutevent.dart';
 import 'package:eventeaze/app/view/screens/eventdetailspage/widgets/detailslisttile.dart';
 import 'package:flutter/material.dart';

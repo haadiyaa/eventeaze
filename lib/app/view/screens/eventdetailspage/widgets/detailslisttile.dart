@@ -1,4 +1,4 @@
-import 'package:eventeaze/app/view/widgets/design/eventdetails/detailscard.dart';
+import 'package:eventeaze/app/view/common/design/eventdetails/detailscard.dart';
 import 'package:flutter/material.dart';
 
 

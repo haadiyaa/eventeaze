@@ -1,8 +1,8 @@
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:eventeaze/app/view/screens/authentication/login/page/forgotpass_page.dart';
 import 'package:eventeaze/app/view/screens/authentication/signup/page/signuppage.dart';
-import 'package:eventeaze/app/view/screens/tabs_screen.dart';
-import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
+import 'package:eventeaze/app/view/screens/homescreen/page/tabs_screen.dart';
+import 'package:eventeaze/app/view/common/buttons/custombutton.dart';
 import 'package:eventeaze/app/view/screens/authentication/widgets/customtextfield.dart';
 import 'package:eventeaze/app/view/screens/authentication/login/widgets/mycircle.dart';
 import 'package:eventeaze/app/view/screens/authentication/widgets/googlewidget.dart';

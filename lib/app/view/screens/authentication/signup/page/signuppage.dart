@@ -1,10 +1,10 @@
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:eventeaze/app/model/usermodel.dart';
 import 'package:eventeaze/app/serivices/notificationservices.dart';
+import 'package:eventeaze/app/view/common/design/mycircle2.dart';
 import 'package:eventeaze/app/view/screens/authentication/login/page/login_page.dart';
-import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
+import 'package:eventeaze/app/view/common/buttons/custombutton.dart';
 import 'package:eventeaze/app/view/screens/authentication/widgets/customtextfield.dart';
-import 'package:eventeaze/app/view/widgets/design/mycircle2.dart';
 import 'package:eventeaze/app/view/screens/authentication/widgets/googlewidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

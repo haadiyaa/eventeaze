@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:app_settings/app_settings.dart';
-import 'package:eventeaze/app/view/screens/notificationscreen.dart';
+import 'package:eventeaze/app/view/screens/profilescreen/page/notificationscreen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

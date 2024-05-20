@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/view/screens/categoriesscreen/page/categorylist.dart';
-import 'package:eventeaze/app/view/widgets/buttons/verticalimagetext.dart';
-import 'package:eventeaze/app/view/widgets/shimmers/shimmerloadingcategorycard.dart';
-import 'package:eventeaze/app/view/widgets/shimmers/shimmerverticlacard.dart';
+import 'package:eventeaze/app/view/screens/homescreen/widgets/verticalimagetext.dart';
+import 'package:eventeaze/app/view/common/shimmers/shimmerloadingcategorycard.dart';
+import 'package:eventeaze/app/view/common/shimmers/shimmerverticlacard.dart';
 import 'package:flutter/material.dart';
 
 class EventCategories extends StatelessWidget {

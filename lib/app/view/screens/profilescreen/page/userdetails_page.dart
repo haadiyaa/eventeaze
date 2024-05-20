@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/bloc/authBloc/auth_bloc.dart';
 import 'package:eventeaze/app/model/usermodel.dart';
-import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
+import 'package:eventeaze/app/view/common/buttons/custombutton.dart';
 import 'package:eventeaze/app/view/screens/profilescreen/widgets/profileavatar.dart';
 import 'package:eventeaze/app/view/screens/profilescreen/widgets/updatetextfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';

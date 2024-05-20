@@ -1,6 +1,6 @@
-import 'package:eventeaze/app/view/screens/eventstoattend.dart';
-import 'package:eventeaze/app/view/screens/privacypolicy.dart';
-import 'package:eventeaze/app/view/screens/usereventspage.dart';
+import 'package:eventeaze/app/view/screens/profilescreen/page/eventstoattend.dart';
+import 'package:eventeaze/app/view/screens/profilescreen/page/privacypolicy.dart';
+import 'package:eventeaze/app/view/screens/profilescreen/page/usereventspage.dart';
 import 'package:flutter/material.dart';
 
 

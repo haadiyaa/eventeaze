@@ -12,10 +12,10 @@ import 'package:intl/intl.dart';
 import 'package:eventeaze/app/bloc/functionBloc/functions_bloc.dart';
 import 'package:eventeaze/app/bloc/notificationsBloc/notifications_bloc.dart';
 import 'package:eventeaze/app/serivices/notificationservices.dart';
-import 'package:eventeaze/app/view/widgets/buttons/custombutton.dart';
-import 'package:eventeaze/app/view/widgets/design/confirmalert.dart';
+import 'package:eventeaze/app/view/common/buttons/custombutton.dart';
+import 'package:eventeaze/app/view/common/design/confirmalert.dart';
 import 'package:eventeaze/app/view/screens/eventdetailspage/widgets/detailslisttile.dart';
-import 'package:eventeaze/app/view/widgets/design/eventdetails/eventdetail.dart';
+import 'package:eventeaze/app/view/common/design/eventdetails/eventdetail.dart';
 
 class BookingPageWrapper extends StatelessWidget {
   const BookingPageWrapper({super.key, required this.id});

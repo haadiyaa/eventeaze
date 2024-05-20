@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eventeaze/app/view/widgets/design/eventdetails/bottomsheet.dart';
-import 'package:eventeaze/app/view/widgets/design/ticketbox.dart';
-import 'package:eventeaze/app/view/widgets/shimmers/shimmerupcoming.dart';
+import 'package:eventeaze/app/view/screens/profilescreen/widgets/bottomsheet.dart';
+import 'package:eventeaze/app/view/screens/profilescreen/widgets/ticketbox.dart';
+import 'package:eventeaze/app/view/common/shimmers/shimmerupcoming.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -71,7 +71,7 @@ class _EventsToAttendState extends State<EventsToAttend> {
                 ),
               );
             }
-            return const ShimmerUpcoming();
+            return ShimmerUpcoming();
           }),
     );
   }

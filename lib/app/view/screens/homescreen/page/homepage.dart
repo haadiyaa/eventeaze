@@ -7,7 +7,7 @@ import 'package:eventeaze/app/view/screens/eventlist.dart';
 import 'package:eventeaze/app/view/screens/homescreen/page/freeeventspage.dart';
 import 'package:eventeaze/app/view/screens/authentication/login/page/login_page.dart';
 import 'package:eventeaze/app/view/screens/homescreen/page/searcheventpage.dart';
-import 'package:eventeaze/app/view/screens/upcomimgeventpage.dart';
+import 'package:eventeaze/app/view/screens/homescreen/page/upcomimgeventpage.dart';
 import 'package:eventeaze/app/view/screens/homescreen/widgets/sectionheading.dart';
 import 'package:eventeaze/app/view/screens/homescreen/widgets/eventcategorieslist.dart';
 import 'package:eventeaze/app/view/screens/homescreen/widgets/mybanner.dart';

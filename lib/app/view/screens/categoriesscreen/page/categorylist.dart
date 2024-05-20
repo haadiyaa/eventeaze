@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventeaze/app/view/screens/eventdetailspage/page/eventdetailspage.dart';
-import 'package:eventeaze/app/view/screens/usereventdetailspage.dart';
-import 'package:eventeaze/app/view/widgets/design/eventdetails/eventhorizontalcard.dart';
-import 'package:eventeaze/app/view/widgets/design/eventdetails/loadinghorizontal.dart';
-import 'package:eventeaze/app/view/widgets/shimmers/shimmerupcoming.dart';
+import 'package:eventeaze/app/view/screens/profilescreen/page/usereventdetailspage.dart';
+import 'package:eventeaze/app/view/common/design/eventdetails/eventhorizontalcard.dart';
+import 'package:eventeaze/app/view/common/design/eventdetails/loadinghorizontal.dart';
+import 'package:eventeaze/app/view/common/shimmers/shimmerupcoming.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
