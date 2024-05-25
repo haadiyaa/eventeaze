@@ -32,7 +32,6 @@ class SignUpPage extends StatelessWidget {
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   NotificationServices notificationServices = NotificationServices();
 
-
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -63,10 +62,8 @@ class SignUpPage extends StatelessWidget {
               backgroundColor: Color.fromARGB(255, 89, 121, 90),
             ),
           );
-          // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (_) => const LoginPageWrapper()));
-          // });
         }
         if (state is UnAuthenticatedState) {
           Navigator.pop(context);
@@ -81,8 +78,7 @@ class SignUpPage extends StatelessWidget {
                 content: Text('Please check your internet connection'),
               ),
             );
-          } else if (state.message
-              .contains('email-already-in-use')) {
+          } else if (state.message.contains('email-already-in-use')) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 behavior: SnackBarBehavior.floating,
@@ -91,18 +87,17 @@ class SignUpPage extends StatelessWidget {
                     'The account already exists with a different credential'),
               ),
             );
-          }
-          else{
+          } else {
             ScaffoldMessenger.of(context).showSnackBar(
-               SnackBar(
+              SnackBar(
                 behavior: SnackBarBehavior.floating,
                 margin: const EdgeInsets.all(10),
                 content: Text(state.message),
               ),
             );
           }
-          
-            print(state.message);
+
+          print(state.message);
         }
       },
       child: Scaffold(
@@ -232,17 +227,18 @@ class SignUpPage extends StatelessWidget {
                               autovalidateMode =
                                   AutovalidateMode.onUserInteraction;
                               if (_formKey.currentState!.validate()) {
-                                notificationServices.getDeviceToken().then((value) {
+                                notificationServices
+                                    .getDeviceToken()
+                                    .then((value) {
                                   UserModel user = UserModel(
                                     token: value,
-                                  username: _nameController.text.trim(),
-                                  password: _passwordController.text.trim(),
-                                  email: _emailController.text.trim(),
-                                  phone: _phoneController.text.trim(),
-                                );
-                                authBloc.add(SignUpEvent(user: user));
+                                    username: _nameController.text.trim(),
+                                    password: _passwordController.text.trim(),
+                                    email: _emailController.text.trim(),
+                                    phone: _phoneController.text.trim(),
+                                  );
+                                  authBloc.add(SignUpEvent(user: user));
                                 });
-                                
                               }
                             },
                             color: const Color.fromARGB(255, 170, 181, 135),
