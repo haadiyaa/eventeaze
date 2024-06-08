@@ -14,7 +14,7 @@ class ForgotPassWrapper extends StatelessWidget {
       create: (context) => AuthBloc(),
       child: ForgotPassPage(),
     );
-  }
+  
 }
 
 class ForgotPassPage extends StatelessWidget {
